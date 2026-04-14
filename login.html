@@ -219,13 +219,45 @@
         if (error) {
           msg.className = 'message error'
           msg.textContent = 'Hubo un error. Intenta de nuevo.'
-          btn.disabled = false
-          btn.textContent = 'Enviar enlace de acceso'
-        } else {
-          msg.className = 'message success'
-          msg.textContent = '✓ Enlace enviado. Revisa tu correo.'
-          btn.textContent = 'Enlace enviado'
-        }
+          btn.disabled = true
+btn.textContent = 'Verificando acceso...'
+msg.className = 'message'
+
+// Verificar acceso en GHL via Make
+const webhookRes = await fetch('https://hook.us2.make.com/cwpmfl1rgfkd8en9p72wvwa24rbwijj2', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email })
+})
+
+const webhookData = await webhookRes.json()
+
+if (!webhookData.autorizado) {
+  msg.className = 'message error'
+  msg.textContent = 'No tienes acceso a Zelus. Contacta a Penguin FX.'
+  btn.disabled = false
+  btn.textContent = 'Enviar enlace de acceso'
+  return
+}
+
+// Si está autorizado, enviar magic link
+const { error } = await supabase.auth.signInWithOtp({
+  email,
+  options: {
+    emailRedirectTo: 'https://zelus.penguinfxacademy.com'
+  }
+})
+
+if (error) {
+  msg.className = 'message error'
+  msg.textContent = 'Hubo un error. Intenta de nuevo.'
+  btn.disabled = false
+  btn.textContent = 'Enviar enlace de acceso'
+} else {
+  msg.className = 'message success'
+  msg.textContent = '✓ Enlace enviado. Revisa tu correo.'
+  btn.textContent = 'Enlace enviado'
+}
       }
     </script>
   </body>
