@@ -793,7 +793,7 @@
       </nav>
 
       <div class="user-area">
-        <div class="user-avatar">G</div>
+        <div class="user-avatar" id="user-avatar">?</div>
         <div class="user-info">
           <div class="user-name"><span id="nombre-usuario">...</span>
           <div class="user-plan">⚡ Plan Pro</div>
@@ -1103,6 +1103,7 @@
 
   const nombre = localStorage.getItem('zelus_nombre')
   if (nombre) document.getElementById('nombre-usuario').textContent = nombre
+  if (nombre) document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
   window.toggleSidebar = toggleSidebar;
   window.closeSidebar = closeSidebar;
 </script>
