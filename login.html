@@ -29,6 +29,11 @@
       .message.success { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: #059669; display: block; }
       .message.error { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: #dc2626; display: block; }
       .footer { margin-top: 24px; text-align: center; font-size: 12px; color: #999; }
+      #pfx-whatsapp-button{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:9999;transition:transform .2s ease,box-shadow .2s ease;text-decoration:none;}
+      #pfx-whatsapp-button img{width:28px;height:28px;display:block;}
+      #pfx-whatsapp-button:hover{transform:scale(1.05);box-shadow:0 12px 28px rgba(0,0,0,.35);}
+      #pfx-whatsapp-button:active{transform:scale(.96);}
+      @media(max-width:480px){#pfx-whatsapp-button{width:52px;height:52px;right:14px;bottom:14px;}#pfx-whatsapp-button img{width:26px;height:26px;}}
     </style>
   </head>
   <body>
@@ -46,6 +51,10 @@
       <div class="message" id="message"></div>
       <div class="footer">Zelus by Penguin FX · Área privada de estudiantes</div>
     </div>
+
+    <a href="https://wa.me/525528478886?text=Hola%2C%20tengo%20un%20problema%20para%20acceder%20a%20Zelus%20Copy%20Trading" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" id="pfx-whatsapp-button">
+      <img src="https://storage.googleapis.com/msgsndr/FnGLAWtvRPTxr8Duhr3q/media/693b5aae53781f4fe03659ed.svg" alt="WhatsApp" />
+    </a>
 
     <script type="module">
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
@@ -74,7 +83,7 @@
           const webhookRes = await fetch('https://hook.us2.make.com/cwpmfl1rgfkd8en9p72wvwa24rbwijj2', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email: email.trim().toLowerCase() })
           })
 
           const webhookData = await webhookRes.json()
