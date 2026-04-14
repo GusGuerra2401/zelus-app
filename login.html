@@ -29,11 +29,11 @@
       .message.success { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: #059669; display: block; }
       .message.error { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: #dc2626; display: block; }
       .footer { margin-top: 24px; text-align: center; font-size: 12px; color: #999; }
-      #pfx-whatsapp-button{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:9999;transition:transform .2s ease,box-shadow .2s ease;text-decoration:none;}
-      #pfx-whatsapp-button img{width:28px;height:28px;display:block;}
-      #pfx-whatsapp-button:hover{transform:scale(1.05);box-shadow:0 12px 28px rgba(0,0,0,.35);}
-      #pfx-whatsapp-button:active{transform:scale(.96);}
-      @media(max-width:480px){#pfx-whatsapp-button{width:52px;height:52px;right:14px;bottom:14px;}#pfx-whatsapp-button img{width:26px;height:26px;}}
+      #pfx-whatsapp-button { position: fixed; right: 18px; bottom: 18px; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,.25); z-index: 9999; transition: transform .2s ease, box-shadow .2s ease; text-decoration: none; }
+      #pfx-whatsapp-button img { width: 28px; height: 28px; display: block; }
+      #pfx-whatsapp-button:hover { transform: scale(1.05); box-shadow: 0 12px 28px rgba(0,0,0,.35); }
+      #pfx-whatsapp-button:active { transform: scale(.96); }
+      @media (max-width: 480px) { #pfx-whatsapp-button { width: 52px; height: 52px; right: 14px; bottom: 14px; } #pfx-whatsapp-button img { width: 26px; height: 26px; } }
     </style>
   </head>
   <body>
@@ -94,6 +94,10 @@
             btn.disabled = false
             btn.textContent = 'Enviar enlace de acceso'
             return
+          }
+
+          if (webhookData.nombre) {
+            localStorage.setItem('zelus_nombre', webhookData.nombre)
           }
 
           const { error } = await supabase.auth.signInWithOtp({
