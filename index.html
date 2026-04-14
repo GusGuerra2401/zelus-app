@@ -795,7 +795,7 @@
       <div class="user-area">
         <div class="user-avatar">G</div>
         <div class="user-info">
-          <div class="user-name">Gustavo F.</div>
+          <div class="user-name"><span id="nombre-usuario">...</span>
           <div class="user-plan">⚡ Plan Pro</div>
         </div>
       </div>
@@ -1101,6 +1101,8 @@
     document.getElementById('overlay').classList.remove('open');
   }
 
+  const nombre = localStorage.getItem('zelus_nombre')
+  if (nombre) document.getElementById('nombre-usuario').textContent = nombre
   window.toggleSidebar = toggleSidebar;
   window.closeSidebar = closeSidebar;
 </script>
