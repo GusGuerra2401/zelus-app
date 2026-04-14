@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zelus · Portal de Copy Trading</title>
+    <link rel="icon" type="image/webp" href="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69dd8dcf02cd38b17c4f74c0.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -1075,15 +1076,33 @@
       </div>
     </main>
 
-    <script>
-      function toggleSidebar() {
-        document.querySelector('.sidebar').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('open');
-      }
-      function closeSidebar() {
-        document.querySelector('.sidebar').classList.remove('open');
-        document.getElementById('overlay').classList.remove('open');
-      }
-    </script>
+    <script type="module">
+  import { supabase } from './supabase.js'
+
+  // Verificar sesión activa
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) {
+    window.location.href = '/login.html'
+  }
+
+  // Cerrar sesión
+  document.querySelector('.nav-item:last-child').addEventListener('click', async (e) => {
+    e.preventDefault()
+    await supabase.auth.signOut()
+    window.location.href = '/login.html'
+  })
+
+  function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  }
+  function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+
+  window.toggleSidebar = toggleSidebar;
+  window.closeSidebar = closeSidebar;
+</script>
   </body>
 </html>
