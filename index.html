@@ -562,10 +562,11 @@
 
       // Cerrar dropdown al hacer clic fuera
       document.addEventListener('click', function(e) {
-        if (!e.target.closest('#input-broker') && !e.target.closest('#broker-sugerencias')) {
-          document.getElementById('broker-sugerencias').style.display = 'none'
+        const broker = document.getElementById('input-broker')
+        const sugerencias = document.getElementById('broker-sugerencias')
+        if (broker && sugerencias && !broker.contains(e.target) && !sugerencias.contains(e.target)) {sugerencias.style.display = 'none'
         }
-      })
+      }, true)
 
       // SIDEBAR
       window.toggleSidebar = function() {
