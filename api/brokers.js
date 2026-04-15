@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai/users/current/servers/mt4?name=${encodeURIComponent(query)}`,
+      `https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai/users/current/configuration/servers?name=${encodeURIComponent(query)}`,
       {
         headers: {
           'auth-token': process.env.METAAPI_TOKEN

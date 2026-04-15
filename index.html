@@ -521,7 +521,36 @@ window.verificarCuenta = async function() {
     btn.disabled = false
   }, 1500)
 }
-      window.toggleSidebar = function() {
+let buscarTimeout = null
+
+window.buscarBroker = async function(valor) {
+  const sugerencias = document.getElementById('broker-sugerencias')
+  if (valor.length < 3) { sugerencias.style.display = 'none'; return }
+
+  clearTimeout(buscarTimeout)
+  buscarTimeout = setTimeout(async () => {
+    try {
+      const res = await fetch(`/api/brokers?query=${encodeURIComponent(valor)}`)
+      const data = await res.json()
+      if (!data.length) { sugerencias.style.display = 'none'; return }
+
+      sugerencias.innerHTML = data.slice(0, 8).map(b =>
+        `<div onclick="seleccionarBroker('${b.name}', '${b.server}')" style="padding:10px 16px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(139,92,246,0.1);" onmouseover="this.style.background='rgba(139,92,246,0.08)'" onmouseout="this.style.background='transparent'">
+          <div style="font-weight:600;color:#f1f0f7;">${b.name}</div>
+          <div style="font-size:11px;color:#a09cbf;">${b.server}</div>
+        </div>`
+      ).join('')
+      sugerencias.style.display = 'block'
+    } catch(e) { sugerencias.style.display = 'none' }
+  }, 400)
+}
+
+window.seleccionarBroker = function(nombre, servidor) {
+  document.getElementById('input-broker').value = nombre
+  document.getElementById('input-servidor').value = servidor
+  document.getElementById('broker-sugerencias').style.display = 'none'
+}      
+window.toggleSidebar = function() {
         document.querySelector('.sidebar').classList.toggle('open')
         document.getElementById('overlay').classList.toggle('open')
       }
