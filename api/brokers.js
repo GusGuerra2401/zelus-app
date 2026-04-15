@@ -1,13 +1,15 @@
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://zelus.penguinfxacademy.com')
+  res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
 
-  const { query } = req.query
+  const { query, version } = req.query
   if (!query) return res.status(400).json({ error: 'Query requerida' })
+
+  const mt = version || '4'
 
   try {
     const response = await fetch(
-      `https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai/users/current/configuration/servers?name=${encodeURIComponent(query)}`,
+      `https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai/known-mt-servers/${mt}/search?query=${encodeURIComponent(query)}`,
       {
         headers: {
           'auth-token': process.env.METAAPI_TOKEN
