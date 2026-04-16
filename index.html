@@ -312,7 +312,16 @@
           <div class="stat-card"><div class="stat-label">📈 Rendimiento 7d</div><div class="stat-value green">+34.7%</div><div class="stat-change">Últimos 7 días</div></div>
           <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red">-8.2%</div><div class="stat-change">Últimos 30 días</div></div>
           <div class="stat-card"><div class="stat-label">✅ Win Rate</div><div class="stat-value green">71.4%</div><div class="stat-change">101 de 142 trades</div></div>
-          <div class="stat-card"><div class="stat-label">📊 Sharpe / Calmar</div><div class="stat-value purple">1.42 / 2.1</div><div class="stat-change">Ratios de riesgo</div></div>
+          <div class="stat-card" style="position:relative;">
+            <div class="stat-label">📊 Sharpe / Calmar
+              <span style="display:inline-flex;gap:4px;margin-left:6px;">
+                <span onclick="mostrarTooltip('sharpe')" style="cursor:pointer;width:15px;height:15px;border-radius:50%;background:rgba(139,92,246,0.2);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--purple2);display:inline-flex;align-items:center;justify-content:center;line-height:1;">?</span>
+                <span onclick="mostrarTooltip('calmar')" style="cursor:pointer;width:15px;height:15px;border-radius:50%;background:rgba(139,92,246,0.2);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--purple2);display:inline-flex;align-items:center;justify-content:center;line-height:1;">?</span>
+              </span>
+            </div>
+            <div class="stat-value purple">1.42 / 2.1</div>
+            <div class="stat-change">Ratios de riesgo</div>
+          </div>
         </div>
 
         <!-- TRADES + CONFIGURACIÓN -->
@@ -479,6 +488,12 @@
       </div>
 
     </main>
+    <!-- TOOLTIPS SHARPE / CALMAR -->
+     <div class="modal-bg" id="tooltip-bg" onclick="cerrarTooltip()"></div>
+     <div class="modal-box" id="tooltip-box" style="max-width:380px;">
+      <button onclick="cerrarTooltip()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
+      <div id="tooltip-contenido"></div>
+    </div>
 
     <!-- MODAL ADVERTENCIA SISTEMAS -->
     <div class="modal-bg" id="modal-aviso-bg"></div>
@@ -777,6 +792,31 @@
         }, 0)
       }
 
+      const tooltips = {
+        sharpe: `<div style="font-size:17px;font-weight:700;margin-bottom:8px;">Sharpe</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🔴</span><div><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</div></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟡</span><div><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</div></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟢</span><div><strong>Más de 0.50</strong> — Nivel profesional</div></div>
+          </div>`,
+          calmar: `<div style="font-size:17px;font-weight:700;margin-bottom:8px;">Calmar</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🔴</span><div><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</div></div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟡</span><div><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</div></div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟢</span><div><strong>Más de 1.00</strong> — Nivel profesional alto</div></div>
+            </div>`
+          }
+          window.mostrarTooltip = function(tipo) {
+            document.getElementById('tooltip-contenido').innerHTML = tooltips[tipo]
+            document.getElementById('tooltip-bg').classList.add('open')
+            document.getElementById('tooltip-box').classList.add('open')
+          }
+          window.cerrarTooltip = function() {
+            document.getElementById('tooltip-bg').classList.remove('open')
+            document.getElementById('tooltip-box').classList.remove('open')
+          }
       window.closeSidebar = function() {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
