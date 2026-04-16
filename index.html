@@ -11,6 +11,13 @@
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       :root { --bg: #08070f; --bg2: #0f0d1a; --bg3: #161325; --card: #12101e; --border: rgba(139,92,246,0.15); --border2: rgba(139,92,246,0.3); --purple: #8b5cf6; --purple2: #a78bfa; --purple3: #c4b5fd; --pink: #d946ef; --green: #34d399; --red: #f87171; --yellow: #fbbf24; --text: #f1f0f7; --text2: #a09cbf; --glow: 0 0 40px rgba(139,92,246,0.15); }
       body { font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+      body.light-mode { --bg: #f5f4ff; --bg2: #ede9ff; --bg3: #e4dfff; --card: #ffffff; --border: rgba(139,92,246,0.15); --border2: rgba(139,92,246,0.4); --text: #1a1730; --text2: #6b6890; }
+      body.light-mode .topbar { background: rgba(245,244,255,0.9); }
+      body.light-mode .trades-table td { color: #1a1730; }
+      body.light-mode .modal-box { background: #ffffff; }
+      body.light-mode .modal-input { background: #f0eeff; color: #1a1730; border-color: rgba(139,92,246,0.2); }
+      body.light-mode .search-dropdown { background: #f0eeff; }
+      body.light-mode .search-dropdown-item { color: #1a1730; }
       body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 40% at 20% 20%, rgba(139,92,246,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 80% 80%, rgba(217,70,239,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
       .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; padding: 0 0 24px; }
       .logo-area { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
@@ -177,6 +184,12 @@
           Cerrar sesión
         </a>
       </nav>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:0 12px 12px;padding:10px 12px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);">
+        <span style="font-size:12px;color:var(--text2);">☀️ Modo claro</span>
+        <div id="theme-toggle" onclick="toggleTheme()" style="width:40px;height:22px;border-radius:999px;background:var(--border2);cursor:pointer;position:relative;transition:background 0.3s;">
+          <div id="theme-knob" style="position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:transform 0.3s;"></div>
+        </div>
+      </div>
       <div class="user-area">
         <div class="user-avatar" id="user-avatar">?</div>
         <div class="user-info">
@@ -580,6 +593,24 @@
         const input = document.getElementById('input-password')
         input.type = input.type === 'password' ? 'text' : 'password'
       }
+      window.toggleTheme = function() {
+        const body = document.body
+        const knob = document.getElementById('theme-knob')
+        const toggle = document.getElementById('theme-toggle')
+        const isLight = body.classList.toggle('light-mode')
+        knob.style.transform = isLight ? 'translateX(18px)' : 'translateX(0)'
+        toggle.style.background = isLight ? '#8b5cf6' : 'rgba(139,92,246,0.3)'
+        localStorage.setItem('zelus_theme', isLight ? 'light' : 'dark')
+      }
+
+// Aplicar tema guardado
+if (localStorage.getItem('zelus_theme') === 'light') {
+  document.body.classList.add('light-mode')
+  setTimeout(() => {
+    document.getElementById('theme-knob').style.transform = 'translateX(18px)'
+    document.getElementById('theme-toggle').style.background = '#8b5cf6'
+  }, 0)
+}
       window.closeSidebar = function() {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
