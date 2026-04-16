@@ -46,6 +46,7 @@
       .btn { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; font-family: 'Sora', sans-serif; }
       .btn-primary { background: linear-gradient(135deg,var(--purple),var(--pink)); color: white; box-shadow: 0 4px 20px rgba(139,92,246,0.3); }
       .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(139,92,246,0.4); }
+      .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
       .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
       .btn-ghost:hover { background: rgba(139,92,246,0.08); color: var(--text); border-color: var(--border2); }
       .section { display: none; padding: 32px; }
@@ -138,6 +139,14 @@
       .search-dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(139,92,246,0.1); }
       .search-dropdown-item:hover { background: rgba(139,92,246,0.12); }
       .search-dropdown-item:last-child { border-bottom: none; }
+      .cuenta-config { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; }
+      .cuenta-config.seleccionada { border-color: var(--purple); background: rgba(139,92,246,0.05); }
+      .cuenta-config-header { display: flex; align-items: center; gap: 12px; margin-bottom: 0; }
+      .cuenta-config-header input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer; flex-shrink: 0; }
+      .cuenta-config-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; }
+      .cuenta-config.seleccionada .cuenta-config-body { display: block; }
+      .lotaje-opt { cursor: pointer; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 8px; transition: all 0.2s; }
+      .lotaje-opt.activo { border-color: var(--purple); background: rgba(139,92,246,0.08); }
       .section-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
       .section-footer p { font-size: 11px; color: var(--text2); line-height: 1.8; max-width: 720px; margin: 0 auto; }
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.escalon-grid{grid-template-columns:1fr}}
@@ -280,6 +289,8 @@
       <!-- SISTEMAS COPY -->
       <div class="section" id="sec-sistemas">
         <div class="section-title">Zelus Gold · Sistema de Copy Trading</div>
+
+        <!-- VIDEO -->
         <div style="margin-bottom:28px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;">
           <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink));"></div>
           <div style="padding:28px 32px 24px;text-align:center;">
@@ -295,12 +306,16 @@
             </div>
           </div>
         </div>
+
+        <!-- STATS -->
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-label">📈 Rendimiento 7d</div><div class="stat-value green">+34.7%</div><div class="stat-change">Últimos 7 días</div></div>
           <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red">-8.2%</div><div class="stat-change">Últimos 30 días</div></div>
           <div class="stat-card"><div class="stat-label">✅ Win Rate</div><div class="stat-value green">71.4%</div><div class="stat-change">101 de 142 trades</div></div>
           <div class="stat-card"><div class="stat-label">📊 Sharpe / Calmar</div><div class="stat-value purple">1.42 / 2.1</div><div class="stat-change">Ratios de riesgo</div></div>
         </div>
+
+        <!-- TRADES + CONFIGURACIÓN -->
         <div class="two-col">
           <div class="card">
             <div class="card-header"><div><div class="card-title">Trades del sistema</div><div class="card-subtitle">Historial de Zelus Gold · <span id="update-sistemas" style="color:var(--purple3);"></span></div></div></div>
@@ -315,41 +330,100 @@
               </table>
             </div>
           </div>
+
+          <!-- PANEL DE CONFIGURACIÓN -->
           <div class="card">
             <div class="card-header"><div class="card-title">Mi configuración</div></div>
             <div class="card-body">
-              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Tipo de lotaje</div>
-              <div id="opt-recomendado" onclick="elegirLotaje('recomendado')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--purple);background:rgba(139,92,246,0.1);margin-bottom:8px;transition:all 0.2s;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                  <div style="font-size:14px;font-weight:600;">Configuración recomendada</div>
-                  <div id="dot-recomendado" style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>
+
+              <!-- CUENTA 1 -->
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
+
+              <div class="cuenta-config" id="cfg-cuenta1">
+                <div class="cuenta-config-header">
+                  <input type="checkbox" id="chk-cuenta1" onchange="toggleCuenta(1)">
+                  <div style="flex:1;">
+                    <div style="font-size:14px;font-weight:600;">IC Markets MT5</div>
+                    <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">#4821947 · $8,240</div>
+                  </div>
+                  <button class="toggle-btn" style="font-size:11px;padding:4px 10px;">⏸ Pausar</button>
                 </div>
-                <div style="font-size:12px;color:var(--text2);">Lotaje asignado automáticamente · <span style="color:var(--text);font-family:'JetBrains Mono',monospace;">0.01 por cada $500 USD en balance</span></div>
-              </div>
-              <div id="opt-manual" onclick="elegirLotaje('manual')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:transparent;margin-bottom:16px;transition:all 0.2s;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                  <div style="font-size:14px;font-weight:600;">Configuración manual</div>
-                  <div id="dot-manual" style="width:10px;height:10px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
+                <div class="cuenta-config-body" id="body-cuenta1">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
+                  <div class="lotaje-opt activo" id="c1-auto" onclick="elegirLotajeCuenta(1,'auto')">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                      <div style="font-size:13px;font-weight:600;">Configuración automática</div>
+                      <div id="dot-c1-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div>
+                  </div>
+                  <div class="lotaje-opt" id="c1-manual" onclick="elegirLotajeCuenta(1,'manual')">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                      <div style="font-size:13px;font-weight:600;">Configuración manual</div>
+                      <div id="dot-c1-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div>
+                  </div>
+                  <div id="c1-input-manual" style="display:none;margin-top:10px;">
+                    <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div>
+                    <div style="display:flex;gap:8px;">
+                      <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;">
+                      <button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button>
+                    </div>
+                  </div>
                 </div>
-                <div style="font-size:12px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema y entiendes el riesgo de cada operación. <span style="color:var(--red);">No recomendado</span> — un lotaje incorrecto puede liquidar tu cuenta.</div>
               </div>
-              <div id="lotaje-manual-input" style="display:none;margin-bottom:16px;">
-                <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Tamaño de lote</div>
-                <div style="display:flex;gap:8px;align-items:center;">
-                  <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;width:100px;outline:none;">
-                  <button class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Guardar</button>
+
+              <!-- CUENTA 2 -->
+              <div class="cuenta-config" id="cfg-cuenta2">
+                <div class="cuenta-config-header">
+                  <input type="checkbox" id="chk-cuenta2" onchange="toggleCuenta(2)">
+                  <div style="flex:1;">
+                    <div style="font-size:14px;font-weight:600;">IC Markets MT4</div>
+                    <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">Sin conectar</div>
+                  </div>
+                  <button class="toggle-btn" style="font-size:11px;padding:4px 10px;">⏸ Pausar</button>
+                </div>
+                <div class="cuenta-config-body" id="body-cuenta2">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
+                  <div class="lotaje-opt activo" id="c2-auto" onclick="elegirLotajeCuenta(2,'auto')">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                      <div style="font-size:13px;font-weight:600;">Configuración automática</div>
+                      <div id="dot-c2-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div>
+                  </div>
+                  <div class="lotaje-opt" id="c2-manual" onclick="elegirLotajeCuenta(2,'manual')">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                      <div style="font-size:13px;font-weight:600;">Configuración manual</div>
+                      <div id="dot-c2-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div>
+                  </div>
+                  <div id="c2-input-manual" style="display:none;margin-top:10px;">
+                    <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div>
+                    <div style="display:flex;gap:8px;">
+                      <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;">
+                      <button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--text2);">
-                💰 Balance mínimo para conectar una cuenta a este sistema: <strong style="color:var(--text);">$500 USD</strong>
+
+              <!-- BALANCE MÍNIMO -->
+              <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--text2);">
+                💰 Balance mínimo para conectar: <strong style="color:var(--text);">$500 USD</strong>
               </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
-                <div><div style="font-size:14px;font-weight:600;">Copy activo</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Pausar temporalmente</div></div>
-                <button class="toggle-btn">⏸ Pausar</button>
-              </div>
+
+              <!-- BOTÓN CONECTAR -->
+              <button id="btn-conectar-ahora" class="btn btn-primary" disabled style="width:100%;padding:12px;font-size:14px;">
+                Conectar ahora
+              </button>
+
             </div>
           </div>
         </div>
+
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
 
@@ -418,12 +492,13 @@
       <button onclick="cerrarAviso()" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;">Entiendo y acepto</button>
     </div>
 
-    <!-- MODAL: fondo separado del contenido -->
+    <!-- MODAL CONECTAR CUENTA -->
     <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
     <div class="modal-box" id="modal-box">
       <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
       <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
       <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
+
       <div style="margin-bottom:16px;">
         <label class="modal-label">Plataforma</label>
         <div style="display:flex;gap:8px;">
@@ -431,20 +506,29 @@
           <button id="btn-mt5" onclick="seleccionarPlataforma('MT5',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT5</button>
         </div>
       </div>
+
+      <div style="margin-bottom:16px;">
+        <label class="modal-label">Apodo</label>
+        <input id="input-apodo" type="text" class="modal-input" placeholder="Ej: Mi cuenta principal">
+      </div>
+
       <div style="margin-bottom:4px;">
         <label class="modal-label">Broker</label>
         <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value)">
       </div>
       <div id="broker-sugerencias" class="search-dropdown"></div>
+
       <div style="margin-bottom:4px;margin-top:16px;">
         <label class="modal-label">Servidor</label>
         <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
       </div>
       <div id="servidor-sugerencias" class="search-dropdown"></div>
+
       <div style="margin-bottom:16px;margin-top:16px;">
         <label class="modal-label">Login (número de cuenta)</label>
         <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947">
       </div>
+
       <div style="margin-bottom:24px;">
         <label class="modal-label">Contraseña</label>
         <div style="position:relative;">
@@ -452,7 +536,9 @@
           <button onclick="togglePassword()" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#a09cbf;font-size:18px;padding:0;line-height:1;">👁</button>
         </div>
       </div>
+
       <div id="modal-msg" style="display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
+
       <button onclick="verificarCuenta()" id="btn-verificar" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);">Verificar y conectar cuenta</button>
       <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Tus credenciales viajan encriptadas y nunca se almacenan en texto plano.</p>
     </div>
@@ -495,6 +581,37 @@
         closeSidebar()
       }
 
+      window.toggleCuenta = function(n) {
+        const chk = document.getElementById('chk-cuenta' + n)
+        const cfg = document.getElementById('cfg-cuenta' + n)
+        if (chk.checked) {
+          cfg.classList.add('seleccionada')
+        } else {
+          cfg.classList.remove('seleccionada')
+        }
+        const alguna = document.getElementById('chk-cuenta1').checked || document.getElementById('chk-cuenta2').checked
+        document.getElementById('btn-conectar-ahora').disabled = !alguna
+      }
+
+      window.elegirLotajeCuenta = function(n, tipo) {
+        const auto = document.getElementById('c' + n + '-auto')
+        const manual = document.getElementById('c' + n + '-manual')
+        const dotAuto = document.getElementById('dot-c' + n + '-auto')
+        const dotManual = document.getElementById('dot-c' + n + '-manual')
+        const inputManual = document.getElementById('c' + n + '-input-manual')
+        if (tipo === 'auto') {
+          auto.classList.add('activo'); manual.classList.remove('activo')
+          dotAuto.style.background = 'var(--purple)'; dotAuto.style.border = 'none'
+          dotManual.style.background = 'transparent'; dotManual.style.border = '1px solid var(--text2)'
+          inputManual.style.display = 'none'
+        } else {
+          manual.classList.add('activo'); auto.classList.remove('activo')
+          dotManual.style.background = 'var(--purple)'; dotManual.style.border = 'none'
+          dotAuto.style.background = 'transparent'; dotAuto.style.border = '1px solid var(--text2)'
+          inputManual.style.display = 'block'
+        }
+      }
+
       window.generarEnlacePago = async function(metodo) {
         const clave = 'zelus_enlace_' + metodo
         const guardado = localStorage.getItem(clave)
@@ -522,6 +639,7 @@
       window.abrirModal = function() {
         document.getElementById('modal-bg').classList.add('open')
         document.getElementById('modal-box').classList.add('open')
+        document.getElementById('input-apodo').value = ''
         document.getElementById('input-broker').value = ''
         document.getElementById('input-servidor').value = ''
         document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
@@ -657,35 +775,6 @@
           document.getElementById('theme-knob').style.transform = 'translateX(18px)'
           document.getElementById('theme-toggle').style.background = '#8b5cf6'
         }, 0)
-      }
-
-      window.elegirLotaje = function(tipo) {
-        const optRec = document.getElementById('opt-recomendado')
-        const optMan = document.getElementById('opt-manual')
-        const dotRec = document.getElementById('dot-recomendado')
-        const dotMan = document.getElementById('dot-manual')
-        const input = document.getElementById('lotaje-manual-input')
-        if (tipo === 'recomendado') {
-          optRec.style.border = '1px solid var(--purple)'
-          optRec.style.background = 'rgba(139,92,246,0.1)'
-          optMan.style.border = '1px solid var(--border)'
-          optMan.style.background = 'transparent'
-          dotRec.style.background = 'var(--purple)'
-          dotRec.style.border = 'none'
-          dotMan.style.background = 'transparent'
-          dotMan.style.border = '1px solid var(--text2)'
-          input.style.display = 'none'
-        } else {
-          optMan.style.border = '1px solid var(--purple)'
-          optMan.style.background = 'rgba(139,92,246,0.1)'
-          optRec.style.border = '1px solid var(--border)'
-          optRec.style.background = 'transparent'
-          dotMan.style.background = 'var(--purple)'
-          dotMan.style.border = 'none'
-          dotRec.style.background = 'transparent'
-          dotRec.style.border = '1px solid var(--text2)'
-          input.style.display = 'block'
-        }
       }
 
       window.closeSidebar = function() {
