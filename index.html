@@ -18,8 +18,7 @@
       body.light-mode .modal-input { background: #f0eeff; color: #1a1730; border-color: rgba(139,92,246,0.2); }
       body.light-mode .search-dropdown { background: #f0eeff; }
       body.light-mode .search-dropdown-item { color: #1a1730; }
-      body.light-mode .tooltip-box { background: #ffffff; border-color: rgba(139,92,246,0.3); }
-      body.light-mode .tooltip-box p, body.light-mode .tooltip-box div { color: #1a1730; }
+      body.light-mode .tt-box { background: var(--bg2); }
       body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 40% at 20% 20%, rgba(139,92,246,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 80% 80%, rgba(217,70,239,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
       .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; padding: 0 0 24px; }
       .logo-area { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
@@ -60,10 +59,10 @@
       .card-body { padding: 24px; }
       .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
       .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: all 0.2s; position: relative; overflow: visible; }
-      .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,var(--purple),var(--pink)); opacity: 0; transition: opacity 0.3s; border-radius: 16px 16px 0 0; }
+      .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,var(--purple),var(--pink)); opacity: 0; transition: opacity 0.3s; border-radius: 16px 16px 0 0; }
       .stat-card:hover { border-color: var(--border2); box-shadow: var(--glow); }
-      .stat-card:hover::before { opacity: 1; }
-      .stat-label { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+      .stat-card:hover::after { opacity: 1; }
+      .stat-label { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
       .stat-value { font-size: 28px; font-weight: 700; font-family: 'JetBrains Mono',monospace; letter-spacing: -0.02em; }
       .stat-value.green { color: var(--green); }
       .stat-value.red { color: var(--red); }
@@ -152,16 +151,18 @@
       .section-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
       .section-footer p { font-size: 11px; color: var(--text2); line-height: 1.8; max-width: 720px; margin: 0 auto; }
 
-      /* TOOLTIP */
-      .info-btn { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--border2); background: rgba(139,92,246,0.15); color: var(--purple2); font-size: 9px; font-weight: 700; font-style: italic; cursor: pointer; line-height: 1; flex-shrink: 0; transition: background 0.2s; font-family: Georgia, serif; }
-      .info-btn:hover { background: rgba(139,92,246,0.3); }
-      .tooltip-wrap { position: relative; display: inline-flex; align-items: center; }
-      .tooltip-box { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: 260px; background: #1a1730; border: 1px solid rgba(139,92,246,0.35); border-radius: 12px; padding: 14px 16px; z-index: 300; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-      .tooltip-box::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; background: #1a1730; border-left: 1px solid rgba(139,92,246,0.35); border-top: 1px solid rgba(139,92,246,0.35); transform: translateX(-50%) rotate(45deg); }
-      .tooltip-box.open { display: block; }
-      .tooltip-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-      .tooltip-desc { font-size: 11px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
-      .tooltip-row { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+      /* TOOLTIP ZELUS */
+      .tt-wrap { position: relative; display: inline-flex; align-items: baseline; }
+      .tt-trigger { display: inline; color: var(--purple3); border-bottom: 1px dotted var(--purple3); cursor: pointer; font-size: inherit; font-weight: 500; font-family: 'Sora', sans-serif; text-transform: none; letter-spacing: 0; line-height: inherit; transition: color 0.2s; }
+      .tt-trigger:hover { color: var(--purple2); border-bottom-color: var(--purple2); }
+      .tt-box { display: none; position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%); width: 240px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-family: 'Sora', sans-serif; }
+      .tt-box::before { content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-left: 1px solid var(--border2); border-top: 1px solid var(--border2); }
+      .tt-box.open { display: block; }
+      .tt-title { font-size: 12px; font-weight: 700; color: var(--purple2); margin-bottom: 6px; letter-spacing: 0.04em; }
+      .tt-desc { font-size: 11px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+      .tt-row { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; color: var(--text); margin-bottom: 5px; line-height: 1.5; }
+      .tt-row:last-child { margin-bottom: 0; }
+      .tt-dot { flex-shrink: 0; margin-top: 2px; }
 
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.escalon-grid{grid-template-columns:1fr}}
       @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}.pago-metodos{flex-direction:column}}
@@ -326,30 +327,28 @@
           <div class="stat-card"><div class="stat-label">📈 Rendimiento 7d</div><div class="stat-value green">+34.7%</div><div class="stat-change">Últimos 7 días</div></div>
           <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red">-8.2%</div><div class="stat-change">Últimos 30 días</div></div>
           <div class="stat-card"><div class="stat-label">✅ Win Rate</div><div class="stat-value green">71.4%</div><div class="stat-change">101 de 142 trades</div></div>
-          <div class="stat-card" style="overflow:visible;">
+          <div class="stat-card">
             <div class="stat-label">
-              📊
-              <span class="tooltip-wrap">
-                Sharpe
-                <span class="info-btn" onclick="toggleTooltip('tt-sharpe', event)">i</span>
-                <div class="tooltip-box" id="tt-sharpe">
-                  <div class="tooltip-title">Sharpe</div>
-                  <div class="tooltip-desc">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div>
-                  <div class="tooltip-row"><span>🔴</span><div><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</div></div>
-                  <div class="tooltip-row"><span>🟡</span><div><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</div></div>
-                  <div class="tooltip-row"><span>🟢</span><div><strong>Más de 0.50</strong> — Nivel profesional</div></div>
+              📊&nbsp;
+              <span class="tt-wrap">
+                <span class="tt-trigger" onclick="toggleTT('tt-sharpe', event)">Sharpe</span>
+                <div class="tt-box" id="tt-sharpe">
+                  <div class="tt-title">Sharpe</div>
+                  <div class="tt-desc">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div>
+                  <div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</span></div>
+                  <div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</span></div>
+                  <div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 0.50</strong> — Nivel profesional</span></div>
                 </div>
               </span>
-              /
-              <span class="tooltip-wrap">
-                Calmar
-                <span class="info-btn" onclick="toggleTooltip('tt-calmar', event)">i</span>
-                <div class="tooltip-box" id="tt-calmar">
-                  <div class="tooltip-title">Calmar</div>
-                  <div class="tooltip-desc">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div>
-                  <div class="tooltip-row"><span>🔴</span><div><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</div></div>
-                  <div class="tooltip-row"><span>🟡</span><div><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</div></div>
-                  <div class="tooltip-row"><span>🟢</span><div><strong>Más de 1.00</strong> — Nivel profesional alto</div></div>
+              &nbsp;/&nbsp;
+              <span class="tt-wrap">
+                <span class="tt-trigger" onclick="toggleTT('tt-calmar', event)">Calmar</span>
+                <div class="tt-box" id="tt-calmar">
+                  <div class="tt-title">Calmar</div>
+                  <div class="tt-desc">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div>
+                  <div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</span></div>
+                  <div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</span></div>
+                  <div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 1.00</strong> — Nivel profesional alto</span></div>
                 </div>
               </span>
             </div>
@@ -358,7 +357,7 @@
           </div>
         </div>
 
-        <!-- TRADES + CONFIGURACIÓN -->
+        <!-- TRADES + CONFIG -->
         <div class="two-col">
           <div class="card">
             <div class="card-header"><div><div class="card-title">Trades del sistema</div><div class="card-subtitle">Historial de Zelus Gold · <span id="update-sistemas" style="color:var(--purple3);"></span></div></div></div>
@@ -374,13 +373,10 @@
             </div>
           </div>
 
-          <!-- PANEL DE CONFIGURACIÓN -->
           <div class="card">
             <div class="card-header"><div class="card-title">Mi configuración</div></div>
             <div class="card-body">
               <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
-
-              <!-- CUENTA 1 -->
               <div class="cuenta-config" id="cfg-cuenta1">
                 <div class="cuenta-config-header">
                   <input type="checkbox" id="chk-cuenta1" onchange="toggleCuenta(1)">
@@ -393,30 +389,19 @@
                 <div class="cuenta-config-body" id="body-cuenta1">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
                   <div class="lotaje-opt activo" id="c1-auto" onclick="elegirLotajeCuenta(1,'auto')">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                      <div style="font-size:13px;font-weight:600;">Configuración automática</div>
-                      <div id="dot-c1-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div>
-                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración automática</div><div id="dot-c1-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div></div>
                     <div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div>
                   </div>
                   <div class="lotaje-opt" id="c1-manual" onclick="elegirLotajeCuenta(1,'manual')">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                      <div style="font-size:13px;font-weight:600;">Configuración manual</div>
-                      <div id="dot-c1-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
-                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración manual</div><div id="dot-c1-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div></div>
                     <div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div>
                   </div>
                   <div id="c1-input-manual" style="display:none;margin-top:10px;">
                     <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div>
-                    <div style="display:flex;gap:8px;">
-                      <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;">
-                      <button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button>
-                    </div>
+                    <div style="display:flex;gap:8px;"><input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;"><button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button></div>
                   </div>
                 </div>
               </div>
-
-              <!-- CUENTA 2 -->
               <div class="cuenta-config" id="cfg-cuenta2">
                 <div class="cuenta-config-header">
                   <input type="checkbox" id="chk-cuenta2" onchange="toggleCuenta(2)">
@@ -429,29 +414,19 @@
                 <div class="cuenta-config-body" id="body-cuenta2">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
                   <div class="lotaje-opt activo" id="c2-auto" onclick="elegirLotajeCuenta(2,'auto')">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                      <div style="font-size:13px;font-weight:600;">Configuración automática</div>
-                      <div id="dot-c2-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div>
-                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración automática</div><div id="dot-c2-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div></div>
                     <div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div>
                   </div>
                   <div class="lotaje-opt" id="c2-manual" onclick="elegirLotajeCuenta(2,'manual')">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                      <div style="font-size:13px;font-weight:600;">Configuración manual</div>
-                      <div id="dot-c2-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
-                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración manual</div><div id="dot-c2-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div></div>
                     <div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div>
                   </div>
                   <div id="c2-input-manual" style="display:none;margin-top:10px;">
                     <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div>
-                    <div style="display:flex;gap:8px;">
-                      <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;">
-                      <button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button>
-                    </div>
+                    <div style="display:flex;gap:8px;"><input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;"><button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button></div>
                   </div>
                 </div>
               </div>
-
               <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--text2);">
                 💰 Balance mínimo para conectar: <strong style="color:var(--text);">$500 USD</strong>
               </div>
@@ -516,7 +491,7 @@
 
     </main>
 
-    <!-- MODAL ADVERTENCIA SISTEMAS -->
+    <!-- MODAL ADVERTENCIA -->
     <div class="modal-bg" id="modal-aviso-bg"></div>
     <div class="modal-box" id="modal-aviso-box" style="max-width:440px;">
       <div style="text-align:center;margin-bottom:20px;">
@@ -573,258 +548,155 @@
 
     <script type="module">
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-      const supabase = createClient(
-        'https://cofrhfbkmmisxmsyqccq.supabase.co',
-        'sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm'
-      )
-
+      const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) { window.location.href = '/login.html' }
-
       const nombre = localStorage.getItem('zelus_nombre')
-      if (nombre) {
-        document.getElementById('nombre-usuario').textContent = nombre
-        document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
-      }
-
-      document.getElementById('cerrar-sesion').addEventListener('click', async (e) => {
-        e.preventDefault()
-        await supabase.auth.signOut()
-        localStorage.removeItem('zelus_nombre')
-        window.location.href = '/login.html'
-      })
+      if (nombre) { document.getElementById('nombre-usuario').textContent = nombre; document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase() }
+      document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login.html' })
 
       window.mostrarSeccion = function(id, el) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
         document.getElementById('sec-' + id).classList.add('active')
         el.classList.add('active')
-        const titulos = { dashboard: 'Dashboard', 'mis-cuentas': 'Mis Cuentas', sistemas: 'Sistemas Copy', historial: 'Historial', pagos: 'Pagos' }
+        const titulos = { dashboard:'Dashboard','mis-cuentas':'Mis Cuentas',sistemas:'Sistemas Copy',historial:'Historial',pagos:'Pagos' }
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
-        if (id === 'sistemas') {
-          document.getElementById('modal-aviso-bg').classList.add('open')
-          document.getElementById('modal-aviso-box').classList.add('open')
-        }
+        if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open') }
         closeSidebar()
       }
 
-      // Tooltips inline
-      window.toggleTooltip = function(id, e) {
+      // Tooltips
+      window.toggleTT = function(id, e) {
         e.stopPropagation()
         const box = document.getElementById(id)
         const isOpen = box.classList.contains('open')
-        document.querySelectorAll('.tooltip-box').forEach(t => t.classList.remove('open'))
+        document.querySelectorAll('.tt-box').forEach(t => t.classList.remove('open'))
         if (!isOpen) box.classList.add('open')
       }
-
-      document.addEventListener('click', function() {
-        document.querySelectorAll('.tooltip-box').forEach(t => t.classList.remove('open'))
-      })
+      document.addEventListener('click', () => document.querySelectorAll('.tt-box').forEach(t => t.classList.remove('open')))
 
       window.toggleCuenta = function(n) {
         const chk = document.getElementById('chk-cuenta' + n)
         const cfg = document.getElementById('cfg-cuenta' + n)
-        if (chk.checked) { cfg.classList.add('seleccionada') } else { cfg.classList.remove('seleccionada') }
-        const alguna = document.getElementById('chk-cuenta1').checked || document.getElementById('chk-cuenta2').checked
-        document.getElementById('btn-conectar-ahora').disabled = !alguna
+        chk.checked ? cfg.classList.add('seleccionada') : cfg.classList.remove('seleccionada')
+        document.getElementById('btn-conectar-ahora').disabled = !(document.getElementById('chk-cuenta1').checked || document.getElementById('chk-cuenta2').checked)
       }
 
       window.elegirLotajeCuenta = function(n, tipo) {
-        const auto = document.getElementById('c' + n + '-auto')
-        const manual = document.getElementById('c' + n + '-manual')
-        const dotAuto = document.getElementById('dot-c' + n + '-auto')
-        const dotManual = document.getElementById('dot-c' + n + '-manual')
-        const inputManual = document.getElementById('c' + n + '-input-manual')
+        const auto = document.getElementById('c'+n+'-auto'), manual = document.getElementById('c'+n+'-manual')
+        const dA = document.getElementById('dot-c'+n+'-auto'), dM = document.getElementById('dot-c'+n+'-manual')
+        const inp = document.getElementById('c'+n+'-input-manual')
         if (tipo === 'auto') {
           auto.classList.add('activo'); manual.classList.remove('activo')
-          dotAuto.style.background = 'var(--purple)'; dotAuto.style.border = 'none'
-          dotManual.style.background = 'transparent'; dotManual.style.border = '1px solid var(--text2)'
-          inputManual.style.display = 'none'
+          dA.style.background='var(--purple)'; dA.style.border='none'
+          dM.style.background='transparent'; dM.style.border='1px solid var(--text2)'
+          inp.style.display='none'
         } else {
           manual.classList.add('activo'); auto.classList.remove('activo')
-          dotManual.style.background = 'var(--purple)'; dotManual.style.border = 'none'
-          dotAuto.style.background = 'transparent'; dotAuto.style.border = '1px solid var(--text2)'
-          inputManual.style.display = 'block'
+          dM.style.background='var(--purple)'; dM.style.border='none'
+          dA.style.background='transparent'; dA.style.border='1px solid var(--text2)'
+          inp.style.display='block'
         }
       }
 
       window.generarEnlacePago = async function(metodo) {
-        const clave = 'zelus_enlace_' + metodo
-        const guardado = localStorage.getItem(clave)
-        if (guardado) { window.open(guardado, '_blank'); return }
-        const btn = event.currentTarget
-        const textoOriginal = btn.innerHTML
-        btn.innerHTML = 'Generando enlace...'
-        btn.disabled = true
+        const clave = 'zelus_enlace_'+metodo, guardado = localStorage.getItem(clave)
+        if (guardado) { window.open(guardado,'_blank'); return }
+        const btn = event.currentTarget, textoOriginal = btn.innerHTML
+        btn.innerHTML = 'Generando enlace...'; btn.disabled = true
         try {
-          const res = await fetch('TU_WEBHOOK_MAKE_PAGOS', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ metodo, monto: 301, email: session.user.email })
-          })
+          const res = await fetch('TU_WEBHOOK_MAKE_PAGOS',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({metodo,monto:301,email:session.user.email})})
           const data = await res.json()
-          if (data.url) { localStorage.setItem(clave, data.url); window.open(data.url, '_blank') }
-        } catch (e) { alert('Error al generar enlace. Intenta de nuevo.') }
-        btn.innerHTML = textoOriginal
-        btn.disabled = false
+          if (data.url) { localStorage.setItem(clave,data.url); window.open(data.url,'_blank') }
+        } catch(e) { alert('Error al generar enlace. Intenta de nuevo.') }
+        btn.innerHTML = textoOriginal; btn.disabled = false
       }
 
-      let plataformaSeleccionada = 'MT4'
-      let servidoresActuales = []
+      let plataformaSeleccionada = 'MT4', servidoresActuales = []
 
       window.abrirModal = function() {
-        document.getElementById('modal-bg').classList.add('open')
-        document.getElementById('modal-box').classList.add('open')
-        document.getElementById('input-apodo').value = ''
-        document.getElementById('input-broker').value = ''
-        document.getElementById('input-servidor').value = ''
-        document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
-        document.getElementById('input-login').value = ''
-        document.getElementById('input-password').value = ''
-        document.getElementById('broker-sugerencias').style.display = 'none'
-        document.getElementById('servidor-sugerencias').style.display = 'none'
-        document.getElementById('modal-msg').style.display = 'none'
-        servidoresActuales = []
+        document.getElementById('modal-bg').classList.add('open'); document.getElementById('modal-box').classList.add('open')
+        document.getElementById('input-apodo').value = ''; document.getElementById('input-broker').value = ''
+        document.getElementById('input-servidor').value = ''; document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
+        document.getElementById('input-login').value = ''; document.getElementById('input-password').value = ''
+        document.getElementById('broker-sugerencias').style.display = 'none'; document.getElementById('servidor-sugerencias').style.display = 'none'
+        document.getElementById('modal-msg').style.display = 'none'; servidoresActuales = []
       }
-
       window.cerrarModal = function() {
-        document.getElementById('modal-bg').classList.remove('open')
-        document.getElementById('modal-box').classList.remove('open')
-        document.getElementById('broker-sugerencias').style.display = 'none'
-        document.getElementById('servidor-sugerencias').style.display = 'none'
+        document.getElementById('modal-bg').classList.remove('open'); document.getElementById('modal-box').classList.remove('open')
+        document.getElementById('broker-sugerencias').style.display = 'none'; document.getElementById('servidor-sugerencias').style.display = 'none'
       }
-
-      window.cerrarAviso = function() {
-        document.getElementById('modal-aviso-bg').classList.remove('open')
-        document.getElementById('modal-aviso-box').classList.remove('open')
-      }
+      window.cerrarAviso = function() { document.getElementById('modal-aviso-bg').classList.remove('open'); document.getElementById('modal-aviso-box').classList.remove('open') }
 
       window.seleccionarPlataforma = function(plataforma, btn) {
         plataformaSeleccionada = plataforma
         document.getElementById('btn-mt4').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
         document.getElementById('btn-mt5').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
         btn.style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
-        document.getElementById('input-broker').value = ''
-        document.getElementById('input-servidor').value = ''
-        document.getElementById('broker-sugerencias').style.display = 'none'
-        document.getElementById('servidor-sugerencias').style.display = 'none'
+        document.getElementById('input-broker').value = ''; document.getElementById('input-servidor').value = ''
+        document.getElementById('broker-sugerencias').style.display = 'none'; document.getElementById('servidor-sugerencias').style.display = 'none'
         servidoresActuales = []
       }
 
       window.verificarCuenta = async function() {
-        const btn = document.getElementById('btn-verificar')
-        const msg = document.getElementById('modal-msg')
-        btn.textContent = 'Verificando...'
-        btn.disabled = true
-        msg.style.display = 'none'
-        setTimeout(() => {
-          msg.style.display = 'block'
-          msg.style.background = 'rgba(52,211,153,0.1)'
-          msg.style.border = '1px solid rgba(52,211,153,0.3)'
-          msg.style.color = '#34d399'
-          msg.textContent = '✓ Cuenta verificada correctamente. Quedará en standby hasta activar el copy.'
-          btn.textContent = 'Verificar y conectar cuenta'
-          btn.disabled = false
-        }, 1500)
+        const btn = document.getElementById('btn-verificar'), msg = document.getElementById('modal-msg')
+        btn.textContent = 'Verificando...'; btn.disabled = true; msg.style.display = 'none'
+        setTimeout(() => { msg.style.display='block'; msg.style.background='rgba(52,211,153,0.1)'; msg.style.border='1px solid rgba(52,211,153,0.3)'; msg.style.color='#34d399'; msg.textContent='✓ Cuenta verificada correctamente. Quedará en standby hasta activar el copy.'; btn.textContent='Verificar y conectar cuenta'; btn.disabled=false }, 1500)
       }
 
       let buscarTimeout = null
-
       window.buscarBroker = async function(valor) {
         const sugerencias = document.getElementById('broker-sugerencias')
-        if (valor.length < 3) { sugerencias.style.display = 'none'; return }
+        if (valor.length < 3) { sugerencias.style.display='none'; return }
         clearTimeout(buscarTimeout)
         buscarTimeout = setTimeout(async () => {
           try {
             const version = plataformaSeleccionada === 'MT5' ? '5' : '4'
-            const res = await fetch('/api/brokers?query=' + encodeURIComponent(valor) + '&version=' + version)
+            const res = await fetch('/api/brokers?query='+encodeURIComponent(valor)+'&version='+version)
             const data = await res.json()
-            if (!data || !Object.keys(data).length) { sugerencias.style.display = 'none'; return }
-            const brokers = Object.entries(data).slice(0, 10)
+            if (!data || !Object.keys(data).length) { sugerencias.style.display='none'; return }
             sugerencias.innerHTML = ''
-            brokers.forEach(function([nombre, servidores]) {
-              const div = document.createElement('div')
-              div.className = 'search-dropdown-item'
-              div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">' + nombre + '</div><div style="font-size:11px;color:#a09cbf;margin-top:2px;">' + servidores.slice(0,3).join(', ') + (servidores.length > 3 ? '...' : '') + '</div>'
-              div.addEventListener('mousedown', function(e) {
-                e.preventDefault()
-                servidoresActuales = servidores
-                document.getElementById('input-broker').value = nombre
-                document.getElementById('input-servidor').value = ''
-                document.getElementById('input-servidor').placeholder = 'Haz clic aquí para elegir servidor...'
-                sugerencias.style.display = 'none'
-                document.getElementById('servidor-sugerencias').style.display = 'none'
-              })
+            Object.entries(data).slice(0,10).forEach(function([nombre,servidores]) {
+              const div = document.createElement('div'); div.className = 'search-dropdown-item'
+              div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">'+nombre+'</div><div style="font-size:11px;color:#a09cbf;margin-top:2px;">'+servidores.slice(0,3).join(', ')+(servidores.length>3?'...':'')+'</div>'
+              div.addEventListener('mousedown', function(e) { e.preventDefault(); servidoresActuales=servidores; document.getElementById('input-broker').value=nombre; document.getElementById('input-servidor').value=''; document.getElementById('input-servidor').placeholder='Haz clic aquí para elegir servidor...'; sugerencias.style.display='none'; document.getElementById('servidor-sugerencias').style.display='none' })
               sugerencias.appendChild(div)
             })
             sugerencias.style.display = 'block'
-          } catch(e) { sugerencias.style.display = 'none' }
+          } catch(e) { sugerencias.style.display='none' }
         }, 400)
       }
 
       window.mostrarServidores = function() {
         if (!servidoresActuales.length) return
-        const dropdown = document.getElementById('servidor-sugerencias')
-        dropdown.innerHTML = ''
+        const dropdown = document.getElementById('servidor-sugerencias'); dropdown.innerHTML = ''
         servidoresActuales.forEach(function(s) {
-          const div = document.createElement('div')
-          div.className = 'search-dropdown-item'
-          div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">' + s + '</div>'
-          div.addEventListener('mousedown', function(e) {
-            e.preventDefault()
-            document.getElementById('input-servidor').value = s
-            dropdown.style.display = 'none'
-          })
+          const div = document.createElement('div'); div.className = 'search-dropdown-item'
+          div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">'+s+'</div>'
+          div.addEventListener('mousedown', function(e) { e.preventDefault(); document.getElementById('input-servidor').value=s; dropdown.style.display='none' })
           dropdown.appendChild(div)
         })
         dropdown.style.display = 'block'
       }
 
-      document.getElementById('input-broker').addEventListener('blur', function() {
-        setTimeout(() => { document.getElementById('broker-sugerencias').style.display = 'none' }, 150)
-      })
-      document.getElementById('input-servidor').addEventListener('blur', function() {
-        setTimeout(() => { document.getElementById('servidor-sugerencias').style.display = 'none' }, 150)
-      })
+      document.getElementById('input-broker').addEventListener('blur', function() { setTimeout(()=>{ document.getElementById('broker-sugerencias').style.display='none' },150) })
+      document.getElementById('input-servidor').addEventListener('blur', function() { setTimeout(()=>{ document.getElementById('servidor-sugerencias').style.display='none' },150) })
 
-      window.toggleSidebar = function() {
-        document.querySelector('.sidebar').classList.toggle('open')
-        document.getElementById('overlay').classList.toggle('open')
-      }
-      window.togglePassword = function() {
-        const input = document.getElementById('input-password')
-        input.type = input.type === 'password' ? 'text' : 'password'
-      }
+      window.toggleSidebar = function() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open') }
+      window.togglePassword = function() { const input = document.getElementById('input-password'); input.type = input.type==='password'?'text':'password' }
       window.toggleTheme = function() {
-        const body = document.body
-        const knob = document.getElementById('theme-knob')
-        const toggle = document.getElementById('theme-toggle')
+        const body=document.body, knob=document.getElementById('theme-knob'), toggle=document.getElementById('theme-toggle')
         const isLight = body.classList.toggle('light-mode')
-        knob.style.transform = isLight ? 'translateX(18px)' : 'translateX(0)'
-        toggle.style.background = isLight ? '#8b5cf6' : 'rgba(139,92,246,0.3)'
-        localStorage.setItem('zelus_theme', isLight ? 'light' : 'dark')
+        knob.style.transform = isLight?'translateX(18px)':'translateX(0)'
+        toggle.style.background = isLight?'#8b5cf6':'rgba(139,92,246,0.3)'
+        localStorage.setItem('zelus_theme',isLight?'light':'dark')
       }
+      if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
+      window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
 
-      if (localStorage.getItem('zelus_theme') === 'light') {
-        document.body.classList.add('light-mode')
-        setTimeout(() => {
-          document.getElementById('theme-knob').style.transform = 'translateX(18px)'
-          document.getElementById('theme-toggle').style.background = '#8b5cf6'
-        }, 0)
-      }
-
-      window.closeSidebar = function() {
-        document.querySelector('.sidebar').classList.remove('open')
-        document.getElementById('overlay').classList.remove('open')
-      }
-
-      const ultimaActualizacion = new Date(Date.now() - 2 * 60 * 60 * 1000)
-      function tiempoTranscurrido(fecha) {
-        const diff = Math.floor((Date.now() - fecha) / 60000)
-        if (diff < 60) return 'Actualizado hace ' + diff + ' min'
-        return 'Actualizado hace ' + Math.floor(diff / 60) + 'h'
-      }
+      const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
+      function tiempoTranscurrido(fecha) { const diff=Math.floor((Date.now()-fecha)/60000); return diff<60?'Actualizado hace '+diff+' min':'Actualizado hace '+Math.floor(diff/60)+'h' }
       const texto = tiempoTranscurrido(ultimaActualizacion)
       document.getElementById('update-sistemas').textContent = texto
       document.getElementById('update-historial').textContent = texto
