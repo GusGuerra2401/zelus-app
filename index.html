@@ -324,7 +324,7 @@
                     <div style="font-size:14px;font-weight:600;">Configuración recomendada</div>
                     <div id="dot-recomendado" style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>
                   </div>
-                  <div style="font-size:12px;color:var(--text2);">Lotaje asignado automáticamente · <span style="color:var(--purple3);font-family:'JetBrains Mono',monospace;">0.01 por cada $500 USD en balance</span></div>
+                  <div style="font-size:12px;color:var(--text2);">Lotaje asignado automáticamente · <span style="color:var(--text);font-family:'JetBrains Mono',monospace;">0.01 por cada $500 USD en balance</span></div>
                 </div>
                 <div id="opt-manual" onclick="elegirLotaje('manual')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:transparent;margin-bottom:16px;transition:all 0.2s;">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
@@ -488,7 +488,10 @@
         document.getElementById('sec-' + id).classList.add('active')
         el.classList.add('active')
         const titulos = { dashboard: 'Dashboard', 'mis-cuentas': 'Mis Cuentas', sistemas: 'Sistemas Copy', historial: 'Historial', pagos: 'Pagos' }
-        if (id === 'sistemas' && !sessionStorage.getItem('zelus_aviso_visto')) {
+        if (id === 'sistemas') {
+          document.getElementById('modal-aviso-bg').classList.add('open')
+          document.getElementById('modal-aviso-box').classList.add('open')
+        }
           document.getElementById('modal-aviso-bg').classList.add('open')
           document.getElementById('modal-aviso-box').classList.add('open')
         }
