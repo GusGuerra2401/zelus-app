@@ -384,7 +384,7 @@
 
     <!-- MODAL NUEVA CUENTA -->
     <div id="modal-cuenta" class="modal-overlay" onclick="cerrarModal()">
-      <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-box" >
         <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
         <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
         <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
@@ -498,7 +498,8 @@
         servidoresActuales = []
       }
 
-      window.cerrarModal = function() {
+      window.cerrarModal = function(e) {
+        if (e && e.target !== document.getElementById("modal-cuenta")) return
         document.getElementById('modal-cuenta').classList.remove('open')
         document.getElementById('broker-sugerencias').style.display = 'none'
         document.getElementById('servidor-sugerencias').style.display = 'none'
