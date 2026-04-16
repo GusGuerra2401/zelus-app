@@ -576,6 +576,10 @@
         document.querySelector('.sidebar').classList.toggle('open')
         document.getElementById('overlay').classList.toggle('open')
       }
+      window.togglePassword = function() {
+        const input = document.getElementById('input-password')
+        input.type = input.type === 'password' ? 'text' : 'password'
+      }
       window.closeSidebar = function() {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
