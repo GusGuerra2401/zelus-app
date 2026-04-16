@@ -279,6 +279,15 @@
       <!-- SISTEMAS COPY -->
       <div class="section" id="sec-sistemas">
         <div class="section-title">Zelus Gold · Sistema de Copy Trading</div>
+        <div style="margin-bottom:28px;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 32px rgba(139,92,246,0.12);background:var(--card);">
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+            <span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple2);">▶ Presentación del sistema</span>
+            <span style="font-size:11px;color:var(--text2);">· Zelus Gold</span>
+          </div>
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe src="https://player.vimeo.com/video/TU_VIDEO_ID" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-label">📈 Rendimiento 7d</div><div class="stat-value green">+34.7%</div><div class="stat-change">Últimos 7 días</div></div>
           <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red">-8.2%</div><div class="stat-change">Últimos 30 días</div></div>
@@ -287,7 +296,7 @@
         </div>
         <div class="two-col">
           <div class="card">
-            <div class="card-header"><div><div class="card-title">Trades del sistema</div><div class="card-subtitle">Historial de Zelus Gold</div></div></div>
+            <div class="card-header"><div><div class="card-title">Trades del sistema</div><div class="card-subtitle">Historial de Zelus Gold · <span id="update-sistemas" style="color:var(--purple3);"></span></div></div></div>
             <div style="padding:0 24px 24px;">
               <table class="trades-table">
                 <thead><tr><th>Par</th><th>Tipo</th><th>Lotes</th><th>P&L</th><th>Fecha</th></tr></thead>
@@ -322,7 +331,7 @@
       <div class="section" id="sec-historial">
         <div class="section-title">Historial de Trades</div>
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Todas las operaciones</div><div class="card-subtitle">Trades copiados en tu cuenta</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;">📥 Exportar</button></div>
+          <div class="card-header"><div><div class="card-title">Todas las operaciones</div><div class="card-subtitle">Trades copiados en tu cuenta · <span id="update-historial" style="color:var(--purple3);"></span></div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;">📥 Exportar</button></div>
           <div style="padding:0 24px 24px;">
             <table class="trades-table">
               <thead><tr><th>Par</th><th>Tipo</th><th>Lotes</th><th>Apertura</th><th>Cierre</th><th>P&L</th><th>Fecha</th></tr></thead>
@@ -615,6 +624,16 @@ if (localStorage.getItem('zelus_theme') === 'light') {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
       }
+      // Timestamp de actualización
+      const ultimaActualizacion = new Date(Date.now() - 2 * 60 * 60 * 1000) // hace 2 horas (cámbialo cuando integres datos reales)
+      function tiempoTranscurrido(fecha) {
+        const diff = Math.floor((Date.now() - fecha) / 60000)
+        if (diff < 60) return 'Actualizado hace ' + diff + ' min'
+        return 'Actualizado hace ' + Math.floor(diff / 60) + 'h'
+      }
+      const texto = tiempoTranscurrido(ultimaActualizacion)
+      document.getElementById('update-sistemas').textContent = texto
+      document.getElementById('update-historial').textContent = texto
     </script>
   </body>
 </html>
