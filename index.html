@@ -18,6 +18,8 @@
       body.light-mode .modal-input { background: #f0eeff; color: #1a1730; border-color: rgba(139,92,246,0.2); }
       body.light-mode .search-dropdown { background: #f0eeff; }
       body.light-mode .search-dropdown-item { color: #1a1730; }
+      body.light-mode .tooltip-box { background: #ffffff; border-color: rgba(139,92,246,0.3); }
+      body.light-mode .tooltip-box p, body.light-mode .tooltip-box div { color: #1a1730; }
       body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 40% at 20% 20%, rgba(139,92,246,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 80% 80%, rgba(217,70,239,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
       .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; padding: 0 0 24px; }
       .logo-area { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
@@ -57,11 +59,11 @@
       .card-subtitle { font-size: 12px; color: var(--text2); margin-top: 2px; }
       .card-body { padding: 24px; }
       .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
-      .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: all 0.2s; position: relative; overflow: hidden; }
-      .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,var(--purple),var(--pink)); opacity: 0; transition: opacity 0.3s; }
+      .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: all 0.2s; position: relative; overflow: visible; }
+      .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,var(--purple),var(--pink)); opacity: 0; transition: opacity 0.3s; border-radius: 16px 16px 0 0; }
       .stat-card:hover { border-color: var(--border2); box-shadow: var(--glow); }
       .stat-card:hover::before { opacity: 1; }
-      .stat-label { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+      .stat-label { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
       .stat-value { font-size: 28px; font-weight: 700; font-family: 'JetBrains Mono',monospace; letter-spacing: -0.02em; }
       .stat-value.green { color: var(--green); }
       .stat-value.red { color: var(--red); }
@@ -141,7 +143,7 @@
       .search-dropdown-item:last-child { border-bottom: none; }
       .cuenta-config { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; }
       .cuenta-config.seleccionada { border-color: var(--purple); background: rgba(139,92,246,0.05); }
-      .cuenta-config-header { display: flex; align-items: center; gap: 12px; margin-bottom: 0; }
+      .cuenta-config-header { display: flex; align-items: center; gap: 12px; }
       .cuenta-config-header input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer; flex-shrink: 0; }
       .cuenta-config-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; }
       .cuenta-config.seleccionada .cuenta-config-body { display: block; }
@@ -149,6 +151,18 @@
       .lotaje-opt.activo { border-color: var(--purple); background: rgba(139,92,246,0.08); }
       .section-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
       .section-footer p { font-size: 11px; color: var(--text2); line-height: 1.8; max-width: 720px; margin: 0 auto; }
+
+      /* TOOLTIP */
+      .info-btn { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--border2); background: rgba(139,92,246,0.15); color: var(--purple2); font-size: 9px; font-weight: 700; font-style: italic; cursor: pointer; line-height: 1; flex-shrink: 0; transition: background 0.2s; font-family: Georgia, serif; }
+      .info-btn:hover { background: rgba(139,92,246,0.3); }
+      .tooltip-wrap { position: relative; display: inline-flex; align-items: center; }
+      .tooltip-box { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); width: 260px; background: #1a1730; border: 1px solid rgba(139,92,246,0.35); border-radius: 12px; padding: 14px 16px; z-index: 300; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+      .tooltip-box::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; background: #1a1730; border-left: 1px solid rgba(139,92,246,0.35); border-top: 1px solid rgba(139,92,246,0.35); transform: translateX(-50%) rotate(45deg); }
+      .tooltip-box.open { display: block; }
+      .tooltip-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+      .tooltip-desc { font-size: 11px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+      .tooltip-row { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.escalon-grid{grid-template-columns:1fr}}
       @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}.pago-metodos{flex-direction:column}}
     </style>
@@ -312,11 +326,31 @@
           <div class="stat-card"><div class="stat-label">📈 Rendimiento 7d</div><div class="stat-value green">+34.7%</div><div class="stat-change">Últimos 7 días</div></div>
           <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red">-8.2%</div><div class="stat-change">Últimos 30 días</div></div>
           <div class="stat-card"><div class="stat-label">✅ Win Rate</div><div class="stat-value green">71.4%</div><div class="stat-change">101 de 142 trades</div></div>
-          <div class="stat-card" style="position:relative;">
-            <div class="stat-label">📊 Sharpe / Calmar
-              <span style="display:inline-flex;gap:4px;margin-left:6px;">
-                <span onclick="mostrarTooltip('sharpe')" style="cursor:pointer;width:15px;height:15px;border-radius:50%;background:rgba(139,92,246,0.2);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--purple2);display:inline-flex;align-items:center;justify-content:center;line-height:1;">?</span>
-                <span onclick="mostrarTooltip('calmar')" style="cursor:pointer;width:15px;height:15px;border-radius:50%;background:rgba(139,92,246,0.2);border:1px solid var(--border2);font-size:9px;font-weight:700;color:var(--purple2);display:inline-flex;align-items:center;justify-content:center;line-height:1;">?</span>
+          <div class="stat-card" style="overflow:visible;">
+            <div class="stat-label">
+              📊
+              <span class="tooltip-wrap">
+                Sharpe
+                <span class="info-btn" onclick="toggleTooltip('tt-sharpe', event)">i</span>
+                <div class="tooltip-box" id="tt-sharpe">
+                  <div class="tooltip-title">Sharpe</div>
+                  <div class="tooltip-desc">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div>
+                  <div class="tooltip-row"><span>🔴</span><div><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</div></div>
+                  <div class="tooltip-row"><span>🟡</span><div><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</div></div>
+                  <div class="tooltip-row"><span>🟢</span><div><strong>Más de 0.50</strong> — Nivel profesional</div></div>
+                </div>
+              </span>
+              /
+              <span class="tooltip-wrap">
+                Calmar
+                <span class="info-btn" onclick="toggleTooltip('tt-calmar', event)">i</span>
+                <div class="tooltip-box" id="tt-calmar">
+                  <div class="tooltip-title">Calmar</div>
+                  <div class="tooltip-desc">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div>
+                  <div class="tooltip-row"><span>🔴</span><div><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</div></div>
+                  <div class="tooltip-row"><span>🟡</span><div><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</div></div>
+                  <div class="tooltip-row"><span>🟢</span><div><strong>Más de 1.00</strong> — Nivel profesional alto</div></div>
+                </div>
               </span>
             </div>
             <div class="stat-value purple">1.42 / 2.1</div>
@@ -344,10 +378,9 @@
           <div class="card">
             <div class="card-header"><div class="card-title">Mi configuración</div></div>
             <div class="card-body">
-
-              <!-- CUENTA 1 -->
               <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
 
+              <!-- CUENTA 1 -->
               <div class="cuenta-config" id="cfg-cuenta1">
                 <div class="cuenta-config-header">
                   <input type="checkbox" id="chk-cuenta1" onchange="toggleCuenta(1)">
@@ -419,16 +452,10 @@
                 </div>
               </div>
 
-              <!-- BALANCE MÍNIMO -->
               <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--text2);">
                 💰 Balance mínimo para conectar: <strong style="color:var(--text);">$500 USD</strong>
               </div>
-
-              <!-- BOTÓN CONECTAR -->
-              <button id="btn-conectar-ahora" class="btn btn-primary" disabled style="width:100%;padding:12px;font-size:14px;">
-                Conectar ahora
-              </button>
-
+              <button id="btn-conectar-ahora" class="btn btn-primary" disabled style="width:100%;padding:12px;font-size:14px;">Conectar ahora</button>
             </div>
           </div>
         </div>
@@ -488,12 +515,6 @@
       </div>
 
     </main>
-    <!-- TOOLTIPS SHARPE / CALMAR -->
-     <div class="modal-bg" id="tooltip-bg" onclick="cerrarTooltip()"></div>
-     <div class="modal-box" id="tooltip-box" style="max-width:380px;">
-      <button onclick="cerrarTooltip()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
-      <div id="tooltip-contenido"></div>
-    </div>
 
     <!-- MODAL ADVERTENCIA SISTEMAS -->
     <div class="modal-bg" id="modal-aviso-bg"></div>
@@ -513,7 +534,6 @@
       <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
       <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
       <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
-
       <div style="margin-bottom:16px;">
         <label class="modal-label">Plataforma</label>
         <div style="display:flex;gap:8px;">
@@ -521,29 +541,24 @@
           <button id="btn-mt5" onclick="seleccionarPlataforma('MT5',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT5</button>
         </div>
       </div>
-
       <div style="margin-bottom:16px;">
         <label class="modal-label">Apodo</label>
         <input id="input-apodo" type="text" class="modal-input" placeholder="Ej: Mi cuenta principal">
       </div>
-
       <div style="margin-bottom:4px;">
         <label class="modal-label">Broker</label>
         <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value)">
       </div>
       <div id="broker-sugerencias" class="search-dropdown"></div>
-
       <div style="margin-bottom:4px;margin-top:16px;">
         <label class="modal-label">Servidor</label>
         <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
       </div>
       <div id="servidor-sugerencias" class="search-dropdown"></div>
-
       <div style="margin-bottom:16px;margin-top:16px;">
         <label class="modal-label">Login (número de cuenta)</label>
         <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947">
       </div>
-
       <div style="margin-bottom:24px;">
         <label class="modal-label">Contraseña</label>
         <div style="position:relative;">
@@ -551,9 +566,7 @@
           <button onclick="togglePassword()" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#a09cbf;font-size:18px;padding:0;line-height:1;">👁</button>
         </div>
       </div>
-
       <div id="modal-msg" style="display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
-
       <button onclick="verificarCuenta()" id="btn-verificar" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);">Verificar y conectar cuenta</button>
       <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Tus credenciales viajan encriptadas y nunca se almacenan en texto plano.</p>
     </div>
@@ -596,14 +609,23 @@
         closeSidebar()
       }
 
+      // Tooltips inline
+      window.toggleTooltip = function(id, e) {
+        e.stopPropagation()
+        const box = document.getElementById(id)
+        const isOpen = box.classList.contains('open')
+        document.querySelectorAll('.tooltip-box').forEach(t => t.classList.remove('open'))
+        if (!isOpen) box.classList.add('open')
+      }
+
+      document.addEventListener('click', function() {
+        document.querySelectorAll('.tooltip-box').forEach(t => t.classList.remove('open'))
+      })
+
       window.toggleCuenta = function(n) {
         const chk = document.getElementById('chk-cuenta' + n)
         const cfg = document.getElementById('cfg-cuenta' + n)
-        if (chk.checked) {
-          cfg.classList.add('seleccionada')
-        } else {
-          cfg.classList.remove('seleccionada')
-        }
+        if (chk.checked) { cfg.classList.add('seleccionada') } else { cfg.classList.remove('seleccionada') }
         const alguna = document.getElementById('chk-cuenta1').checked || document.getElementById('chk-cuenta2').checked
         document.getElementById('btn-conectar-ahora').disabled = !alguna
       }
@@ -792,31 +814,6 @@
         }, 0)
       }
 
-      const tooltips = {
-        sharpe: `<div style="font-size:17px;font-weight:700;margin-bottom:8px;">Sharpe</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🔴</span><div><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</div></div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟡</span><div><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</div></div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟢</span><div><strong>Más de 0.50</strong> — Nivel profesional</div></div>
-          </div>`,
-          calmar: `<div style="font-size:17px;font-weight:700;margin-bottom:8px;">Calmar</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🔴</span><div><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</div></div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟡</span><div><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</div></div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:12px;"><span style="font-size:16px;">🟢</span><div><strong>Más de 1.00</strong> — Nivel profesional alto</div></div>
-            </div>`
-          }
-          window.mostrarTooltip = function(tipo) {
-            document.getElementById('tooltip-contenido').innerHTML = tooltips[tipo]
-            document.getElementById('tooltip-bg').classList.add('open')
-            document.getElementById('tooltip-box').classList.add('open')
-          }
-          window.cerrarTooltip = function() {
-            document.getElementById('tooltip-bg').classList.remove('open')
-            document.getElementById('tooltip-box').classList.remove('open')
-          }
       window.closeSidebar = function() {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
