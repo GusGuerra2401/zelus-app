@@ -119,17 +119,16 @@
       .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
       .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
       .sidebar-overlay.open { display: block; }
-      /* MODAL */
       .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
       .modal-overlay.open { display: flex; }
       .modal-box { background: #12101e; border: 1px solid rgba(139,92,246,0.3); border-radius: 20px; padding: 32px; width: 100%; max-width: 480px; position: relative; max-height: 90vh; overflow-y: auto; }
-      .modal-input { width: 100%; padding: 12px 16px; background: #161325; border: 1px solid rgba(139,92,246,0.15); border-radius: 10px; color: #f1f0f7; font-size: 14px; font-family: 'Sora',sans-serif; outline: none; transition: border-color 0.2s; }
+      .modal-input { width: 100%; padding: 12px 16px; background: #161325; border: 1px solid rgba(139,92,246,0.15); border-radius: 10px; color: #f1f0f7; font-size: 14px; font-family: 'Sora',sans-serif; outline: none; transition: border-color 0.2s; cursor: pointer; }
       .modal-input:focus { border-color: rgba(139,92,246,0.5); }
       .modal-label { display: block; font-size: 12px; font-weight: 500; color: #a09cbf; margin-bottom: 6px; }
-      .broker-dropdown { display: none; background: linear-gradient(135deg,#1e1b35,#16122a); border: 1px solid rgba(139,92,246,0.4); border-top: none; border-radius: 0 0 12px 12px; overflow-y: auto; max-height: 220px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
-      .broker-dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(139,92,246,0.1); }
-      .broker-dropdown-item:hover { background: rgba(139,92,246,0.08); }
-      .broker-dropdown-item:last-child { border-bottom: none; }
+      .search-dropdown { display: none; background: linear-gradient(135deg,#1e1b35,#16122a); border: 1px solid rgba(139,92,246,0.4); border-top: none; border-radius: 0 0 12px 12px; overflow-y: auto; max-height: 220px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+      .search-dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(139,92,246,0.1); }
+      .search-dropdown-item:hover { background: rgba(139,92,246,0.08); }
+      .search-dropdown-item:last-child { border-bottom: none; }
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.escalon-grid{grid-template-columns:1fr}}
       @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}.pago-metodos{flex-direction:column}}
     </style>
@@ -402,14 +401,15 @@
           <label class="modal-label">Broker</label>
           <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value)">
         </div>
-        <div id="broker-sugerencias" class="broker-dropdown"></div>
+        <div id="broker-sugerencias" class="search-dropdown"></div>
+
+        <div style="margin-bottom:4px;margin-top:16px;">
+          <label class="modal-label">Servidor</label>
+          <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
+        </div>
+        <div id="servidor-sugerencias" class="search-dropdown"></div>
 
         <div style="margin-bottom:16px;margin-top:16px;">
-          <label class="modal-label">Servidor</label>
-          <input id="input-servidor" type="text" class="modal-input" placeholder="Se completará al seleccionar broker">
-        </div>
-
-        <div style="margin-bottom:16px;">
           <label class="modal-label">Login (número de cuenta)</label>
           <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947">
         </div>
@@ -483,33 +483,38 @@
 
       // MODAL
       let plataformaSeleccionada = 'MT4'
+      let servidoresActuales = []
 
       window.abrirModal = function() {
         document.getElementById('modal-cuenta').classList.add('open')
         document.getElementById('input-broker').value = ''
         document.getElementById('input-servidor').value = ''
+        document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
         document.getElementById('input-login').value = ''
         document.getElementById('input-password').value = ''
         document.getElementById('broker-sugerencias').style.display = 'none'
+        document.getElementById('servidor-sugerencias').style.display = 'none'
         document.getElementById('modal-msg').style.display = 'none'
+        servidoresActuales = []
       }
 
       window.cerrarModal = function() {
         document.getElementById('modal-cuenta').classList.remove('open')
         document.getElementById('broker-sugerencias').style.display = 'none'
+        document.getElementById('servidor-sugerencias').style.display = 'none'
       }
 
       window.seleccionarPlataforma = function(plataforma, btn) {
         plataformaSeleccionada = plataforma
-        document.getElementById('btn-mt4').style.background = 'transparent'
-        document.getElementById('btn-mt4').style.color = '#a09cbf'
-        document.getElementById('btn-mt4').style.borderColor = 'rgba(139,92,246,0.15)'
-        document.getElementById('btn-mt5').style.background = 'transparent'
-        document.getElementById('btn-mt5').style.color = '#a09cbf'
-        document.getElementById('btn-mt5').style.borderColor = 'rgba(139,92,246,0.15)'
-        btn.style.background = 'rgba(139,92,246,0.1)'
-        btn.style.color = '#a78bfa'
-        btn.style.borderColor = 'rgba(139,92,246,0.3)'
+        document.getElementById('btn-mt4').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
+        document.getElementById('btn-mt5').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
+        btn.style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
+        // Limpiar broker y servidor al cambiar plataforma
+        document.getElementById('input-broker').value = ''
+        document.getElementById('input-servidor').value = ''
+        document.getElementById('broker-sugerencias').style.display = 'none'
+        document.getElementById('servidor-sugerencias').style.display = 'none'
+        servidoresActuales = []
       }
 
       window.verificarCuenta = async function() {
@@ -544,9 +549,9 @@
             if (!data || !Object.keys(data).length) { sugerencias.style.display = 'none'; return }
             const brokers = Object.entries(data).slice(0, 10)
             sugerencias.innerHTML = brokers.map(([nombre, servidores]) =>
-              `<div class="broker-dropdown-item" onclick="seleccionarBroker('${nombre.replace(/'/g,"\\'")}', '${servidores[0].replace(/'/g,"\\'")}')">
+              `<div class="search-dropdown-item" onclick="seleccionarBroker(${JSON.stringify(nombre)}, ${JSON.stringify(servidores)})">
                 <div style="font-weight:600;color:#f1f0f7;">${nombre}</div>
-                <div style="font-size:11px;color:#a09cbf;margin-top:2px;">${servidores.slice(0,3).join(', ')}</div>
+                <div style="font-size:11px;color:#a09cbf;margin-top:2px;">${servidores.slice(0,3).join(', ')}${servidores.length > 3 ? '...' : ''}</div>
               </div>`
             ).join('')
             sugerencias.style.display = 'block'
@@ -554,17 +559,42 @@
         }, 400)
       }
 
-      window.seleccionarBroker = function(nombre, servidor) {
+      window.seleccionarBroker = function(nombre, servidores) {
+        servidoresActuales = servidores
         document.getElementById('input-broker').value = nombre
-        document.getElementById('input-servidor').value = servidor
+        document.getElementById('input-servidor').value = ''
+        document.getElementById('input-servidor').placeholder = 'Haz clic aquí para seleccionar servidor...'
         document.getElementById('broker-sugerencias').style.display = 'none'
+        document.getElementById('servidor-sugerencias').style.display = 'none'
       }
 
-      // Cerrar dropdown al hacer clic fuera
+      window.mostrarServidores = function() {
+        if (!servidoresActuales.length) return
+        const dropdown = document.getElementById('servidor-sugerencias')
+        dropdown.innerHTML = servidoresActuales.map(s =>
+          `<div class="search-dropdown-item" onclick="seleccionarServidor(${JSON.stringify(s)})">
+            <div style="font-weight:600;color:#f1f0f7;">${s}</div>
+          </div>`
+        ).join('')
+        dropdown.style.display = 'block'
+      }
+
+      window.seleccionarServidor = function(servidor) {
+        document.getElementById('input-servidor').value = servidor
+        document.getElementById('servidor-sugerencias').style.display = 'none'
+      }
+
+      // Cerrar dropdowns al hacer clic fuera — usa capture para evitar stopPropagation del modal
       document.addEventListener('click', function(e) {
-        const broker = document.getElementById('input-broker')
-        const sugerencias = document.getElementById('broker-sugerencias')
-        if (broker && sugerencias && !broker.contains(e.target) && !sugerencias.contains(e.target)) {sugerencias.style.display = 'none'
+        const inputBroker = document.getElementById('input-broker')
+        const dropBroker = document.getElementById('broker-sugerencias')
+        const inputServidor = document.getElementById('input-servidor')
+        const dropServidor = document.getElementById('servidor-sugerencias')
+        if (!inputBroker.contains(e.target) && !dropBroker.contains(e.target)) {
+          dropBroker.style.display = 'none'
+        }
+        if (!inputServidor.contains(e.target) && !dropServidor.contains(e.target)) {
+          dropServidor.style.display = 'none'
         }
       }, true)
 
