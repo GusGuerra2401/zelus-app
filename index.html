@@ -119,16 +119,21 @@
       .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
       .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
       .sidebar-overlay.open { display: block; }
-      .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
-      .modal-overlay.open { display: flex; }
-      .modal-box { background: #12101e; border: 1px solid rgba(139,92,246,0.3); border-radius: 20px; padding: 32px; width: 100%; max-width: 480px; position: relative; max-height: 90vh; overflow-y: auto; }
-      .modal-input { width: 100%; padding: 12px 16px; background: #161325; border: 1px solid rgba(139,92,246,0.15); border-radius: 10px; color: #f1f0f7; font-size: 14px; font-family: 'Sora',sans-serif; outline: none; transition: border-color 0.2s; cursor: pointer; }
+
+      /* MODAL — overlay separado del box, sin stopPropagation */
+      .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; }
+      .modal-bg.open { display: block; }
+      .modal-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #12101e; border: 1px solid rgba(139,92,246,0.3); border-radius: 20px; padding: 32px; width: calc(100% - 40px); max-width: 480px; z-index: 201; max-height: 90vh; overflow-y: auto; display: none; }
+      .modal-box.open { display: block; }
+      .modal-input { width: 100%; padding: 12px 16px; background: #161325; border: 1px solid rgba(139,92,246,0.15); border-radius: 10px; color: #f1f0f7; font-size: 14px; font-family: 'Sora',sans-serif; outline: none; transition: border-color 0.2s; }
       .modal-input:focus { border-color: rgba(139,92,246,0.5); }
+      .modal-input[readonly] { cursor: pointer; }
       .modal-label { display: block; font-size: 12px; font-weight: 500; color: #a09cbf; margin-bottom: 6px; }
-      .search-dropdown { display: none; background: linear-gradient(135deg,#1e1b35,#16122a); border: 1px solid rgba(139,92,246,0.4); border-top: none; border-radius: 0 0 12px 12px; overflow-y: auto; max-height: 220px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+      .search-dropdown { display: none; background: linear-gradient(135deg,#1e1b35,#16122a); border: 1px solid rgba(139,92,246,0.4); border-top: none; border-radius: 0 0 12px 12px; overflow-y: auto; max-height: 200px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
       .search-dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(139,92,246,0.1); }
-      .search-dropdown-item:hover { background: rgba(139,92,246,0.08); }
+      .search-dropdown-item:hover { background: rgba(139,92,246,0.12); }
       .search-dropdown-item:last-child { border-bottom: none; }
+
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.escalon-grid{grid-template-columns:1fr}}
       @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}.pago-metodos{flex-direction:column}}
     </style>
@@ -322,43 +327,19 @@
       <div class="section" id="sec-pagos">
         <div class="section-title">Sistema Escalonado de Pagos</div>
         <div class="escalon-grid">
-          <div class="escalon-card bronce">
-            <div class="escalon-icon">🥉</div>
-            <div class="escalon-nombre">Bronce</div>
-            <div class="escalon-rango">$500 – $4,999 USD</div>
-            <div class="escalon-porcentaje">30%</div>
-            <div class="escalon-label">sobre ganancias generadas</div>
-            <div class="escalon-badge">Nivel inicial</div>
-          </div>
-          <div class="escalon-card plata activo">
-            <div class="escalon-icon">🥈</div>
-            <div class="escalon-nombre">Plata</div>
-            <div class="escalon-rango">$5,000 – $9,999 USD</div>
-            <div class="escalon-porcentaje">25%</div>
-            <div class="escalon-label">sobre ganancias generadas</div>
-            <div class="escalon-badge">✓ Tu escalón actual</div>
-          </div>
-          <div class="escalon-card oro">
-            <div class="escalon-icon">🥇</div>
-            <div class="escalon-nombre">Oro</div>
-            <div class="escalon-rango">$10,000+ USD</div>
-            <div class="escalon-porcentaje">20%</div>
-            <div class="escalon-label">sobre ganancias generadas</div>
-            <div class="escalon-badge">Mayor capital = menor %</div>
-          </div>
+          <div class="escalon-card bronce"><div class="escalon-icon">🥉</div><div class="escalon-nombre">Bronce</div><div class="escalon-rango">$500 – $4,999 USD</div><div class="escalon-porcentaje">30%</div><div class="escalon-label">sobre ganancias generadas</div><div class="escalon-badge">Nivel inicial</div></div>
+          <div class="escalon-card plata activo"><div class="escalon-icon">🥈</div><div class="escalon-nombre">Plata</div><div class="escalon-rango">$5,000 – $9,999 USD</div><div class="escalon-porcentaje">25%</div><div class="escalon-label">sobre ganancias generadas</div><div class="escalon-badge">✓ Tu escalón actual</div></div>
+          <div class="escalon-card oro"><div class="escalon-icon">🥇</div><div class="escalon-nombre">Oro</div><div class="escalon-rango">$10,000+ USD</div><div class="escalon-porcentaje">20%</div><div class="escalon-label">sobre ganancias generadas</div><div class="escalon-badge">Mayor capital = menor %</div></div>
         </div>
         <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:24px;font-size:13px;color:var(--text2);line-height:1.7;">
           📌 <strong style="color:var(--text);">Regla del escalón:</strong> Tu balance debe haber permanecido en el mismo escalón durante <strong style="color:var(--text);">todos los días del mes</strong>. Si un día cierra en un escalón más bajo, se aplica ese porcentaje. Solo se cobran las ganancias generadas por el sistema de copy. Si el mes es negativo, se guarda ese saldo y se descuenta de las ganancias futuras.
         </div>
         <div class="saldo-negativo" style="display:none;" id="saldo-negativo-banner">
           <div style="font-size:28px;">📉</div>
-          <div>
-            <div class="saldo-negativo-monto" id="saldo-negativo-monto">-$0.00</div>
-            <div class="saldo-negativo-texto">No hay cobro este mes hasta recuperar pérdidas acumuladas. El saldo negativo se descuenta automáticamente.</div>
-          </div>
+          <div><div class="saldo-negativo-monto" id="saldo-negativo-monto">-$0.00</div><div class="saldo-negativo-texto">No hay cobro este mes hasta recuperar pérdidas acumuladas.</div></div>
         </div>
         <div class="section-title">Pago de abril 2026</div>
-        <div class="pago-card" id="pago-pendiente">
+        <div class="pago-card">
           <div style="font-size:13px;color:var(--text2);">Monto a pagar este mes</div>
           <div class="pago-monto">$301.00</div>
           <div class="pago-detalle">Ganancias del mes: <strong style="color:var(--text);">$1,204.00</strong> · Escalón Plata: <strong style="color:var(--text);">25%</strong> · Disponible hasta el <strong style="color:var(--text);">5 de mayo</strong></div>
@@ -367,63 +348,54 @@
             <button class="btn-pago btn-crypto" onclick="generarEnlacePago('crypto')">₿ Pagar con crypto</button>
           </div>
         </div>
-        <div class="pago-pagado" style="display:none;" id="pago-completado">
-          <div style="font-size:48px;margin-bottom:12px;">✅</div>
-          <div style="font-size:16px;font-weight:600;color:var(--green);">Pago de abril 2026 completado</div>
-          <div style="font-size:13px;color:var(--text2);margin-top:6px;">Gracias por tu pago. El siguiente vence el 1 de junio.</div>
-        </div>
         <a href="https://wa.me/525528478886?text=Hola%2C%20quisiera%20saber%20si%20puedo%20activar%20el%20sistema%20escalonado%20de%20pagos" target="_blank" rel="noopener noreferrer" class="whatsapp-escalon">
           <img src="https://storage.googleapis.com/msgsndr/FnGLAWtvRPTxr8Duhr3q/media/693b5aae53781f4fe03659ed.svg" alt="WhatsApp">
-          <div>
-            <div class="whatsapp-escalon-titulo">¿Eres referido de IC Markets?</div>
-            <div class="whatsapp-escalon-texto">Si te registraste con nuestro enlace, contáctanos para activar tu sistema escalonado de pagos.</div>
-          </div>
+          <div><div class="whatsapp-escalon-titulo">¿Eres referido de IC Markets?</div><div class="whatsapp-escalon-texto">Si te registraste con nuestro enlace, contáctanos para activar tu sistema escalonado de pagos.</div></div>
         </a>
       </div>
     </main>
 
-    <!-- MODAL NUEVA CUENTA -->
-    <div id="modal-cuenta" class="modal-overlay" onclick="cerrarModal()">
-      <div class="modal-box" >
-        <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
-        <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
-        <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
+    <!-- MODAL: fondo separado del contenido -->
+    <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
+    <div class="modal-box" id="modal-box">
+      <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
+      <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
 
-        <div style="margin-bottom:16px;">
-          <label class="modal-label">Plataforma</label>
-          <div style="display:flex;gap:8px;">
-            <button id="btn-mt4" onclick="seleccionarPlataforma('MT4',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT4</button>
-            <button id="btn-mt5" onclick="seleccionarPlataforma('MT5',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT5</button>
-          </div>
+      <div style="margin-bottom:16px;">
+        <label class="modal-label">Plataforma</label>
+        <div style="display:flex;gap:8px;">
+          <button id="btn-mt4" onclick="seleccionarPlataforma('MT4',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT4</button>
+          <button id="btn-mt5" onclick="seleccionarPlataforma('MT5',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT5</button>
         </div>
-
-        <div style="margin-bottom:4px;">
-          <label class="modal-label">Broker</label>
-          <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value)">
-        </div>
-        <div id="broker-sugerencias" class="search-dropdown"></div>
-
-        <div style="margin-bottom:4px;margin-top:16px;">
-          <label class="modal-label">Servidor</label>
-          <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
-        </div>
-        <div id="servidor-sugerencias" class="search-dropdown"></div>
-
-        <div style="margin-bottom:16px;margin-top:16px;">
-          <label class="modal-label">Login (número de cuenta)</label>
-          <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947">
-        </div>
-
-        <div style="margin-bottom:24px;">
-          <label class="modal-label">Contraseña</label>
-          <input id="input-password" type="password" class="modal-input" placeholder="Contraseña de tu cuenta MT4/MT5">
-        </div>
-
-        <div id="modal-msg" style="display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
-
-        <button onclick="verificarCuenta()" id="btn-verificar" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);">Verificar y conectar cuenta</button>
-        <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Tus credenciales viajan encriptadas y nunca se almacenan en texto plano.</p>
       </div>
+
+      <div style="margin-bottom:4px;">
+        <label class="modal-label">Broker</label>
+        <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value)">
+      </div>
+      <div id="broker-sugerencias" class="search-dropdown"></div>
+
+      <div style="margin-bottom:4px;margin-top:16px;">
+        <label class="modal-label">Servidor</label>
+        <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
+      </div>
+      <div id="servidor-sugerencias" class="search-dropdown"></div>
+
+      <div style="margin-bottom:16px;margin-top:16px;">
+        <label class="modal-label">Login (número de cuenta)</label>
+        <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947">
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <label class="modal-label">Contraseña</label>
+        <input id="input-password" type="password" class="modal-input" placeholder="Contraseña de tu cuenta MT4/MT5">
+      </div>
+
+      <div id="modal-msg" style="display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
+
+      <button onclick="verificarCuenta()" id="btn-verificar" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);">Verificar y conectar cuenta</button>
+      <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Tus credenciales viajan encriptadas y nunca se almacenan en texto plano.</p>
     </div>
 
     <script type="module">
@@ -486,7 +458,8 @@
       let servidoresActuales = []
 
       window.abrirModal = function() {
-        document.getElementById('modal-cuenta').classList.add('open')
+        document.getElementById('modal-bg').classList.add('open')
+        document.getElementById('modal-box').classList.add('open')
         document.getElementById('input-broker').value = ''
         document.getElementById('input-servidor').value = ''
         document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
@@ -498,9 +471,9 @@
         servidoresActuales = []
       }
 
-      window.cerrarModal = function(e) {
-        if (e && e.target !== document.getElementById("modal-cuenta")) return
-        document.getElementById('modal-cuenta').classList.remove('open')
+      window.cerrarModal = function() {
+        document.getElementById('modal-bg').classList.remove('open')
+        document.getElementById('modal-box').classList.remove('open')
         document.getElementById('broker-sugerencias').style.display = 'none'
         document.getElementById('servidor-sugerencias').style.display = 'none'
       }
@@ -510,7 +483,6 @@
         document.getElementById('btn-mt4').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
         document.getElementById('btn-mt5').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
         btn.style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
-        // Limpiar broker y servidor al cambiar plataforma
         document.getElementById('input-broker').value = ''
         document.getElementById('input-servidor').value = ''
         document.getElementById('broker-sugerencias').style.display = 'none'
@@ -545,59 +517,56 @@
         buscarTimeout = setTimeout(async () => {
           try {
             const version = plataformaSeleccionada === 'MT5' ? '5' : '4'
-            const res = await fetch(`/api/brokers?query=${encodeURIComponent(valor)}&version=${version}`)
+            const res = await fetch('/api/brokers?query=' + encodeURIComponent(valor) + '&version=' + version)
             const data = await res.json()
             if (!data || !Object.keys(data).length) { sugerencias.style.display = 'none'; return }
             const brokers = Object.entries(data).slice(0, 10)
-            sugerencias.innerHTML = brokers.map(([nombre, servidores]) =>
-              `<div class="search-dropdown-item" onclick="seleccionarBroker(${JSON.stringify(nombre)}, ${JSON.stringify(servidores)})">
-                <div style="font-weight:600;color:#f1f0f7;">${nombre}</div>
-                <div style="font-size:11px;color:#a09cbf;margin-top:2px;">${servidores.slice(0,3).join(', ')}${servidores.length > 3 ? '...' : ''}</div>
-              </div>`
-            ).join('')
+            sugerencias.innerHTML = ''
+            brokers.forEach(function([nombre, servidores]) {
+              const div = document.createElement('div')
+              div.className = 'search-dropdown-item'
+              div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">' + nombre + '</div><div style="font-size:11px;color:#a09cbf;margin-top:2px;">' + servidores.slice(0,3).join(', ') + (servidores.length > 3 ? '...' : '') + '</div>'
+              div.addEventListener('mousedown', function(e) {
+                e.preventDefault()
+                servidoresActuales = servidores
+                document.getElementById('input-broker').value = nombre
+                document.getElementById('input-servidor').value = ''
+                document.getElementById('input-servidor').placeholder = 'Haz clic aquí para elegir servidor...'
+                sugerencias.style.display = 'none'
+                document.getElementById('servidor-sugerencias').style.display = 'none'
+              })
+              sugerencias.appendChild(div)
+            })
             sugerencias.style.display = 'block'
           } catch(e) { sugerencias.style.display = 'none' }
         }, 400)
       }
 
-      window.seleccionarBroker = function(nombre, servidores) {
-        servidoresActuales = servidores
-        document.getElementById('input-broker').value = nombre
-        document.getElementById('input-servidor').value = ''
-        document.getElementById('input-servidor').placeholder = 'Haz clic aquí para seleccionar servidor...'
-        document.getElementById('broker-sugerencias').style.display = 'none'
-        document.getElementById('servidor-sugerencias').style.display = 'none'
-      }
-
       window.mostrarServidores = function() {
         if (!servidoresActuales.length) return
         const dropdown = document.getElementById('servidor-sugerencias')
-        dropdown.innerHTML = servidoresActuales.map(s =>
-          `<div class="search-dropdown-item" onclick="seleccionarServidor(${JSON.stringify(s)})">
-            <div style="font-weight:600;color:#f1f0f7;">${s}</div>
-          </div>`
-        ).join('')
+        dropdown.innerHTML = ''
+        servidoresActuales.forEach(function(s) {
+          const div = document.createElement('div')
+          div.className = 'search-dropdown-item'
+          div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">' + s + '</div>'
+          div.addEventListener('mousedown', function(e) {
+            e.preventDefault()
+            document.getElementById('input-servidor').value = s
+            dropdown.style.display = 'none'
+          })
+          dropdown.appendChild(div)
+        })
         dropdown.style.display = 'block'
       }
 
-      window.seleccionarServidor = function(servidor) {
-        document.getElementById('input-servidor').value = servidor
-        document.getElementById('servidor-sugerencias').style.display = 'none'
-      }
-
-      // Cerrar dropdowns al hacer clic fuera — usa capture para evitar stopPropagation del modal
-      document.addEventListener('click', function(e) {
-        const inputBroker = document.getElementById('input-broker')
-        const dropBroker = document.getElementById('broker-sugerencias')
-        const inputServidor = document.getElementById('input-servidor')
-        const dropServidor = document.getElementById('servidor-sugerencias')
-        if (!inputBroker.contains(e.target) && !dropBroker.contains(e.target)) {
-          dropBroker.style.display = 'none'
-        }
-        if (!inputServidor.contains(e.target) && !dropServidor.contains(e.target)) {
-          dropServidor.style.display = 'none'
-        }
-      }, true)
+      // Cerrar dropdowns al perder foco
+      document.getElementById('input-broker').addEventListener('blur', function() {
+        setTimeout(() => { document.getElementById('broker-sugerencias').style.display = 'none' }, 150)
+      })
+      document.getElementById('input-servidor').addEventListener('blur', function() {
+        setTimeout(() => { document.getElementById('servidor-sugerencias').style.display = 'none' }, 150)
+      })
 
       // SIDEBAR
       window.toggleSidebar = function() {
