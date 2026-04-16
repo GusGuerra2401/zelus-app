@@ -70,7 +70,7 @@
       .down { color: var(--red); font-weight: 600; }
       .two-col { display: grid; grid-template-columns: 1fr 360px; gap: 20px; margin-bottom: 28px; }
       .trades-table { width: 100%; border-collapse: collapse; }
-      .trades-table th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); padding: 20px 0 28px;; text-align: left; }
+      .trades-table th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); padding: 20px 0 28px; text-align: left; }
       .trades-table td { padding: 12px 0; border-top: 1px solid var(--border); font-size: 13px; }
       .pair { font-weight: 700; font-family: 'JetBrains Mono',monospace; }
       .trade-type { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
@@ -126,8 +126,6 @@
       .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
       .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
       .sidebar-overlay.open { display: block; }
-
-      /* MODAL — overlay separado del box, sin stopPropagation */
       .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; }
       .modal-bg.open { display: block; }
       .modal-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #12101e; border: 1px solid rgba(139,92,246,0.3); border-radius: 20px; padding: 32px; width: calc(100% - 40px); max-width: 480px; z-index: 201; max-height: 90vh; overflow-y: auto; display: none; }
@@ -140,7 +138,6 @@
       .search-dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(139,92,246,0.1); }
       .search-dropdown-item:hover { background: rgba(139,92,246,0.12); }
       .search-dropdown-item:last-child { border-bottom: none; }
-
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.escalon-grid{grid-template-columns:1fr}}
       @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}.pago-metodos{flex-direction:column}}
     </style>
@@ -315,40 +312,41 @@
             </div>
           </div>
           <div class="card">
-            <div class="card">
-              <div class="card-header"><div class="card-title">Mi configuración</div></div>
-              <div class="card-body">
-                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Tipo de lotaje</div>
-                <div id="opt-recomendado" onclick="elegirLotaje('recomendado')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--purple);background:rgba(139,92,246,0.1);margin-bottom:8px;transition:all 0.2s;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                    <div style="font-size:14px;font-weight:600;">Configuración recomendada</div>
-                    <div id="dot-recomendado" style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>
-                  </div>
-                  <div style="font-size:12px;color:var(--text2);">Lotaje asignado automáticamente · <span style="color:var(--text);font-family:'JetBrains Mono',monospace;">0.01 por cada $500 USD en balance</span></div>
+            <div class="card-header"><div class="card-title">Mi configuración</div></div>
+            <div class="card-body">
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Tipo de lotaje</div>
+              <div id="opt-recomendado" onclick="elegirLotaje('recomendado')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--purple);background:rgba(139,92,246,0.1);margin-bottom:8px;transition:all 0.2s;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                  <div style="font-size:14px;font-weight:600;">Configuración recomendada</div>
+                  <div id="dot-recomendado" style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>
                 </div>
-                <div id="opt-manual" onclick="elegirLotaje('manual')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:transparent;margin-bottom:16px;transition:all 0.2s;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                    <div style="font-size:14px;font-weight:600;">Configuración manual</div>
-                    <div id="dot-manual" style="width:10px;height:10px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
-                  </div>
-                  <div style="font-size:12px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema y entiendes el riesgo de cada operación. <span style="color:var(--red);">No recomendado</span> — un lotaje incorrecto puede liquidar tu cuenta.</div>
+                <div style="font-size:12px;color:var(--text2);">Lotaje asignado automáticamente · <span style="color:var(--text);font-family:'JetBrains Mono',monospace;">0.01 por cada $500 USD en balance</span></div>
+              </div>
+              <div id="opt-manual" onclick="elegirLotaje('manual')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:transparent;margin-bottom:16px;transition:all 0.2s;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                  <div style="font-size:14px;font-weight:600;">Configuración manual</div>
+                  <div id="dot-manual" style="width:10px;height:10px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
                 </div>
-                <div id="lotaje-manual-input" style="display:none;margin-bottom:16px;">
-                  <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Tamaño de lote</div>
-                  <div style="display:flex;gap:8px;align-items:center;">
-                    <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;width:100px;outline:none;">
-                    <button class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Guardar</button>
-                  </div>
-                </div>
-                <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--text2);">
-                  💰 Balance mínimo para conectar una cuenta a este sistema: <strong style="color:var(--text);">$500 USD</strong>
-                </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
-                  <div><div style="font-size:14px;font-weight:600;">Copy activo</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Pausar temporalmente</div></div>
-                  <button class="toggle-btn">⏸ Pausar</button>
+                <div style="font-size:12px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema y entiendes el riesgo de cada operación. <span style="color:var(--red);">No recomendado</span> — un lotaje incorrecto puede liquidar tu cuenta.</div>
+              </div>
+              <div id="lotaje-manual-input" style="display:none;margin-bottom:16px;">
+                <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Tamaño de lote</div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                  <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;width:100px;outline:none;">
+                  <button class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Guardar</button>
                 </div>
               </div>
+              <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--text2);">
+                💰 Balance mínimo para conectar una cuenta a este sistema: <strong style="color:var(--text);">$500 USD</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
+                <div><div style="font-size:14px;font-weight:600;">Copy activo</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Pausar temporalmente</div></div>
+                <button class="toggle-btn">⏸ Pausar</button>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
 
       <!-- HISTORIAL -->
       <div class="section" id="sec-historial">
@@ -401,8 +399,8 @@
     </main>
 
     <!-- MODAL ADVERTENCIA SISTEMAS -->
-     <div class="modal-bg" id="modal-aviso-bg"></div>
-     <div class="modal-box" id="modal-aviso-box" style="max-width:440px;">
+    <div class="modal-bg" id="modal-aviso-bg"></div>
+    <div class="modal-box" id="modal-aviso-box" style="max-width:440px;">
       <div style="text-align:center;margin-bottom:20px;">
         <div style="font-size:40px;margin-bottom:12px;">⚠️</div>
         <div style="font-size:17px;font-weight:700;margin-bottom:12px;line-height:1.4;">Uso personal exclusivo</div>
@@ -411,14 +409,13 @@
       </div>
       <button onclick="cerrarAviso()" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;">Entiendo y acepto</button>
     </div>
-    
+
     <!-- MODAL: fondo separado del contenido -->
     <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
     <div class="modal-box" id="modal-box">
       <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
       <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
       <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
-
       <div style="margin-bottom:16px;">
         <label class="modal-label">Plataforma</label>
         <div style="display:flex;gap:8px;">
@@ -426,24 +423,20 @@
           <button id="btn-mt5" onclick="seleccionarPlataforma('MT5',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT5</button>
         </div>
       </div>
-
       <div style="margin-bottom:4px;">
         <label class="modal-label">Broker</label>
         <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value)">
       </div>
       <div id="broker-sugerencias" class="search-dropdown"></div>
-
       <div style="margin-bottom:4px;margin-top:16px;">
         <label class="modal-label">Servidor</label>
         <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
       </div>
       <div id="servidor-sugerencias" class="search-dropdown"></div>
-
       <div style="margin-bottom:16px;margin-top:16px;">
         <label class="modal-label">Login (número de cuenta)</label>
         <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947">
       </div>
-
       <div style="margin-bottom:24px;">
         <label class="modal-label">Contraseña</label>
         <div style="position:relative;">
@@ -451,9 +444,7 @@
           <button onclick="togglePassword()" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#a09cbf;font-size:18px;padding:0;line-height:1;">👁</button>
         </div>
       </div>
-
       <div id="modal-msg" style="display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
-
       <button onclick="verificarCuenta()" id="btn-verificar" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);">Verificar y conectar cuenta</button>
       <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Tus credenciales viajan encriptadas y nunca se almacenan en texto plano.</p>
     </div>
@@ -488,14 +479,11 @@
         document.getElementById('sec-' + id).classList.add('active')
         el.classList.add('active')
         const titulos = { dashboard: 'Dashboard', 'mis-cuentas': 'Mis Cuentas', sistemas: 'Sistemas Copy', historial: 'Historial', pagos: 'Pagos' }
+        document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         if (id === 'sistemas') {
           document.getElementById('modal-aviso-bg').classList.add('open')
           document.getElementById('modal-aviso-box').classList.add('open')
         }
-          document.getElementById('modal-aviso-bg').classList.add('open')
-          document.getElementById('modal-aviso-box').classList.add('open')
-        }
-        document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         closeSidebar()
       }
 
@@ -520,7 +508,6 @@
         btn.disabled = false
       }
 
-      // MODAL
       let plataformaSeleccionada = 'MT4'
       let servidoresActuales = []
 
@@ -543,6 +530,11 @@
         document.getElementById('modal-box').classList.remove('open')
         document.getElementById('broker-sugerencias').style.display = 'none'
         document.getElementById('servidor-sugerencias').style.display = 'none'
+      }
+
+      window.cerrarAviso = function() {
+        document.getElementById('modal-aviso-bg').classList.remove('open')
+        document.getElementById('modal-aviso-box').classList.remove('open')
       }
 
       window.seleccionarPlataforma = function(plataforma, btn) {
@@ -574,7 +566,6 @@
         }, 1500)
       }
 
-      // BROKER SEARCH
       let buscarTimeout = null
 
       window.buscarBroker = async function(valor) {
@@ -627,7 +618,6 @@
         dropdown.style.display = 'block'
       }
 
-      // Cerrar dropdowns al perder foco
       document.getElementById('input-broker').addEventListener('blur', function() {
         setTimeout(() => { document.getElementById('broker-sugerencias').style.display = 'none' }, 150)
       })
@@ -635,7 +625,6 @@
         setTimeout(() => { document.getElementById('servidor-sugerencias').style.display = 'none' }, 150)
       })
 
-      // SIDEBAR
       window.toggleSidebar = function() {
         document.querySelector('.sidebar').classList.toggle('open')
         document.getElementById('overlay').classList.toggle('open')
@@ -654,14 +643,13 @@
         localStorage.setItem('zelus_theme', isLight ? 'light' : 'dark')
       }
 
-// Aplicar tema guardado
-if (localStorage.getItem('zelus_theme') === 'light') {
-  document.body.classList.add('light-mode')
-  setTimeout(() => {
-    document.getElementById('theme-knob').style.transform = 'translateX(18px)'
-    document.getElementById('theme-toggle').style.background = '#8b5cf6'
-  }, 0)
-}
+      if (localStorage.getItem('zelus_theme') === 'light') {
+        document.body.classList.add('light-mode')
+        setTimeout(() => {
+          document.getElementById('theme-knob').style.transform = 'translateX(18px)'
+          document.getElementById('theme-toggle').style.background = '#8b5cf6'
+        }, 0)
+      }
 
       window.elegirLotaje = function(tipo) {
         const optRec = document.getElementById('opt-recomendado')
@@ -691,17 +679,13 @@ if (localStorage.getItem('zelus_theme') === 'light') {
           input.style.display = 'block'
         }
       }
-      window.cerrarAviso = function() {
-        document.getElementById('modal-aviso-bg').classList.remove('open')
-        document.getElementById('modal-aviso-box').classList.remove('open')
-        sessionStorage.setItem('zelus_aviso_visto', '1')
-      }
+
       window.closeSidebar = function() {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
       }
-      // Timestamp de actualización
-      const ultimaActualizacion = new Date(Date.now() - 2 * 60 * 60 * 1000) // hace 2 horas (cámbialo cuando integres datos reales)
+
+      const ultimaActualizacion = new Date(Date.now() - 2 * 60 * 60 * 1000)
       function tiempoTranscurrido(fecha) {
         const diff = Math.floor((Date.now() - fecha) / 60000)
         if (diff < 60) return 'Actualizado hace ' + diff + ' min'
