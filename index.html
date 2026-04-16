@@ -315,23 +315,40 @@
             </div>
           </div>
           <div class="card">
-            <div class="card-header"><div class="card-title">Mi configuración</div></div>
-            <div class="card-body">
-              <div style="margin-bottom:20px;">
-                <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Tamaño de lote</div>
-                <div style="display:flex;gap:8px;align-items:center;">
-                  <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;width:100px;outline:none;">
-                  <button class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Guardar</button>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Mi configuración</div></div>
+              <div class="card-body">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Tipo de lotaje</div>
+                <div id="opt-recomendado" onclick="elegirLotaje('recomendado')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--purple);background:rgba(139,92,246,0.1);margin-bottom:8px;transition:all 0.2s;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                    <div style="font-size:14px;font-weight:600;">Configuración recomendada</div>
+                    <div id="dot-recomendado" style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>
+                  </div>
+                  <div style="font-size:12px;color:var(--text2);">Lotaje asignado automáticamente · <span style="color:var(--purple3);font-family:'JetBrains Mono',monospace;">0.01 por cada $500 USD en balance</span></div>
+                </div>
+                <div id="opt-manual" onclick="elegirLotaje('manual')" style="cursor:pointer;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:transparent;margin-bottom:16px;transition:all 0.2s;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                    <div style="font-size:14px;font-weight:600;">Configuración manual</div>
+                    <div id="dot-manual" style="width:10px;height:10px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
+                  </div>
+                  <div style="font-size:12px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema y entiendes el riesgo de cada operación. <span style="color:var(--red);">No recomendado</span> — un lotaje incorrecto puede liquidar tu cuenta.</div>
+                </div>
+                <div id="lotaje-manual-input" style="display:none;margin-bottom:16px;">
+                  <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Tamaño de lote</div>
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;width:100px;outline:none;">
+                    <button class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Guardar</button>
+                  </div>
+                </div>
+                <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--text2);">
+                  💰 Balance mínimo para conectar una cuenta a este sistema: <strong style="color:var(--text);">$500 USD</strong>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
+                  <div><div style="font-size:14px;font-weight:600;">Copy activo</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Pausar temporalmente</div></div>
+                  <button class="toggle-btn">⏸ Pausar</button>
                 </div>
               </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border);">
-                <div><div style="font-size:14px;font-weight:600;">Copy activo</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Pausar temporalmente</div></div>
-                <button class="toggle-btn">⏸ Pausar</button>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
 
       <!-- HISTORIAL -->
       <div class="section" id="sec-historial">
@@ -383,6 +400,18 @@
       </div>
     </main>
 
+    <!-- MODAL ADVERTENCIA SISTEMAS -->
+     <div class="modal-bg" id="modal-aviso-bg"></div>
+     <div class="modal-box" id="modal-aviso-box" style="max-width:440px;">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-size:40px;margin-bottom:12px;">⚠️</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:12px;line-height:1.4;">Uso personal exclusivo</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;">Este sistema opera únicamente para ti. Si detectamos que estás replicando, compartiendo o comercializando las señales, activaremos medidas de protección automáticas — incluyendo <strong style="color:var(--red);">señales incorrectas diseñadas para generar pérdidas</strong> en las cuentas no autorizadas, sin previo aviso.</p>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-top:12px;">Al continuar, confirmas que entiendes y aceptas estas condiciones.</p>
+      </div>
+      <button onclick="cerrarAviso()" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;">Entiendo y acepto</button>
+    </div>
+    
     <!-- MODAL: fondo separado del contenido -->
     <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
     <div class="modal-box" id="modal-box">
@@ -459,6 +488,10 @@
         document.getElementById('sec-' + id).classList.add('active')
         el.classList.add('active')
         const titulos = { dashboard: 'Dashboard', 'mis-cuentas': 'Mis Cuentas', sistemas: 'Sistemas Copy', historial: 'Historial', pagos: 'Pagos' }
+        if (id === 'sistemas' && !sessionStorage.getItem('zelus_aviso_visto')) {
+          document.getElementById('modal-aviso-bg').classList.add('open')
+          document.getElementById('modal-aviso-box').classList.add('open')
+        }
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         closeSidebar()
       }
@@ -626,6 +659,40 @@ if (localStorage.getItem('zelus_theme') === 'light') {
     document.getElementById('theme-toggle').style.background = '#8b5cf6'
   }, 0)
 }
+
+      window.elegirLotaje = function(tipo) {
+        const optRec = document.getElementById('opt-recomendado')
+        const optMan = document.getElementById('opt-manual')
+        const dotRec = document.getElementById('dot-recomendado')
+        const dotMan = document.getElementById('dot-manual')
+        const input = document.getElementById('lotaje-manual-input')
+        if (tipo === 'recomendado') {
+          optRec.style.border = '1px solid var(--purple)'
+          optRec.style.background = 'rgba(139,92,246,0.1)'
+          optMan.style.border = '1px solid var(--border)'
+          optMan.style.background = 'transparent'
+          dotRec.style.background = 'var(--purple)'
+          dotRec.style.border = 'none'
+          dotMan.style.background = 'transparent'
+          dotMan.style.border = '1px solid var(--text2)'
+          input.style.display = 'none'
+        } else {
+          optMan.style.border = '1px solid var(--purple)'
+          optMan.style.background = 'rgba(139,92,246,0.1)'
+          optRec.style.border = '1px solid var(--border)'
+          optRec.style.background = 'transparent'
+          dotMan.style.background = 'var(--purple)'
+          dotMan.style.border = 'none'
+          dotRec.style.background = 'transparent'
+          dotRec.style.border = '1px solid var(--text2)'
+          input.style.display = 'block'
+        }
+      }
+      window.cerrarAviso = function() {
+        document.getElementById('modal-aviso-bg').classList.remove('open')
+        document.getElementById('modal-aviso-box').classList.remove('open')
+        sessionStorage.setItem('zelus_aviso_visto', '1')
+      }
       window.closeSidebar = function() {
         document.querySelector('.sidebar').classList.remove('open')
         document.getElementById('overlay').classList.remove('open')
