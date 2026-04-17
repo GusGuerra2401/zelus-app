@@ -423,7 +423,7 @@
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session) { window.location.href = '/login.html' }
+      if (!session) { window.location.href = '/login' }
       const nombre = localStorage.getItem('zelus_nombre')
       if (nombre) { document.getElementById('nombre-usuario').textContent = nombre; document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase() }
       document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login.html' })
