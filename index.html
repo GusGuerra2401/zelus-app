@@ -467,7 +467,6 @@
         }
       }
 
-      // Validar formulario — habilita botón solo si todos los campos están llenos
       window.validarFormulario = function() {
         const apodo = document.getElementById('input-apodo').value.trim()
         const broker = document.getElementById('input-broker').value.trim()
@@ -480,7 +479,6 @@
         btn.style.opacity = listo ? '1' : '0.4'
       }
 
-      // Verificar cuenta con endpoint real
       window.verificarCuenta = async function() {
         const btn = document.getElementById('btn-verificar')
         const msg = document.getElementById('modal-msg')
@@ -489,7 +487,6 @@
         btn.disabled = true
         btn.style.opacity = '0.7'
         msg.style.display = 'none'
-
         try {
           const res = await fetch('/api/conectar-cuenta', {
             method: 'POST',
@@ -501,18 +498,18 @@
               servidor: document.getElementById('input-servidor').value.trim(),
               login: document.getElementById('input-login').value.trim(),
               password: document.getElementById('input-password').value.trim(),
-              usuario_id: session.user.id
+              usuario_id: session.user.id,
+              nombre: localStorage.getItem('zelus_nombre') || '',
+              email: session.user.email
             })
           })
           const data = await res.json()
-
           if (res.ok && data.ok) {
             msg.style.display = 'block'
             msg.style.background = 'rgba(52,211,153,0.1)'
             msg.style.border = '1px solid rgba(52,211,153,0.3)'
             msg.style.color = '#34d399'
             msg.textContent = '✓ Cuenta conectada exitosamente.'
-            // Limpiar campos
             document.getElementById('input-apodo').value = ''
             document.getElementById('input-broker').value = ''
             document.getElementById('input-servidor').value = ''
@@ -534,7 +531,6 @@
           msg.style.color = '#f87171'
           msg.textContent = '✗ Error de conexión. Intenta de nuevo.'
         }
-
         btn.textContent = textoOriginal
         btn.disabled = false
         btn.style.opacity = '0.4'
@@ -556,7 +552,16 @@
 
       let plataformaSeleccionada = 'MT4', servidoresActuales = []
 
-      window.abrirModal = function() {
+      window.abrirModal = async function() {
+        const { data: cuentasActivas } = await supabase
+          .from('cuentas')
+          .select('id')
+          .eq('usuario_id', session.user.id)
+          .eq('estado', 'activa')
+        if (cuentasActivas && cuentasActivas.length >= 2) {
+          alert('Ya tienes 2 cuentas activas. Desconecta una antes de agregar otra.')
+          return
+        }
         document.getElementById('modal-bg').classList.add('open')
         document.getElementById('modal-box').classList.add('open')
         document.getElementById('input-apodo').value = ''

@@ -3,17 +3,47 @@ import { createClient } from '@supabase/supabase-js'
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido' })
 
-  const { apodo, plataforma, broker, servidor, login, password, usuario_id } = req.body
+  const { apodo, plataforma, broker, servidor, login, password, usuario_id, nombre, email } = req.body
 
   if (!apodo || !plataforma || !broker || !servidor || !login || !password || !usuario_id) {
     return res.status(400).json({ error: 'Todos los campos son requeridos' })
   }
 
-  // 1. Validar credenciales con MetaApi
+  const supabase = createClient(
+    process.env.SUPABASE_URL || 'https://cofrhfbkmmisxmsyqccq.supabase.co',
+    process.env.SUPABASE_SERVICE_KEY
+  )
+
+  // 1. Crear o actualizar perfil del usuario
+  const { error: perfilError } = await supabase
+    .from('perfiles')
+    .upsert({ id: usuario_id, nombre: nombre || '', email: email || '' }, { onConflict: 'id' })
+
+  if (perfilError) {
+    console.error('Error perfil:', perfilError)
+    return res.status(500).json({ error: 'Error interno al guardar perfil.' })
+  }
+
+  // 2. Verificar límite de 2 cuentas activas
+  const { data: cuentasActivas, error: cuentasError } = await supabase
+    .from('cuentas')
+    .select('id')
+    .eq('usuario_id', usuario_id)
+    .eq('estado', 'activa')
+
+  if (cuentasError) {
+    console.error('Error cuentas:', cuentasError)
+    return res.status(500).json({ error: 'Error interno al verificar cuentas.' })
+  }
+
+  if (cuentasActivas && cuentasActivas.length >= 2) {
+    return res.status(400).json({ error: 'Ya tienes 2 cuentas activas. Desconecta una antes de agregar otra.' })
+  }
+
+  // 3. Validar credenciales con MetaApi
   try {
     const metaApiToken = process.env.METAAPI_TOKEN
 
-    // Crear cuenta en MetaApi para validar
     const crearRes = await fetch('https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai/users/current/accounts', {
       method: 'POST',
       headers: {
@@ -39,7 +69,7 @@ export default async function handler(req, res) {
 
     const accountId = crearData.id
 
-    // Esperar a que la cuenta se conecte (máx 30 segundos)
+    // Esperar conexión (máx 30 segundos)
     let conectada = false
     for (let i = 0; i < 10; i++) {
       await new Promise(r => setTimeout(r, 3000))
@@ -47,14 +77,11 @@ export default async function handler(req, res) {
         headers: { 'auth-token': metaApiToken }
       })
       const estadoData = await estadoRes.json()
-      if (estadoData.connectionStatus === 'CONNECTED') {
-        conectada = true
-        break
-      }
+      if (estadoData.connectionStatus === 'CONNECTED') { conectada = true; break }
       if (estadoData.connectionStatus === 'ERROR') break
     }
 
-    // Eliminar la cuenta de MetaApi (solo validamos, no mantenemos)
+    // Eliminar de MetaApi — solo validamos, no mantenemos
     await fetch(`https://mt-provisioning-api-v1.agiliumtrade.agiliumtrade.ai/users/current/accounts/${accountId}`, {
       method: 'DELETE',
       headers: { 'auth-token': metaApiToken }
@@ -64,12 +91,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'No se pudo verificar la cuenta. Revisa que el servidor y las credenciales sean correctos.' })
     }
 
-    // 2. Guardar en Supabase solo si las credenciales son válidas
-    const supabase = createClient(
-      process.env.SUPABASE_URL || 'https://cofrhfbkmmisxmsyqccq.supabase.co',
-      process.env.SUPABASE_SERVICE_KEY
-    )
-
+    // 4. Guardar cuenta en Supabase solo si credenciales son válidas
     const { error: dbError } = await supabase
       .from('cuentas')
       .insert({
@@ -78,12 +100,13 @@ export default async function handler(req, res) {
         plataforma,
         broker,
         servidor,
-        login
-        // No guardamos el password por seguridad
+        login,
+        estado: 'activa'
+        // sistema_copy, tipo_lotaje y valor_lotaje se llenan después
       })
 
     if (dbError) {
-      console.error('Error Supabase:', dbError)
+      console.error('Error al guardar cuenta:', dbError)
       return res.status(500).json({ error: 'Cuenta verificada pero hubo un error al guardar. Contacta soporte.' })
     }
 
