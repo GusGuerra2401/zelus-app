@@ -433,7 +433,7 @@
         const { data } = await supabase.auth.getSession()
         if (!data.session) { window.location.href = '/login' }
       }
-      document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login.html' })
+      document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login' })
 
       window.mostrarSeccion = function(id, el) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
