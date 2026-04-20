@@ -122,7 +122,6 @@
       .saldo-negativo { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); border-radius: 16px; padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
       .saldo-negativo-monto { font-size: 20px; font-weight: 700; font-family: 'JetBrains Mono',monospace; color: var(--red); }
       .saldo-negativo-texto { font-size: 13px; color: var(--text2); line-height: 1.5; margin-top: 4px; }
-      .pago-pagado { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 20px; }
       .whatsapp-escalon { display: flex; align-items: center; gap: 14px; background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2); border-radius: 14px; padding: 18px 20px; margin-top: 20px; text-decoration: none; transition: all 0.2s; }
       .whatsapp-escalon:hover { background: rgba(37,211,102,0.14); transform: translateY(-1px); }
       .whatsapp-escalon img { width: 32px; height: 32px; flex-shrink: 0; }
@@ -364,6 +363,17 @@
       </div>
     </main>
 
+    <!-- MODAL TÉRMINOS Y CONDICIONES -->
+    <div class="modal-bg" id="modal-terminos-bg"></div>
+    <div class="modal-box" id="modal-terminos-box" style="max-width:560px;">
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Términos y Condiciones de Uso</h2>
+      <p style="font-size:13px;color:#a09cbf;margin-bottom:16px;">Lee el documento completo. El botón se habilitará al llegar al final.</p>
+      <div id="terminos-scroll" onscroll="verificarScrollTerminos()" style="height:340px;overflow-y:auto;background:#0f0d1a;border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:20px;font-size:12px;color:#a09cbf;line-height:1.8;margin-bottom:20px;white-space:pre-wrap;"></div>
+      <div id="modal-terminos-msg" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:10px;font-size:13px;"></div>
+      <button onclick="aceptarTerminos()" id="btn-aceptar-terminos" disabled style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);opacity:0.4;">He leído y acepto los términos y condiciones</button>
+      <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Al aceptar, se registrará la fecha, hora y dispositivo como constancia de tu aceptación.</p>
+    </div>
+
     <!-- MODAL ADVERTENCIA -->
     <div class="modal-bg" id="modal-aviso-bg"></div>
     <div class="modal-box" id="modal-aviso-box" style="max-width:440px;">
@@ -422,17 +432,220 @@
     <script type="module">
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
+
+      const TERMINOS_TEXTO = `TÉRMINOS Y CONDICIONES DE USO
+Zelus · Servicio de Copy Trading
+Penguin FX Academy
+
+Versión 1.0 — Abril 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ACEPTACIÓN DE LOS TÉRMINOS
+
+Al acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted ("el Usuario") declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones de Uso. Si no está de acuerdo con alguno de los términos aquí establecidos, deberá abstenerse de utilizar el servicio.
+
+La aceptación de estos términos constituye un acuerdo vinculante entre el Usuario y Penguin FX Academy. Se registrará la fecha, hora y datos del dispositivo desde el cual el Usuario otorgó su aceptación, como constancia válida de este acuerdo.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2. NATURALEZA DEL SERVICIO
+
+Zelus es una plataforma tecnológica de copy trading de carácter educativo, desarrollada y operada bajo la marca Zelus por Penguin FX Academy. El servicio permite a los usuarios replicar automáticamente las operaciones de sistemas de trading algorítmico previamente configurados.
+
+Zelus no es una gestora de inversiones, no actúa como asesor financiero, y no está registrada como tal ante ningún organismo regulador financiero. El servicio tiene una finalidad exclusivamente educativa y tecnológica.
+
+El Usuario es responsable de verificar que el uso de este servicio cumple con la legislación vigente en su país o región de residencia. Penguin FX Academy no asume responsabilidad alguna si el Usuario opera desde una jurisdicción donde este tipo de servicios requiera autorización regulatoria específica.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3. RIESGOS DEL TRADING Y LIMITACIÓN DE RESPONSABILIDAD
+
+3.1 Riesgo general
+El trading en mercados financieros implica un riesgo significativo de pérdida de capital. Los rendimientos históricos del sistema no garantizan resultados futuros. El Usuario debe operar únicamente con capital que esté dispuesto a perder en su totalidad.
+
+3.2 Latencia y ejecución algorítmica
+El trading algorítmico está sujeto a múltiples variables de latencia que afectan la ejecución de órdenes: latencia de red, velocidad de procesamiento del broker, condiciones del mercado, y latencia en la transmisión de señales, entre otras. Zelus controla únicamente las variables correspondientes a su infraestructura propia. Las latencias externas — incluyendo las del broker, las del proveedor de internet del Usuario, o las condiciones del mercado — quedan fuera del alcance y responsabilidad de Zelus.
+
+3.3 Slippage
+El slippage (diferencia entre el precio esperado y el precio de ejecución real) es una condición inherente a los mercados financieros y depende exclusivamente del broker utilizado por el Usuario. Zelus no se hace responsable por ninguna pérdida derivada de slippage, recotizaciones, o condiciones de ejecución del broker.
+
+3.4 Configuración de lotaje
+Zelus ofrece una configuración automática de lotaje optimizada para cada sistema. Si el Usuario decide modificar manualmente la configuración de lotaje, asume plena responsabilidad por los resultados derivados de dicha decisión. Penguin FX Academy no responderá ante pérdidas, drawdowns, o cualquier resultado adverso originado por una configuración manual del lotaje.
+
+3.5 Fallas de infraestructura
+Zelus opera sobre servidores ubicados en República Dominicana. Si bien se mantienen estándares de disponibilidad, no se puede garantizar un servicio ininterrumpido ante eventos de fuerza mayor tales como cortes de suministro eléctrico, fallas de conectividad a internet, desastres naturales, o fallas de terceros proveedores. En caso de interrupción del servicio, Penguin FX Academy notificará a los usuarios a través del canal oficial de Discord de Penguin FX y por correo electrónico, en el menor tiempo posible.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4. USO CORRECTO DEL SERVICIO
+
+4.1 Cuenta exclusiva para copy trading
+Las cuentas MT4/MT5 conectadas a Zelus deben destinarse de forma exclusiva a la ejecución del sistema de copy trading. Queda estrictamente prohibido realizar operaciones manuales en dichas cuentas. El sistema monitorea continuamente la actividad de las cuentas conectadas. Si se detecta operación manual, la cuenta será desconectada automáticamente del servicio sin previo aviso y sin derecho a reembolso.
+
+4.2 Capital mínimo requerido
+Cada sistema de copy trading disponible en Zelus especifica el capital mínimo requerido para su operación. El Usuario deberá cumplir con este requisito para acceder al sistema correspondiente. Zelus no se hace responsable por resultados adversos derivados de operar con un capital inferior al mínimo recomendado.
+
+4.3 Prohibición de uso comercial no autorizado
+El servicio de Zelus es de carácter personal e intransferible. Queda estrictamente prohibido revender, redistribuir, sublicenciar, o comercializar las señales, el acceso o cualquier componente del servicio a terceros sin autorización expresa y por escrito de Penguin FX Academy.
+
+El sistema cuenta con mecanismos técnicos de detección de uso no autorizado. En caso de detectarse un uso indebido, Penguin FX Academy se reserva el derecho de aplicar medidas de protección técnica sobre las señales transmitidas, así como de suspender o cancelar el acceso del Usuario de forma inmediata y definitiva, sin derecho a reembolso ni indemnización de ningún tipo.
+
+4.4 Declaración del Usuario
+Al aceptar estos términos, el Usuario declara que: (a) es mayor de edad conforme a la legislación de su país de residencia; (b) tiene capacidad legal para celebrar este acuerdo; (c) comprende los riesgos inherentes al trading en mercados financieros; (d) ha resuelto todas sus dudas antes de conectar sus cuentas, ya sea directamente con Penguin FX Academy o con alguno de sus promotores autorizados.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5. SISTEMA DE PAGOS Y CONDICIONES COMERCIALES
+
+5.1 Modelo de pago escalonado
+El servicio de Zelus opera bajo un modelo de pago por desempeño, basado en un porcentaje sobre las ganancias generadas durante cada período mensual. El porcentaje aplicable se determina según el escalón de capital correspondiente al balance promedio del Usuario durante el mes:
+
+— Escalón Bronce: $500 – $4,999 USD → 30% sobre ganancias
+— Escalón Plata: $5,000 – $9,999 USD → 25% sobre ganancias
+— Escalón Oro: $10,000 USD en adelante → 20% sobre ganancias
+
+El sistema de pagos escalonado está disponible exclusivamente para cuentas de trading abiertas en IC Markets a través del enlace de referidos oficial de Penguin FX Academy. Cuentas abiertas con otros brokers o registradas de forma directa en IC Markets sin el enlace de referidos correspondiente no tendrán acceso a este modelo de pago. Para verificar tu elegibilidad o registrar tu cuenta como referida, contacta directamente a Penguin FX Academy o a un promotor autorizado antes de conectar tu cuenta.
+
+5.2 Regla del escalón
+Para aplicar el porcentaje de un escalón determinado, el balance de la cuenta deberá haberse mantenido dentro de ese escalón durante todos los días calendario del mes. Si en algún día del mes el balance cae a un escalón inferior, se aplicará el porcentaje del escalón más bajo registrado durante ese período.
+
+5.3 Meses negativos
+Si el sistema genera pérdidas durante un mes, no se realizará ningún cobro. El monto de las pérdidas quedará registrado como saldo negativo acumulado, y será descontado de las ganancias de los períodos futuros antes de realizar cualquier cobro. Solo se cobrarán ganancias netas sobre el saldo negativo acumulado.
+
+5.4 Cuotas de mantenimiento
+Las cuotas cobradas por Zelus corresponden al mantenimiento, operación y mejora continua de la infraestructura tecnológica del sistema. Estas cuotas no constituyen una garantía de rendimiento ni de disponibilidad ininterrumpida del servicio.
+
+5.5 Adeudo y mora
+El Usuario se compromete a realizar el pago correspondiente dentro del plazo establecido en cada período de facturación. Un adeudo no liquidado en un plazo mayor a 30 días calendario será considerado uso malicioso del servicio, y podrá derivar en la suspensión inmediata del acceso, así como en las acciones legales que Penguin FX Academy considere pertinentes conforme a la legislación mexicana aplicable.
+
+5.6 Modificación de tarifas
+Penguin FX Academy se reserva el derecho de modificar las tarifas y condiciones del sistema de pagos, notificando a los usuarios con un mínimo de 15 días de anticipación a través de los canales oficiales.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6. PROTECCIÓN DE DATOS PERSONALES
+
+6.1 Datos recopilados
+Penguin FX Academy recopila los siguientes datos personales del Usuario: nombre completo, correo electrónico, datos de la cuenta de trading (broker, servidor, número de cuenta), y registros de actividad dentro de la plataforma. No se almacenan contraseñas de cuentas de trading en texto plano.
+
+6.2 Finalidad del tratamiento
+Los datos personales se utilizan exclusivamente para: (a) gestionar el acceso y la operación del servicio; (b) procesar pagos y llevar control de estados de cuenta; (c) enviar comunicaciones relacionadas con el servicio; (d) cumplir con obligaciones legales aplicables.
+
+6.3 Almacenamiento y seguridad
+Los datos se almacenan en servidores seguros con cifrado en tránsito y en reposo. Penguin FX Academy implementa medidas técnicas y organizativas razonables para proteger la información personal del Usuario.
+
+6.4 No comercialización de datos
+Penguin FX Academy no vende, arrienda, ni comparte los datos personales del Usuario con terceros, salvo obligación legal expresa o con proveedores tecnológicos estrictamente necesarios para la operación del servicio, quienes están sujetos a obligaciones de confidencialidad.
+
+6.5 Derechos del Usuario
+El Usuario tiene derecho a acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales (derechos ARCO), conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares de México. Para ejercer estos derechos, el Usuario podrá contactar a Penguin FX Academy a través de los canales oficiales.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+7. MODIFICACIÓN DE LOS TÉRMINOS
+
+Penguin FX Academy se reserva el derecho de modificar los presentes Términos y Condiciones en cualquier momento. Las modificaciones serán notificadas con al menos 15 días de anticipación a través del correo electrónico registrado y del canal oficial de Discord. El uso continuado del servicio tras la entrada en vigor de los nuevos términos implicará su aceptación tácita. Si el Usuario no está de acuerdo con los nuevos términos, deberá notificarlo y podrá solicitar la cancelación del servicio.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8. CAUSAS DE SUSPENSIÓN O CANCELACIÓN
+
+Penguin FX Academy podrá suspender o cancelar el acceso del Usuario al servicio, de forma inmediata y sin derecho a reembolso, ante cualquiera de las siguientes situaciones: (a) operación manual de cuentas conectadas al copy; (b) adeudo mayor a 30 días; (c) uso comercial no autorizado del servicio o las señales; (d) violación de cualquier punto de los presentes términos; (e) comportamiento abusivo hacia el equipo de Penguin FX Academy o su comunidad.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+9. JURISDICCIÓN Y LEY APLICABLE
+
+Los presentes Términos y Condiciones se rigen por las leyes de los Estados Unidos Mexicanos. Para cualquier controversia derivada de la interpretación o cumplimiento de este acuerdo, las partes se someten expresamente a la jurisdicción de los tribunales competentes de la Ciudad de México, renunciando a cualquier otro fuero que pudiera corresponderles por razón de su domicilio presente o futuro.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+10. CONTACTO Y RESOLUCIÓN DE DUDAS
+
+Antes de conectar sus cuentas, el Usuario deberá resolver todas sus dudas respecto al funcionamiento, riesgos y condiciones del servicio. Para ello podrá contactar directamente a Penguin FX Academy o a cualquiera de sus promotores autorizados a través de los canales oficiales.
+
+El uso del servicio implica que el Usuario confirma haber comprendido su funcionamiento y haber resuelto cualquier duda previa. No se aceptarán reclamaciones basadas en desconocimiento del funcionamiento del sistema una vez que el Usuario haya aceptado estos términos y conectado sus cuentas.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Penguin FX Academy · Zelus Copy Trading
+Versión 1.0 — Abril 2026`
+
+      document.getElementById('terminos-scroll').textContent = TERMINOS_TEXTO
+
+      async function verificarTerminos(session) {
+        const { data } = await supabase
+          .from('perfiles')
+          .select('terminos_aceptados')
+          .eq('id', session.user.id)
+          .single()
+        if (!data || !data.terminos_aceptados) {
+          document.getElementById('modal-terminos-bg').classList.add('open')
+          document.getElementById('modal-terminos-box').classList.add('open')
+        }
+      }
+
+      window.verificarScrollTerminos = function() {
+        const el = document.getElementById('terminos-scroll')
+        const btn = document.getElementById('btn-aceptar-terminos')
+        if (el.scrollTop + el.clientHeight >= el.scrollHeight - 20) {
+          btn.disabled = false
+          btn.style.opacity = '1'
+        }
+      }
+
+      window.aceptarTerminos = async function() {
+        const btn = document.getElementById('btn-aceptar-terminos')
+        const msg = document.getElementById('modal-terminos-msg')
+        btn.disabled = true; btn.style.opacity = '0.7'
+        try {
+          const { data: { session } } = await supabase.auth.getSession()
+          const res = await fetch('/api/aceptar-terminos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              usuario_id: session.user.id,
+              email: session.user.email,
+              nombre: localStorage.getItem('zelus_nombre') || ''
+            })
+          })
+          const data = await res.json()
+          if (res.ok && data.ok) {
+            document.getElementById('modal-terminos-bg').classList.remove('open')
+            document.getElementById('modal-terminos-box').classList.remove('open')
+          } else {
+            msg.style.display = 'block'
+            msg.style.background = 'rgba(248,113,113,0.1)'
+            msg.style.border = '1px solid rgba(248,113,113,0.3)'
+            msg.style.color = '#f87171'
+            msg.textContent = 'Error al registrar. Intenta de nuevo.'
+            btn.disabled = false; btn.style.opacity = '1'
+          }
+        } catch(e) {
+          msg.style.display = 'block'
+          msg.style.background = 'rgba(248,113,113,0.1)'
+          msg.style.border = '1px solid rgba(248,113,113,0.3)'
+          msg.style.color = '#f87171'
+          msg.textContent = 'Error de conexión. Intenta de nuevo.'
+          btn.disabled = false; btn.style.opacity = '1'
+        }
+      }
+
       supabase.auth.onAuthStateChange((event, session) => {
         if (!session) { window.location.href = '/login'; return }
         const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
         document.getElementById('nombre-usuario').textContent = nombre
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
+        verificarTerminos(session)
       })
+
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) {
         const { data } = await supabase.auth.getSession()
         if (!data.session) { window.location.href = '/login' }
       }
+
       document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login' })
 
       window.mostrarSeccion = function(id, el) {
