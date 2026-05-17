@@ -545,7 +545,7 @@
       }
 
 // =================================================================
-      // CONFIGURACIÓN DE ESCUCHAS REALTIME (CORREGIDO DE RAÍZ)
+      // CONFIGURACIÓN DE ESCUCHAS REALTIME (CORREGIDO Y SANEADO)
       // =================================================================
       
       // Canal A: Escucha si tu Python inserta una cuenta exitosa en la tabla definitiva
@@ -587,7 +587,6 @@
            const btn = document.getElementById('btn-verificar');
            const msg = document.getElementById('modal-msg');
            
-           // Corregido: Usamos 'actualSession' que es el nombre real de tu constante
            if (actualSession && payload.new.usuario_id === actualSession.user.id) {
              if (payload.new.estado === 'fallida') {
                 if (msg && btn) {
@@ -605,32 +604,7 @@
            }
         })
         .subscribe();
-
-      // Canal B: Escucha si la solicitud pasa de 'procesando' a 'fallida' en Validar_Cuentas
-      supabase
-        .channel('cambios-validaciones-zelus')
-        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Validar_Cuentas' }, async (payload) => {
-           // Obtenemos la sesión activa de forma segura para validar el UID
-           const { data: { session: actualSession } } = await supabase.auth.getSession();
-           const btn = document.getElementById('btn-verificar');
-           const msg = document.getElementById('modal-msg');
-           
-           if (actualSession && payload.new.usuario_id === actualSession.user.id) {
-             if (payload.new.estado === 'fallida') {
-                msg.style.display = 'block';
-                msg.style.background = 'rgba(248,113,113,0.1)';
-                msg.style.border = '1px solid rgba(248,113,113,0.3)';
-                msg.style.color = '#f87171';
-                msg.textContent = '✗ ' + (payload.new.mensaje_error || 'Error en la validación.');
-                
-                btn.textContent = 'Verificar y conectar cuenta';
-                btn.disabled = false;
-                btn.style.opacity = '1';
-             }
-           }
-        })
-        .subscribe();
-
+        
       supabase.auth.onAuthStateChange((event, session) => {
         if (!session) { window.location.href = '/login'; return }
         const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
