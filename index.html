@@ -547,28 +547,56 @@
       // =================================================================
       // NUEVO: CONFIGURACIÓN DE ESCUCHAS REALTIME
       // =================================================================
+      // =================================================================
+      // CONFIGURACIÓN DE ESCUCHAS REALTIME (CORREGIDO)
+      // =================================================================
+      
+      // Canal A: Escucha si tu Python inserta una cuenta exitosa en la tabla definitiva
       supabase
         .channel('cambios-cuentas-zelus')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cuentas' }, () => {
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cuentas' }, (payload) => {
+           console.log('¡Nueva cuenta agregada con éxito por el bot!', payload.new);
+           
+           // 1. Refrescar visualmente la lista de tarjetas en el dashboard
            cargarCuentasDashboard();
-           cerrarModal();
+           
+           // 2. Mostrar mensaje de éxito definitivo dentro del modal antes de cerrar
+           const msg = document.getElementById('modal-msg');
+           const btn = document.getElementById('btn-verificar');
+           
+           msg.style.display = 'block';
+           msg.style.background = 'rgba(52,211,153,0.1)';
+           msg.style.border = '1px solid rgba(52,211,153,0.3)';
+           msg.style.color = '#34d399';
+           msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
+           
+           // 3. Esperar 2 segundos para que el usuario lea el éxito y luego cerrar todo de golpe
+           setTimeout(() => {
+             cerrarModal();
+             btn.textContent = 'Verificar y conectar cuenta';
+             btn.disabled = false;
+             btn.style.opacity = '1';
+           }, 2000);
         })
         .subscribe();
 
+      // Canal B: Escucha si la solicitud pasa de 'procesando' a 'fallida' en Validar_Cuentas
       supabase
         .channel('cambios-validaciones-zelus')
         .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Validar_Cuentas' }, async (payload) => {
-           const { data: { session } } = await supabase.auth.getSession();
+           // Obtenemos la sesión activa de forma segura para validar el UID
+           const { data: { session: actualSession } } = await supabase.auth.getSession();
            const btn = document.getElementById('btn-verificar');
            const msg = document.getElementById('modal-msg');
            
-           if (session && payload.new.usuario_id === session.user.id) {
+           if (actualSession && payload.new.usuario_id === actualSession.user.id) {
              if (payload.new.estado === 'fallida') {
                 msg.style.display = 'block';
                 msg.style.background = 'rgba(248,113,113,0.1)';
                 msg.style.border = '1px solid rgba(248,113,113,0.3)';
                 msg.style.color = '#f87171';
                 msg.textContent = '✗ ' + (payload.new.mensaje_error || 'Error en la validación.');
+                
                 btn.textContent = 'Verificar y conectar cuenta';
                 btn.disabled = false;
                 btn.style.opacity = '1';
