@@ -137,7 +137,7 @@
       .modal-box.open { display: block; }
       .modal-input { width: 100%; padding: 12px 16px; background: #161325; border: 1px solid rgba(139,92,246,0.15); border-radius: 10px; color: #f1f0f7; font-size: 14px; font-family: 'Sora',sans-serif; outline: none; transition: border-color 0.2s; }
       .modal-input:focus { border-color: rgba(139,92,246,0.5); }
-      .modal-input[readonly] { cursor: pointer; }
+      .modal-input[readonly] { cursor: default; opacity: 0.6; }
       .modal-label { display: block; font-size: 12px; font-weight: 500; color: #a09cbf; margin-bottom: 6px; }
       .search-dropdown { display: none; background: linear-gradient(135deg,#1e1b35,#16122a); border: 1px solid rgba(139,92,246,0.4); border-top: none; border-radius: 0 0 12px 12px; overflow-y: auto; max-height: 200px; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
       .search-dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid rgba(139,92,246,0.1); color: #f1f0f7; }
@@ -250,7 +250,7 @@
 
       <!-- MIS CUENTAS -->
       <div class="section" id="sec-mis-cuentas">
-        <div class="section-title">Mis Cuentas MT4 / MT5</div>
+        <div class="section-title">Mis Cuentas MT5</div>
         <div class="card" style="margin-bottom:20px;">
           <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">Máximo 2 cuentas simultáneas</div></div><button class="btn btn-primary" onclick="abrirModal()">+ Conectar cuenta</button></div>
           <div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">IC Markets MT5</div><div class="broker-detail">#4821947 · Balance: $8,240 · Equity: $8,410</div></div><div class="broker-status connected"><span class="broker-dot"></span> Activa</div></div>
@@ -308,7 +308,7 @@
                 </div>
               </div>
               <div class="cuenta-config" id="cfg-cuenta2">
-                <div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta2" onchange="toggleCuenta(2)"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">IC Markets MT4</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">Sin conectar</div></div><button class="toggle-btn" style="font-size:11px;padding:4px 10px;">⏸ Pausar</button></div>
+                <div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta2" onchange="toggleCuenta(2)"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">IC Markets MT5</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">Sin conectar</div></div><button class="toggle-btn" style="font-size:11px;padding:4px 10px;">⏸ Pausar</button></div>
                 <div class="cuenta-config-body" id="body-cuenta2">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
                   <div class="lotaje-opt activo" id="c2-auto" onclick="elegirLotajeCuenta(2,'auto')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración automática</div><div id="dot-c2-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div></div><div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div></div>
@@ -389,29 +389,34 @@
     <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
     <div class="modal-box" id="modal-box">
       <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
-      <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT4/MT5</h2>
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT5</h2>
       <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
+
+      <!-- PLATAFORMA: solo MT5, sin selector -->
       <div style="margin-bottom:16px;">
         <label class="modal-label">Plataforma</label>
-        <div style="display:flex;gap:8px;">
-          <button id="btn-mt4" onclick="seleccionarPlataforma('MT4',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT4</button>
-          <button id="btn-mt5" onclick="seleccionarPlataforma('MT5',this)" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;">MT5</button>
-        </div>
+        <input type="text" class="modal-input" value="MT5" readonly style="cursor:default;opacity:0.7;">
       </div>
+
       <div style="margin-bottom:16px;">
         <label class="modal-label">Apodo</label>
         <input id="input-apodo" type="text" class="modal-input" placeholder="Ej: Mi cuenta principal" oninput="validarFormulario()">
       </div>
+
+      <!-- BROKER: bloqueado a IC Markets -->
       <div style="margin-bottom:4px;">
         <label class="modal-label">Broker</label>
-        <input id="input-broker" type="text" class="modal-input" placeholder="Escribe el nombre de tu broker para ver opciones..." oninput="buscarBroker(this.value);validarFormulario()">
+        <input id="input-broker" type="text" class="modal-input" value="IC Markets" readonly>
+        <p style="font-size:11px;color:#a09cbf;margin-top:6px;">Sólo te mostraremos los Brokers autorizados hasta el momento.</p>
       </div>
-      <div id="broker-sugerencias" class="search-dropdown"></div>
+
+      <!-- SERVIDOR: desde /api/servidores -->
       <div style="margin-bottom:4px;margin-top:16px;">
         <label class="modal-label">Servidor</label>
-        <input id="input-servidor" type="text" class="modal-input" placeholder="Selecciona primero un broker..." readonly onclick="mostrarServidores()">
+        <input id="input-servidor" type="text" class="modal-input" placeholder="Cargando servidores..." readonly onclick="mostrarServidores()">
       </div>
       <div id="servidor-sugerencias" class="search-dropdown"></div>
+
       <div style="margin-bottom:16px;margin-top:16px;">
         <label class="modal-label">Login (número de cuenta)</label>
         <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947" oninput="validarFormulario()">
@@ -419,7 +424,7 @@
       <div style="margin-bottom:24px;">
         <label class="modal-label">Contraseña</label>
         <div style="position:relative;">
-          <input id="input-password" type="password" class="modal-input" placeholder="Contraseña de tu cuenta MT4/MT5" style="padding-right:44px;" oninput="validarFormulario()">
+          <input id="input-password" type="password" class="modal-input" placeholder="Contraseña de tu cuenta MT5" style="padding-right:44px;" oninput="validarFormulario()">
           <button onclick="togglePassword()" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#a09cbf;font-size:18px;padding:0;line-height:1;">👁</button>
         </div>
       </div>
@@ -573,6 +578,23 @@ Versión 1.0 — Abril 2026`
 
       document.getElementById('terminos-scroll').textContent = TERMINOS_TEXTO
 
+      // Cargar servidores desde /api/servidores
+      let servidoresDisponibles = []
+      async function cargarServidores() {
+        try {
+          const res = await fetch('/api/servidores')
+          const data = await res.json()
+          servidoresDisponibles = data
+          const input = document.getElementById('input-servidor')
+          if (input) input.placeholder = 'Haz clic para elegir servidor...'
+        } catch(e) {
+          console.error('Error cargando servidores:', e)
+          const input = document.getElementById('input-servidor')
+          if (input) input.placeholder = 'Error al cargar servidores'
+        }
+      }
+      cargarServidores()
+
       async function verificarTerminos(session) {
         const { data } = await supabase
           .from('perfiles')
@@ -693,12 +715,11 @@ Versión 1.0 — Abril 2026`
 
       window.validarFormulario = function() {
         const apodo = document.getElementById('input-apodo').value.trim()
-        const broker = document.getElementById('input-broker').value.trim()
         const servidor = document.getElementById('input-servidor').value.trim()
         const login = document.getElementById('input-login').value.trim()
         const password = document.getElementById('input-password').value.trim()
         const btn = document.getElementById('btn-verificar')
-        const listo = apodo && broker && servidor && login && password
+        const listo = apodo && servidor && login && password
         btn.disabled = !listo
         btn.style.opacity = listo ? '1' : '0.4'
       }
@@ -717,8 +738,8 @@ Versión 1.0 — Abril 2026`
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               apodo: document.getElementById('input-apodo').value.trim(),
-              plataforma: plataformaSeleccionada,
-              broker: document.getElementById('input-broker').value.trim(),
+              plataforma: 'MT5',
+              broker: 'IC Markets',
               servidor: document.getElementById('input-servidor').value.trim(),
               login: document.getElementById('input-login').value.trim(),
               password: document.getElementById('input-password').value.trim(),
@@ -735,12 +756,10 @@ Versión 1.0 — Abril 2026`
             msg.style.color = '#34d399'
             msg.textContent = '✓ Cuenta conectada exitosamente.'
             document.getElementById('input-apodo').value = ''
-            document.getElementById('input-broker').value = ''
             document.getElementById('input-servidor').value = ''
-            document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
+            document.getElementById('input-servidor').placeholder = 'Haz clic para elegir servidor...'
             document.getElementById('input-login').value = ''
             document.getElementById('input-password').value = ''
-            servidoresActuales = []
           } else {
             msg.style.display = 'block'
             msg.style.background = 'rgba(248,113,113,0.1)'
@@ -774,8 +793,6 @@ Versión 1.0 — Abril 2026`
         btn.innerHTML = textoOriginal; btn.disabled = false
       }
 
-      let plataformaSeleccionada = 'MT4', servidoresActuales = []
-
       window.abrirModal = async function() {
         const { data: cuentasActivas } = await supabase
           .from('cuentas')
@@ -789,82 +806,34 @@ Versión 1.0 — Abril 2026`
         document.getElementById('modal-bg').classList.add('open')
         document.getElementById('modal-box').classList.add('open')
         document.getElementById('input-apodo').value = ''
-        document.getElementById('input-broker').value = ''
         document.getElementById('input-servidor').value = ''
-        document.getElementById('input-servidor').placeholder = 'Selecciona primero un broker...'
         document.getElementById('input-login').value = ''
         document.getElementById('input-password').value = ''
-        document.getElementById('broker-sugerencias').style.display = 'none'
         document.getElementById('servidor-sugerencias').style.display = 'none'
         document.getElementById('modal-msg').style.display = 'none'
         const btn = document.getElementById('btn-verificar')
         btn.disabled = true; btn.style.opacity = '0.4'
-        servidoresActuales = []
       }
 
       window.cerrarModal = function() {
         document.getElementById('modal-bg').classList.remove('open')
         document.getElementById('modal-box').classList.remove('open')
-        document.getElementById('broker-sugerencias').style.display = 'none'
         document.getElementById('servidor-sugerencias').style.display = 'none'
       }
 
       window.cerrarAviso = function() { document.getElementById('modal-aviso-bg').classList.remove('open'); document.getElementById('modal-aviso-box').classList.remove('open') }
 
-      window.seleccionarPlataforma = function(plataforma, btn) {
-        plataformaSeleccionada = plataforma
-        document.getElementById('btn-mt4').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
-        document.getElementById('btn-mt5').style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.15);background:transparent;color:#a09cbf;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
-        btn.style.cssText = 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.1);color:#a78bfa;font-weight:600;cursor:pointer;font-family:Sora,sans-serif;'
-        document.getElementById('input-broker').value = ''
-        document.getElementById('input-servidor').value = ''
-        document.getElementById('broker-sugerencias').style.display = 'none'
-        document.getElementById('servidor-sugerencias').style.display = 'none'
-        servidoresActuales = []
-        validarFormulario()
-      }
-
-      let buscarTimeout = null
-      window.buscarBroker = async function(valor) {
-        const sugerencias = document.getElementById('broker-sugerencias')
-        if (valor.length < 3) { sugerencias.style.display='none'; return }
-        clearTimeout(buscarTimeout)
-        buscarTimeout = setTimeout(async () => {
-          try {
-            const version = plataformaSeleccionada === 'MT5' ? '5' : '4'
-            const res = await fetch('/api/brokers?query='+encodeURIComponent(valor)+'&version='+version)
-            const data = await res.json()
-            if (!data || !Object.keys(data).length) { sugerencias.style.display='none'; return }
-            sugerencias.innerHTML = ''
-            Object.entries(data).slice(0,10).forEach(function([nombre,servidores]) {
-              const div = document.createElement('div'); div.className = 'search-dropdown-item'
-              div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">'+nombre+'</div><div style="font-size:11px;color:#a09cbf;margin-top:2px;">'+servidores.slice(0,3).join(', ')+(servidores.length>3?'...':'')+'</div>'
-              div.addEventListener('mousedown', function(e) {
-                e.preventDefault(); servidoresActuales=servidores
-                document.getElementById('input-broker').value=nombre
-                document.getElementById('input-servidor').value=''
-                document.getElementById('input-servidor').placeholder='Haz clic aquí para elegir servidor...'
-                sugerencias.style.display='none'
-                document.getElementById('servidor-sugerencias').style.display='none'
-                validarFormulario()
-              })
-              sugerencias.appendChild(div)
-            })
-            sugerencias.style.display = 'block'
-          } catch(e) { sugerencias.style.display='none' }
-        }, 400)
-      }
-
       window.mostrarServidores = function() {
-        if (!servidoresActuales.length) return
-        const dropdown = document.getElementById('servidor-sugerencias'); dropdown.innerHTML = ''
-        servidoresActuales.forEach(function(s) {
+        if (!servidoresDisponibles.length) return
+        const dropdown = document.getElementById('servidor-sugerencias')
+        dropdown.innerHTML = ''
+        servidoresDisponibles.forEach(function(s) {
           const div = document.createElement('div'); div.className = 'search-dropdown-item'
-          div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">'+s+'</div>'
+          div.innerHTML = '<div style="font-weight:600;color:#f1f0f7;">'+s.servidor+'</div>'
           div.addEventListener('mousedown', function(e) {
             e.preventDefault()
-            document.getElementById('input-servidor').value=s
-            dropdown.style.display='none'
+            document.getElementById('input-servidor').value = s.servidor
+            dropdown.style.display = 'none'
             validarFormulario()
           })
           dropdown.appendChild(div)
@@ -872,7 +841,6 @@ Versión 1.0 — Abril 2026`
         dropdown.style.display = 'block'
       }
 
-      document.getElementById('input-broker').addEventListener('blur', function() { setTimeout(()=>{ document.getElementById('broker-sugerencias').style.display='none' },150) })
       document.getElementById('input-servidor').addEventListener('blur', function() { setTimeout(()=>{ document.getElementById('servidor-sugerencias').style.display='none' },150) })
 
       window.toggleSidebar = function() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open') }
