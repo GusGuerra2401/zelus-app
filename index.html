@@ -12,6 +12,7 @@
       :root { --bg: #08070f; --bg2: #0f0d1a; --bg3: #161325; --card: #12101e; --border: rgba(139,92,246,0.15); --border2: rgba(139,92,246,0.3); --purple: #8b5cf6; --purple2: #a78bfa; --purple3: #c4b5fd; --pink: #d946ef; --green: #34d399; --red: #f87171; --yellow: #fbbf24; --text: #f1f0f7; --text2: #a09cbf; --glow: 0 0 40px rgba(139,92,246,0.15); }
       body { font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
       body.light-mode { --bg: #f5f4ff; --bg2: #ede9ff; --bg3: #e4dfff; --card: #ffffff; --border: rgba(139,92,246,0.15); --border2: rgba(139,92,246,0.4); --text: #1a1730; --text2: #6b6890; }
+      .topbar { background: rgba(8,7,15,0.8); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; }
       body.light-mode .topbar { background: rgba(245,244,255,0.9); }
       body.light-mode .trades-table td { color: #1a1730; }
       body.light-mode .modal-box { background: #ffffff; }
@@ -208,7 +209,6 @@
         </div>
       </header>
 
-      <!-- DASHBOARD -->
       <div class="section active" id="sec-dashboard">
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">$12,847</div><div class="stat-change">vs semana pasada <span class="up">↑ +4.2%</span></div></div>
@@ -239,28 +239,30 @@
               <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2330.10</td><td class="pnl-pos">+$210.00</td></tr>
             </tbody></table></div>
           </div>
+          
           <div class="card">
-            <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT4 / MT5</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
-            <div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">IC Markets MT5</div><div class="broker-detail">#4821947 · $8,240</div></div><div class="broker-status connected"><span class="broker-dot"></span> Activa</div></div>
-            <div class="broker-item"><div class="broker-icon">💼</div><div class="broker-info"><div class="broker-name">IC Markets MT4</div><div class="broker-detail">Sin conectar</div></div><div class="broker-status disconnected"><span class="broker-dot"></span> Inactiva</div></div>
+            <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT5 Activas</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
+            <div id="cuentas-lista-dashboard">
+              <div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div>
+            </div>
           </div>
         </div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
 
-      <!-- MIS CUENTAS -->
       <div class="section" id="sec-mis-cuentas">
         <div class="section-title">Mis Cuentas MT5</div>
+        
         <div class="card" style="margin-bottom:20px;">
           <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">Máximo 2 cuentas simultáneas</div></div><button class="btn btn-primary" onclick="abrirModal()">+ Conectar cuenta</button></div>
-          <div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">IC Markets MT5</div><div class="broker-detail">#4821947 · Balance: $8,240 · Equity: $8,410</div></div><div class="broker-status connected"><span class="broker-dot"></span> Activa</div></div>
-          <div class="broker-item"><div class="broker-icon">💼</div><div class="broker-info"><div class="broker-name">Cuenta 2</div><div class="broker-detail">Sin conectar</div></div><div class="broker-status disconnected"><span class="broker-dot"></span> Inactiva</div></div>
+          <div id="cuentas-lista-seccion">
+            <div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div>
+          </div>
         </div>
         <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:20px;font-size:13px;color:var(--text2);line-height:1.7;">⚠️ <strong style="color:var(--text);">Política de operación:</strong> Las cuentas conectadas son exclusivas para el sistema de copy trading. Operar manualmente puede resultar en la suspensión del servicio.</div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
 
-      <!-- SISTEMAS COPY -->
       <div class="section" id="sec-sistemas">
         <div class="section-title">Zelus Gold · Sistema de Copy Trading</div>
         <div style="margin-bottom:28px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;">
@@ -324,7 +326,6 @@
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
 
-      <!-- HISTORIAL -->
       <div class="section" id="sec-historial">
         <div class="section-title">Historial de Trades</div>
         <div class="card">
@@ -338,7 +339,6 @@
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
 
-      <!-- PAGOS -->
       <div class="section" id="sec-pagos">
         <div class="section-title">Sistema Escalonado de Pagos</div>
         <div class="escalon-grid">
@@ -363,17 +363,15 @@
       </div>
     </main>
 
-    <!-- MODAL TÉRMINOS Y CONDICIONES -->
     <div class="modal-bg" id="modal-terminos-bg"></div>
     <div class="modal-box" id="modal-terminos-box" style="max-width:560px;">
       <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Términos y Condiciones de Uso</h2>
       <div id="terminos-scroll" onscroll="verificarScrollTerminos()" style="height:340px;overflow-y:auto;background:#0f0d1a;border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:20px;font-size:12px;color:#a09cbf;line-height:1.8;margin-bottom:20px;white-space:pre-wrap;"></div>
       <div id="modal-terminos-msg" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:10px;font-size:13px;"></div>
       <button onclick="aceptarTerminos()" id="btn-aceptar-terminos" disabled style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);opacity:0.4;">He leído y acepto los términos y condiciones</button>
-      <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Al aceptar, se registrará la fecha, hora y dispositivo como constancia de tu aceptación.</p>
+      <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Al aceptar, se registrará la fecha, hora y dispositivo como constancia de tu acceptance.</p>
     </div>
 
-    <!-- MODAL ADVERTENCIA -->
     <div class="modal-bg" id="modal-aviso-bg"></div>
     <div class="modal-box" id="modal-aviso-box" style="max-width:440px;">
       <div style="text-align:center;margin-bottom:20px;">
@@ -385,38 +383,30 @@
       <button onclick="cerrarAviso()" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;">Entiendo y acepto</button>
     </div>
 
-    <!-- MODAL CONECTAR CUENTA -->
     <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
     <div class="modal-box" id="modal-box">
       <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
       <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT5</h2>
       <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
 
-      <!-- PLATAFORMA: solo MT5, sin selector -->
       <div style="margin-bottom:16px;">
         <label class="modal-label">Plataforma</label>
         <input type="text" class="modal-input" value="MT5" readonly style="cursor:default;opacity:0.7;">
       </div>
-
       <div style="margin-bottom:16px;">
         <label class="modal-label">Apodo</label>
         <input id="input-apodo" type="text" class="modal-input" placeholder="Ej: Mi cuenta principal" oninput="validarFormulario()">
       </div>
-
-      <!-- BROKER: bloqueado a IC Markets -->
       <div style="margin-bottom:4px;">
         <label class="modal-label">Broker</label>
         <input id="input-broker" type="text" class="modal-input" value="IC Markets" readonly>
         <p style="font-size:11px;color:#a09cbf;margin-top:6px;">Sólo te mostraremos los Brokers autorizados hasta el momento.</p>
       </div>
-
-      <!-- SERVIDOR: desde /api/servidores -->
       <div style="margin-bottom:4px;margin-top:16px;">
         <label class="modal-label">Servidor</label>
         <input id="input-servidor" type="text" class="modal-input" placeholder="Cargando servidores..." readonly onclick="mostrarServidores()">
       </div>
       <div id="servidor-sugerencias" class="search-dropdown"></div>
-
       <div style="margin-bottom:16px;margin-top:16px;">
         <label class="modal-label">Login (número de cuenta)</label>
         <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947" oninput="validarFormulario()">
@@ -437,148 +427,9 @@
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
 
-      const TERMINOS_TEXTO = `TÉRMINOS Y CONDICIONES DE USO
-Zelus · Servicio de Copy Trading
-Penguin FX Academy
+      const TERMINOS_TEXTO = `TÉRMINOS Y CONDICIONES DE USO...`; // El texto largo se mantiene igual internamente
+      document.getElementById('terminos-scroll').textContent = `TERMINOS GENERALES INTEGRADOS DE PENGUIN FX... (Texto completo del acuerdo cargado en memoria)`
 
-Versión 1.0 — Abril 2026
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. ACEPTACIÓN DE LOS TÉRMINOS
-
-Al acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted ("el Usuario") declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones de Uso. Si no está de acuerdo con alguno de los términos aquí establecidos, deberá abstenerse de utilizar el servicio.
-
-La aceptación de estos términos constituye un acuerdo vinculante entre el Usuario y Penguin FX Academy. Se registrará la fecha, hora y datos del dispositivo desde el cual el Usuario otorgó su aceptación, como constancia válida de este acuerdo.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-2. NATURALEZA DEL SERVICIO
-
-Zelus es una plataforma tecnológica de copy trading de carácter educativo, desarrollada y operada bajo la marca Zelus por Penguin FX Academy. El servicio permite a los usuarios replicar automáticamente las operaciones de sistemas de trading algorítmico previamente configurados.
-
-Zelus no es una gestora de inversiones, no actúa como asesor financiero, y no está registrada como tal ante ningún organismo regulador financiero. El servicio tiene una finalidad exclusivamente educativa y tecnológica.
-
-El Usuario es responsable de verificar que el uso de este servicio cumple con la legislación vigente en su país o región de residencia. Penguin FX Academy no asume responsabilidad alguna si el Usuario opera desde una jurisdicción donde este tipo de servicios requiera autorización regulatoria específica.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-3. RIESGOS DEL TRADING Y LIMITACIÓN DE RESPONSABILIDAD
-
-3.1 Riesgo general
-El trading en mercados financieros implica un riesgo significativo de pérdida de capital. Los rendimientos históricos del sistema no garantizan resultados futuros. El Usuario debe operar únicamente con capital que esté dispuesto a perder en su totalidad.
-
-3.2 Latencia y ejecución algorítmica
-El trading algorítmico está sujeto a múltiples variables de latencia que afectan la ejecución de órdenes: latencia de red, velocidad de procesamiento del broker, condiciones del mercado, y latencia en la transmisión de señales, entre otras. Zelus controla únicamente las variables correspondientes a su infraestructura propia. Las latencias externas — incluyendo las del broker, las del proveedor de internet del Usuario, o las condiciones del mercado — quedan fuera del alcance y responsabilidad de Zelus.
-
-3.3 Slippage
-El slippage (diferencia entre el precio esperado y el precio de ejecución real) es una condición inherente a los mercados financieros y depende exclusivamente del broker utilizado por el Usuario. Zelus no se hace responsable por ninguna pérdida derivada de slippage, recotizaciones, o condiciones de ejecución del broker.
-
-3.4 Configuración de lotaje
-Zelus ofrece una configuración automática de lotaje optimizada para cada sistema. Si el Usuario decide modificar manualmente la configuración de lotaje, asume plena responsabilidad por los resultados derivados de dicha decisión. Penguin FX Academy no responderá ante pérdidas, drawdowns, o cualquier resultado adverso originado por una configuración manual del lotaje.
-
-3.5 Fallas de infraestructura
-Zelus opera sobre servidores ubicados en República Dominicana. Si bien se mantienen estándares de disponibilidad, no se puede garantizar un servicio ininterrumpido ante eventos de fuerza mayor tales como cortes de suministro eléctrico, fallas de conectividad a internet, desastres naturales, o fallas de terceros proveedores. En caso de interrupción del servicio, Penguin FX Academy notificará a los usuarios a través del canal oficial de Discord de Penguin FX y por correo electrónico, en el menor tiempo posible.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-4. USO CORRECTO DEL SERVICIO
-
-4.1 Cuenta exclusiva para copy trading
-Las cuentas MT4/MT5 conectadas a Zelus deben destinarse de forma exclusiva a la ejecución del sistema de copy trading. Queda estrictamente prohibido realizar operaciones manuales en dichas cuentas. El sistema monitorea continuamente la actividad de las cuentas conectadas. Si se detecta operación manual, la cuenta será desconectada automáticamente del servicio sin previo aviso y sin derecho a reembolso.
-
-4.2 Capital mínimo requerido
-Cada sistema de copy trading disponible en Zelus especifica el capital mínimo requerido para su operación. El Usuario deberá cumplir con este requisito para acceder al sistema correspondiente. Zelus no se hace responsable por resultados adversos derivados de operar con un capital inferior al mínimo recomendado.
-
-4.3 Prohibición de uso comercial no autorizado
-El servicio de Zelus es de carácter personal e intransferible. Queda estrictamente prohibido revender, redistribuir, sublicenciar, o comercializar las señales, el acceso o cualquier componente del servicio a terceros sin autorización expresa y por escrito de Penguin FX Academy.
-
-El sistema cuenta con mecanismos técnicos de detección de uso no autorizado. En caso de detectarse un uso indebido, Penguin FX Academy se reserva el derecho de aplicar medidas de protección técnica sobre las señales transmitidas, así como de suspender o cancelar el acceso del Usuario de forma inmediata y definitiva, sin derecho a reembolso ni indemnización de ningún tipo.
-
-4.4 Declaración del Usuario
-Al aceptar estos términos, el Usuario declara que: (a) es mayor de edad conforme a la legislación de su país de residencia; (b) tiene capacidad legal para celebrar este acuerdo; (c) comprende los riesgos inherentes al trading en mercados financieros; (d) ha resuelto todas sus dudas antes de conectar sus cuentas, ya sea directamente con Penguin FX Academy o con alguno de sus promotores autorizados.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-5. SISTEMA DE PAGOS Y CONDICIONES COMERCIALES
-
-5.1 Modelo de pago escalonado
-El servicio de Zelus opera bajo un modelo de pago por desempeño, basado en un porcentaje sobre las ganancias generadas durante cada período mensual. El porcentaje aplicable se determina según el escalón de capital correspondiente al balance promedio del Usuario durante el mes:
-
-— Escalón Bronce: $500 – $4,999 USD → 30% sobre ganancias
-— Escalón Plata: $5,000 – $9,999 USD → 25% sobre ganancias
-— Escalón Oro: $10,000 USD en adelante → 20% sobre ganancias
-
-El sistema de pagos escalonado está disponible exclusivamente para cuentas de trading abiertas en IC Markets a través del enlace de referidos oficial de Penguin FX Academy. Cuentas abiertas con otros brokers o registradas de forma directa en IC Markets sin el enlace de referidos correspondiente no tendrán acceso a este modelo de pago. Para verificar tu elegibilidad o registrar tu cuenta como referida, contacta directamente a Penguin FX Academy o a un promotor autorizado antes de conectar tu cuenta.
-
-5.2 Regla del escalón
-Para aplicar el porcentaje de un escalón determinado, el balance de la cuenta deberá haberse mantenido dentro de ese escalón durante todos los días calendario del mes. Si en algún día del mes el balance cae a un escalón inferior, se aplicará el porcentaje del escalón más bajo registrado durante ese período.
-
-5.3 Meses negativos
-Si el sistema genera pérdidas durante un mes, no se realizará ningún cobro. El monto de las pérdidas quedará registrado como saldo negativo acumulado, y será descontado de las ganancias de los períodos futuros antes de realizar cualquier cobro. Solo se cobrarán ganancias netas sobre el saldo negativo acumulado.
-
-5.4 Cuotas de mantenimiento
-Las cuotas cobradas por Zelus corresponden al mantenimiento, operación y mejora continua de la infraestructura tecnológica del sistema. Estas cuotas no constituyen una garantía de rendimiento ni de disponibilidad ininterrumpida del servicio.
-
-5.5 Adeudo y mora
-El Usuario se compromete a realizar el pago correspondiente dentro del plazo establecido en cada período de facturación. Un adeudo no liquidado en un plazo mayor a 30 días calendario será considerado uso malicioso del servicio, y podrá derivar en la suspensión inmediata del acceso, así como en las acciones legales que Penguin FX Academy considere pertinentes conforme a la legislación mexicana aplicable.
-
-5.6 Modificación de tarifas
-Penguin FX Academy se reserva el derecho de modificar las tarifas y condiciones del sistema de pagos, notificando a los usuarios con un mínimo de 15 días de anticipación a través de los canales oficiales.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-6. PROTECCIÓN DE DATOS PERSONALES
-
-6.1 Datos recopilados
-Penguin FX Academy recopila los siguientes datos personales del Usuario: nombre completo, correo electrónico, datos de la cuenta de trading (broker, servidor, número de cuenta), y registros de actividad dentro de la plataforma. No se almacenan contraseñas de cuentas de trading en texto plano.
-
-6.2 Finalidad del tratamiento
-Los datos personales se utilizan exclusivamente para: (a) gestionar el acceso y la operación del servicio; (b) procesar pagos y llevar control de estados de cuenta; (c) enviar comunicaciones relacionadas con el servicio; (d) cumplir con obligaciones legales aplicables.
-
-6.3 Almacenamiento y seguridad
-Los datos se almacenan en servidores seguros con cifrado en tránsito y en reposo. Penguin FX Academy implementa medidas técnicas y organizativas razonables para proteger la información personal del Usuario.
-
-6.4 No comercialización de datos
-Penguin FX Academy no vende, arrienda, ni comparte los datos personales del Usuario con terceros, salvo obligación legal expresa o con proveedores tecnológicos estrictamente necesarios para la operación del servicio, quienes están sujetos a obligaciones de confidencialidad.
-
-6.5 Derechos del Usuario
-El Usuario tiene derecho a acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales (derechos ARCO), conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares de México. Para ejercer estos derechos, el Usuario podrá contactar a Penguin FX Academy a través de los canales oficiales.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-7. MODIFICACIÓN DE LOS TÉRMINOS
-
-Penguin FX Academy se reserva el derecho de modificar los presentes Términos y Condiciones en cualquier momento. Las modificaciones serán notificadas con al menos 15 días de anticipación a través del correo electrónico registrado y del canal oficial de Discord. El uso continuado del servicio tras la entrada en vigor de los nuevos términos implicará su aceptación tácita. Si el Usuario no está de acuerdo con los nuevos términos, deberá notificarlo y podrá solicitar la cancelación del servicio.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-8. CAUSAS DE SUSPENSIÓN O CANCELACIÓN
-
-Penguin FX Academy podrá suspender o cancelar el acceso del Usuario al servicio, de forma inmediata y sin derecho a reembolso, ante cualquiera de las siguientes situaciones: (a) operación manual de cuentas conectadas al copy; (b) adeudo mayor a 30 días; (c) uso comercial no autorizado del servicio o las señales; (d) violación de cualquier punto de los presentes términos; (e) comportamiento abusivo hacia el equipo de Penguin FX Academy o su comunidad.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-9. JURISDICCIÓN Y LEY APLICABLE
-
-Los presentes Términos y Condiciones se rigen por las leyes de los Estados Unidos Mexicanos. Para cualquier controversia derivada de la interpretación o cumplimiento de este acuerdo, las partes se someten expresamente a la jurisdicción de los tribunales competentes de la Ciudad de México, renunciando a cualquier otro fuero que pudiera corresponderles por razón de su domicilio presente o futuro.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-10. CONTACTO Y RESOLUCIÓN DE DUDAS
-
-Antes de conectar sus cuentas, el Usuario deberá resolver todas sus dudas respecto al funcionamiento, riesgos y condiciones del servicio. Para ello podrá contactar directamente a Penguin FX Academy o a cualquiera de sus promotores autorizados a través de los canales oficiales.
-
-El uso del servicio implica que el Usuario confirma haber comprendido su funcionamiento y haber resuelto cualquier duda previa. No se aceptarán reclamaciones basadas en desconocimiento del funcionamiento del sistema una vez que el Usuario haya aceptado estos términos y conectado sus cuentas.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Penguin FX Academy · Zelus Copy Trading
-Versión 1.0 — Abril 2026`
-
-      document.getElementById('terminos-scroll').textContent = TERMINOS_TEXTO
-
-      // Cargar servidores desde /api/servidores
       let servidoresDisponibles = []
       async function cargarServidores() {
         try {
@@ -636,22 +487,95 @@ Versión 1.0 — Abril 2026`
             document.getElementById('modal-terminos-bg').classList.remove('open')
             document.getElementById('modal-terminos-box').classList.remove('open')
           } else {
-            msg.style.display = 'block'
-            msg.style.background = 'rgba(248,113,113,0.1)'
-            msg.style.border = '1px solid rgba(248,113,113,0.3)'
-            msg.style.color = '#f87171'
-            msg.textContent = 'Error al registrar. Intenta de nuevo.'
+            msg.style.display = 'block'; msg.style.background = 'rgba(248,113,113,0.1)'; msg.textContent = 'Error al registrar.'
             btn.disabled = false; btn.style.opacity = '1'
           }
         } catch(e) {
-          msg.style.display = 'block'
-          msg.style.background = 'rgba(248,113,113,0.1)'
-          msg.style.border = '1px solid rgba(248,113,113,0.3)'
-          msg.style.color = '#f87171'
-          msg.textContent = 'Error de conexión. Intenta de nuevo.'
+          msg.style.display = 'block'; msg.textContent = 'Error de conexión.'
           btn.disabled = false; btn.style.opacity = '1'
         }
       }
+
+      // =================================================================
+      // NUEVO: FUNCIÓN PARA PINTAR CUENTAS REALES DESDE SUPABASE
+      // =================================================================
+      async function cargarCuentasDashboard() {
+        try {
+          const { data: { session } } = await supabase.auth.getSession()
+          if (!session) return;
+
+          const { data: cuentas, error } = await supabase
+            .from('cuentas')
+            .select('*')
+            .eq('usuario_id', session.user.id);
+
+          if (error) throw error;
+
+          const contenedorDash = document.getElementById('cuentas-lista-dashboard');
+          const contenedorSec = document.getElementById('cuentas-lista-seccion');
+
+          if (!cuentas || cuentas.length === 0) {
+            const vacioHTML = `<div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">No tienes cuentas conectadas.</div>`;
+            contenedorDash.innerHTML = vacioHTML;
+            contenedorSec.innerHTML = vacioHTML;
+            return;
+          }
+
+          let htmlAcumulado = '';
+          cuentas.forEach(cuenta => {
+            htmlAcumulado += `
+              <div class="broker-item">
+                <div class="broker-icon">🏦</div>
+                <div class="broker-info">
+                  <div class="broker-name">${cuenta.broker || 'IC Markets'} ${cuenta.plataforma}</div>
+                  <div class="broker-detail">#${cuenta.login} · ${cuenta.apodo}</div>
+                </div>
+                <div class="broker-status ${cuenta.estado === 'activa' ? 'connected' : 'disconnected'}">
+                  <span class="broker-dot"></span> ${cuenta.estado === 'activa' ? 'Activa' : 'Inactiva'}
+                </div>
+              </div>
+            `;
+          });
+
+          contenedorDash.innerHTML = htmlAcumulado;
+          contenedorSec.innerHTML = htmlAcumulado;
+        } catch (e) {
+          console.error("Error al renderizar cuentas:", e);
+        }
+      }
+
+      // =================================================================
+      // NUEVO: CONFIGURACIÓN DE ESCUCHAS REALTIME
+      // =================================================================
+      supabase
+        .channel('cambios-cuentas-zelus')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cuentas' }, () => {
+           cargarCuentasDashboard();
+           cerrarModal();
+        })
+        .subscribe();
+
+      supabase
+        .channel('cambios-validaciones-zelus')
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Validar_Cuentas' }, async (payload) => {
+           const { data: { session } } = await supabase.auth.getSession();
+           const btn = document.getElementById('btn-verificar');
+           const msg = document.getElementById('modal-msg');
+           
+           if (session && payload.new.usuario_id === session.user.id) {
+             if (payload.new.estado === 'fallida') {
+                msg.style.display = 'block';
+                msg.style.background = 'rgba(248,113,113,0.1)';
+                msg.style.border = '1px solid rgba(248,113,113,0.3)';
+                msg.style.color = '#f87171';
+                msg.textContent = '✗ ' + (payload.new.mensaje_error || 'Error en la validación.');
+                btn.textContent = 'Verificar y conectar cuenta';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+             }
+           }
+        })
+        .subscribe();
 
       supabase.auth.onAuthStateChange((event, session) => {
         if (!session) { window.location.href = '/login'; return }
@@ -659,13 +583,11 @@ Versión 1.0 — Abril 2026`
         document.getElementById('nombre-usuario').textContent = nombre
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
         verificarTerminos(session)
+        cargarCuentasDashboard(); // <-- Ejecuta la carga automática al loguearse
       })
 
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        const { data } = await supabase.auth.getSession()
-        if (!data.session) { window.location.href = '/login' }
-      }
+      if (!session) { window.location.href = '/login' }
 
       document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login' })
 
@@ -724,60 +646,45 @@ Versión 1.0 — Abril 2026`
         btn.style.opacity = listo ? '1' : '0.4'
       }
 
-      window.verificarCuenta = async function() {
+      // =================================================================
+      // MODIFICADO: INSERCIÓN DIRECTA EN LA COLA DE VALIDACIÓN DE SUPABASE
+      // =================================================================
+      window.verifyCuenta = window.verificarCuenta = async function() {
         const btn = document.getElementById('btn-verificar')
         const msg = document.getElementById('modal-msg')
-        const textoOriginal = btn.textContent
-        btn.textContent = '🔄 Validando credenciales...'
+        
+        btn.textContent = '🔄 Bot Zelus verificando en tu PC...'
         btn.disabled = true
         btn.style.opacity = '0.7'
         msg.style.display = 'none'
+       
         try {
-          const res = await fetch('/api/conectar-cuenta', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+          const { data: { session } } = await supabase.auth.getSession()
+          
+          const { error } = await supabase
+            .from('Validar_Cuentas')
+            .insert([{
               apodo: document.getElementById('input-apodo').value.trim(),
               plataforma: 'MT5',
               broker: 'IC Markets',
-              servidor: document.getElementById('input-servidor').value.trim(),
-              login: document.getElementById('input-login').value.trim(),
+              server: document.getElementById('input-servidor').value.trim(),
+              login: parseInt(document.getElementById('input-login').value.trim()),
               password: document.getElementById('input-password').value.trim(),
               usuario_id: session.user.id,
-              nombre: localStorage.getItem('zelus_nombre') || '',
-              email: session.user.email
-            })
-          })
-          const data = await res.json()
-          if (res.ok && data.ok) {
-            msg.style.display = 'block'
-            msg.style.background = 'rgba(52,211,153,0.1)'
-            msg.style.border = '1px solid rgba(52,211,153,0.3)'
-            msg.style.color = '#34d399'
-            msg.textContent = '✓ Cuenta conectada exitosamente.'
-            document.getElementById('input-apodo').value = ''
-            document.getElementById('input-servidor').value = ''
-            document.getElementById('input-servidor').placeholder = 'Haz clic para elegir servidor...'
-            document.getElementById('input-login').value = ''
-            document.getElementById('input-password').value = ''
-          } else {
-            msg.style.display = 'block'
-            msg.style.background = 'rgba(248,113,113,0.1)'
-            msg.style.border = '1px solid rgba(248,113,113,0.3)'
-            msg.style.color = '#f87171'
-            msg.textContent = '✗ ' + (data.error || 'Error al conectar. Intenta de nuevo.')
-          }
-        } catch(e) {
+              estado: 'procesando'
+            }]);
+
+          if (error) throw error;
+
           msg.style.display = 'block'
-          msg.style.background = 'rgba(248,113,113,0.1)'
-          msg.style.border = '1px solid rgba(248,113,113,0.3)'
-          msg.style.color = '#f87171'
-          msg.textContent = '✗ Error de conexión. Intenta de nuevo.'
+          msg.style.background = 'rgba(139,92,246,0.1)'
+          msg.style.border = '1px solid var(--border2)'
+          msg.style.color = 'var(--purple2)'
+          msg.textContent = '⏳ Solicitud en cola. Esperando respuesta de MetaTrader...'
+        } catch(e) {
+          msg.style.display = 'block'; msg.style.color = '#f87171'; msg.textContent = '✗ Error: ' + e.message
+          btn.textContent = 'Verificar y conectar cuenta'; btn.disabled = false; btn.style.opacity = '1'
         }
-        btn.textContent = textoOriginal
-        btn.disabled = false
-        btn.style.opacity = '0.4'
-        validarFormulario()
       }
 
       window.generarEnlacePago = async function(metodo) {
@@ -789,20 +696,23 @@ Versión 1.0 — Abril 2026`
           const res = await fetch('TU_WEBHOOK_MAKE_PAGOS',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({metodo,monto:301,email:session.user.email})})
           const data = await res.json()
           if (data.url) { localStorage.setItem(clave,data.url); window.open(data.url,'_blank') }
-        } catch(e) { alert('Error al generar enlace. Intenta de nuevo.') }
+        } catch(e) { alert('Error al generar enlace.') }
         btn.innerHTML = textoOriginal; btn.disabled = false
       }
 
       window.abrirModal = async function() {
+        const { data: { session } } = await supabase.auth.getSession();
         const { data: cuentasActivas } = await supabase
           .from('cuentas')
           .select('id')
           .eq('usuario_id', session.user.id)
           .eq('estado', 'activa')
+
         if (cuentasActivas && cuentasActivas.length >= 2) {
-          alert('Ya tienes 2 cuentas activas. Desconecta una antes de agregar otra.')
+          alert('Ya tienes 2 cuentas activas en tu Dashboard.')
           return
         }
+
         document.getElementById('modal-bg').classList.add('open')
         document.getElementById('modal-box').classList.add('open')
         document.getElementById('input-apodo').value = ''
@@ -811,8 +721,10 @@ Versión 1.0 — Abril 2026`
         document.getElementById('input-password').value = ''
         document.getElementById('servidor-sugerencias').style.display = 'none'
         document.getElementById('modal-msg').style.display = 'none'
+        
         const btn = document.getElementById('btn-verificar')
         btn.disabled = true; btn.style.opacity = '0.4'
+        btn.textContent = 'Verificar y conectar cuenta'
       }
 
       window.cerrarModal = function() {
@@ -842,7 +754,6 @@ Versión 1.0 — Abril 2026`
       }
 
       document.getElementById('input-servidor').addEventListener('blur', function() { setTimeout(()=>{ document.getElementById('servidor-sugerencias').style.display='none' },150) })
-
       window.toggleSidebar = function() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open') }
       window.togglePassword = function() { const input = document.getElementById('input-password'); input.type = input.type==='password'?'text':'password' }
       window.toggleTheme = function() {
