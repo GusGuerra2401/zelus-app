@@ -544,11 +544,8 @@
         }
       }
 
-      // =================================================================
-      // NUEVO: CONFIGURACIÓN DE ESCUCHAS REALTIME
-      // =================================================================
-      // =================================================================
-      // CONFIGURACIÓN DE ESCUCHAS REALTIME (CORREGIDO)
+// =================================================================
+      // CONFIGURACIÓN DE ESCUCHAS REALTIME (CORREGIDO DE RAÍZ)
       // =================================================================
       
       // Canal A: Escucha si tu Python inserta una cuenta exitosa en la tabla definitiva
@@ -564,19 +561,48 @@
            const msg = document.getElementById('modal-msg');
            const btn = document.getElementById('btn-verificar');
            
-           msg.style.display = 'block';
-           msg.style.background = 'rgba(52,211,153,0.1)';
-           msg.style.border = '1px solid rgba(52,211,153,0.3)';
-           msg.style.color = '#34d399';
-           msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
+           if (msg && btn) {
+             msg.style.display = 'block';
+             msg.style.background = 'rgba(52,211,153,0.1)';
+             msg.style.border = '1px solid rgba(52,211,153,0.3)';
+             msg.style.color = '#34d399';
+             msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
+             
+             // 3. Esperar 2 segundos para que el usuario lea el éxito y luego cerrar todo limpio
+             setTimeout(() => {
+               cerrarModal();
+               btn.textContent = 'Verificar y conectar cuenta';
+               btn.disabled = false;
+               btn.style.opacity = '1';
+             }, 2000);
+           }
+        })
+        .subscribe();
+
+      // Canal B: Escucha si la solicitud pasa de 'procesando' a 'fallida' en Validar_Cuentas
+      supabase
+        .channel('cambios-validaciones-zelus')
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Validar_Cuentas' }, async (payload) => {
+           const { data: { session: actualSession } } = await supabase.auth.getSession();
+           const btn = document.getElementById('btn-verificar');
+           const msg = document.getElementById('modal-msg');
            
-           // 3. Esperar 2 segundos para que el usuario lea el éxito y luego cerrar todo de golpe
-           setTimeout(() => {
-             cerrarModal();
-             btn.textContent = 'Verificar y conectar cuenta';
-             btn.disabled = false;
-             btn.style.opacity = '1';
-           }, 2000);
+           // Corregido: Usamos 'actualSession' que es el nombre real de tu constante
+           if (actualSession && payload.new.usuario_id === actualSession.user.id) {
+             if (payload.new.estado === 'fallida') {
+                if (msg && btn) {
+                  msg.style.display = 'block';
+                  msg.style.background = 'rgba(248,113,113,0.1)';
+                  msg.style.border = '1px solid rgba(248,113,113,0.3)';
+                  msg.style.color = '#f87171';
+                  msg.textContent = '✗ ' + (payload.new.mensaje_error || 'Error en la validación.');
+                  
+                  btn.textContent = 'Verificar y conectar cuenta';
+                  btn.disabled = false;
+                  btn.style.opacity = '1';
+                }
+             }
+           }
         })
         .subscribe();
 
