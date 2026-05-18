@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zelus · Portal de Copy Trading</title>
-    <link rel="icon" type="image/webp" href="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f338381eafa81ef5b8.webp">
+    <link class="icon" type="image/webp" href="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f338381eafa81ef5b8.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -432,7 +432,6 @@
 
       const TERMINOS_TEXTO = `TÉRMINOS Y CONDICIONES DE USO... (Texto integrado Penguin FX)`;
       document.getElementById('terminos-scroll').textContent = `TÉRMINOS Y CONDICIONES DE USO\nZelus · Servicio de Copy Trading\nPenguin FX Academy\n\nVersión 1.0 — Abril 2026\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. ACEPTACIÓN DE LOS TÉRMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy...`;
-
       let servidoresDisponibles = []
       async function cargarServidores() {
         try {
@@ -511,7 +510,6 @@
             .from('cuentas')
             .select('*')
             .eq('usuario_id', currentSession.user.id);
-
           if (error) throw error;
 
           const contenedorDash = document.getElementById('cuentas-lista-dashboard');
@@ -546,21 +544,25 @@
       }
 
       // =================================================================
-      // CONFIGURACIÓN SANEADA DE ESCUCHAS EN TIEMPO REAL (REALTIME FIX)
+      // CONFIGURACIÓN SANEADA DE ESCUCHAS EN TIEMPO REAL (REALTIME FIX - AJUSTADO A ALL)
       // =================================================================
       supabase
         .channel('cambios-cuentas-zelus')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cuentas' }, (payload) => {
-           console.log('¡Nueva cuenta detectada por Realtime!', payload.new);
+        // Escucha ANY event (*): Captura tanto INSERT como UPDATE (upserts de Python)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'cuentas' }, (payload) => {
+           console.log('¡Evento detectado en tabla cuentas por Realtime!', payload.eventType, payload.new);
+           
+           // Validamos que el cambio pertenezca al usuario activo
+           const nombreUsuarioElement = document.getElementById('nombre-usuario');
+           
+           // Forzamos render dinámico al fondo de inmediato
+           cargarCuentasDashboard();
            
            const msg = document.getElementById('modal-msg');
            const btn = document.getElementById('btn-verificar');
            
-           // 1. Forzamos render dinámico al fondo de inmediato
-           cargarCuentasDashboard();
-           
            if (msg && btn) {
-             // 2. Transición visual exitosa dentro de la ventana modal
+             // Transición visual exitosa dentro de la ventana modal
              msg.style.display = 'block';
              msg.style.background = 'rgba(52,211,153,0.1)';
              msg.style.border = '1px solid rgba(52,211,153,0.3)';
@@ -570,7 +572,7 @@
              btn.textContent = '¡Conectado con éxito!';
              btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
              
-             // 3. Forzar el cierre y vaciar el formulario para evitar bloqueos de la UI
+             // Forzar el cierre y vaciar el formulario para evitar bloqueos de la UI
              setTimeout(() => {
                // Cierre nativo forzado removiendo clases open
                document.getElementById('modal-bg').classList.remove('open');
