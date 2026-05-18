@@ -543,26 +543,22 @@
         }
       }
 
-      // =================================================================
-      // CONFIGURACIÓN SANEADA DE ESCUCHAS EN TIEMPO REAL (REALTIME FIX - AJUSTADO A ALL)
+ // =================================================================
+      // CONFIGURACIÓN SANEADA DE ESCUCHAS EN TIEMPO REAL (REALTIME FIX)
       // =================================================================
       supabase
         .channel('cambios-cuentas-zelus')
-        // Escucha ANY event (*): Captura tanto INSERT como UPDATE (upserts de Python)
         .on('postgres_changes', { event: '*', schema: 'public', table: 'cuentas' }, (payload) => {
            console.log('¡Evento detectado en tabla cuentas por Realtime!', payload.eventType, payload.new);
            
-           // Validamos que el cambio pertenezca al usuario activo
-           const nombreUsuarioElement = document.getElementById('nombre-usuario');
-           
-           // Forzamos render dinámico al fondo de inmediato
+           // 1. Forzamos render dinámico al fondo de inmediato
            cargarCuentasDashboard();
            
            const msg = document.getElementById('modal-msg');
            const btn = document.getElementById('btn-verificar');
            
            if (msg && btn) {
-             // Transición visual exitosa dentro de la ventana modal
+             // 2. Transición visual exitosa dentro de la ventana modal
              msg.style.display = 'block';
              msg.style.background = 'rgba(52,211,153,0.1)';
              msg.style.border = '1px solid rgba(52,211,153,0.3)';
@@ -572,24 +568,31 @@
              btn.textContent = '¡Conectado con éxito!';
              btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
              
-             // Forzar el cierre y vaciar el formulario para evitar bloqueos de la UI
+             // 3. Forzar el cierre limpio invocando el ámbito global de window
              setTimeout(() => {
-               // Cierre nativo forzado removiendo clases open
+               // Forzamos la remoción de clases de manera nativa e invocamos a window
                document.getElementById('modal-bg').classList.remove('open');
                document.getElementById('modal-box').classList.remove('open');
+               if (typeof window.cerrarModal === 'function') {
+                 window.cerrarModal();
+               }
                
+               // Restauramos el botón a su estado inicial morado
                btn.textContent = 'Verificar y conectar cuenta';
                btn.disabled = true;
                btn.style.opacity = '0.4';
                btn.style.background = 'linear-gradient(135deg,#8b5cf6,#d946ef)';
                
+               // Limpiamos los inputs por completo
                document.getElementById('input-apodo').value = '';
                document.getElementById('input-servidor').value = '';
                document.getElementById('input-login').value = '';
                document.getElementById('input-password').value = '';
                msg.style.display = 'none';
                
-               validarFormulario();
+               if (typeof window.validarFormulario === 'function') {
+                 window.validarFormulario();
+               }
              }, 1500);
            }
         })
