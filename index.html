@@ -8,744 +8,102 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-      *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      :root {
-        --bg: #08070f;
-        --bg2: #0f0d1a;
-        --bg3: #161325;
-        --card: #12101e;
-        --border: rgba(139, 92, 246, 0.15);
-        --border2: rgba(139, 92, 246, 0.3);
-        --purple: #8b5cf6;
-        --purple2: #a78bfa;
-        --text: #f3f4f6;
-        --text-muted: #9ca3af;
-        --shadow: rgba(0, 0, 0, 0.4);
-        --font: 'Sora', sans-serif;
-        --font-mono: 'JetBrains Mono', monospace;
-      }
-      body.light-mode {
-        --bg: #f5f3ff;
-        --bg2: #ffffff;
-        --bg3: #ede9fe;
-        --card: #fdfdfd;
-        --border: rgba(139, 92, 246, 0.2);
-        --border2: rgba(139, 92, 246, 0.5);
-        --purple: #7c3aed;
-        --purple2: #6d28d9;
-        --text: #1f2937;
-        --text-muted: #6b7280;
-      }
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font);
-        overflow-x: hidden;
-        transition: background 0.3s, color 0.3s;
-        padding-bottom: 60px;
-        min-height: 100vh;
-      }
-      .navbar {
-        background: var(--bg2);
-        border-bottom: 1px solid var(--border);
-        padding: 12px 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        height: 64px;
-      }
-      .nav-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .menu-btn {
-        background: none;
-        border: none;
-        color: var(--text);
-        font-size: 20px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        transition: 0.2s;
-      }
-      .menu-btn:hover {
-        background: var(--border);
-        border-color: var(--purple);
-      }
-      .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 700;
-        font-size: 18px;
-        letter-spacing: -0.5px;
-      }
-      .logo-container img {
-        height: 26px;
-      }
-      .logo-txt {
-        background: linear-gradient(135deg, #fff, var(--purple2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      body.light-mode .logo-txt {
-        background: linear-gradient(135deg, #1f2937, var(--purple));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .nav-right {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-      .theme-toggle {
-        background: rgba(139, 92, 246, 0.1);
-        border: 1px solid var(--border);
-        width: 44px;
-        height: 24px;
-        border-radius: 12px;
-        position: relative;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        padding: 2px;
-        transition: background 0.3s;
-      }
-      .theme-knob {
-        width: 18px;
-        height: 18px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        transition: transform 0.3s;
-      }
-      body.light-mode .theme-knob {
-        background: #fff;
-      }
-      .user-badge {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--bg3);
-        padding: 6px 12px;
-        border-radius: 20px;
-        border: 1px solid var(--border);
-        font-size: 12px;
-        font-weight: 500;
-        font-family: var(--font-mono);
-      }
-      .user-avatar {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: var(--purple);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 10px;
-        font-weight: 700;
-      }
-      .logout-btn {
-        background: none;
-        border: none;
-        color: #ef4444;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        border-radius: 8px;
-        transition: 0.2s;
-        border: 1px solid transparent;
-      }
-      .logout-btn:hover {
-        background: rgba(239, 68, 68, 0.1);
-        border-color: rgba(239, 68, 68, 0.2);
-      }
-      .sidebar {
-        position: fixed;
-        top: 64px;
-        left: -260px;
-        bottom: 0;
-        width: 260px;
-        background: var(--bg2);
-        border-right: 1px solid var(--border);
-        z-index: 99;
-        padding: 24px 16px;
-        transition: left 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .sidebar.open {
-        left: 0;
-      }
-      .sidebar-menu {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .sidebar-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        border-radius: 10px;
-        color: var(--text-muted);
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 500;
-        transition: 0.2s;
-        border: 1px solid transparent;
-        cursor: pointer;
-      }
-      .sidebar-item:hover, .sidebar-item.active {
-        color: var(--text);
-        background: var(--bg3);
-        border-color: var(--border);
-      }
-      .sidebar-item.active {
-        border-color: var(--border2);
-        color: var(--purple2);
-        background: rgba(139, 92, 246, 0.05);
-      }
-      body.light-mode .sidebar-item.active {
-        color: var(--purple);
-        background: rgba(139, 92, 246, 0.08);
-      }
-      .sidebar-footer {
-        padding-top: 16px;
-        border-top: 1px solid var(--border);
-        text-align: center;
-      }
-      .sidebar-footer-txt {
-        font-size: 11px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-      }
-      .overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 98;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        top: 64px;
-      }
-      .overlay.open {
-        opacity: 1;
-        pointer-events: auto;
-      }
-      .main-content {
-        margin-top: 64px;
-        padding: 32px 24px;
-        max-width: 1300px;
-        margin-left: auto;
-        margin-right: auto;
-        transition: opacity 0.2s ease;
-      }
-      .header-section {
-        margin-bottom: 28px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-      }
-      .welcome-txt {
-        font-size: 24px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        margin-bottom: 4px;
-      }
-      .date-txt {
-        font-size: 13px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-      }
-      .btn-primary {
-        background: var(--purple);
-        color: #fff;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 10px;
-        font-family: var(--font);
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .btn-primary:hover {
-        background: var(--purple2);
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(139, 92, 246, 0.35);
-      }
-      .grid-dashboard {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 20px;
-        margin-bottom: 24px;
-      }
-      .card-stat {
-        grid-column: span 4;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      }
-      @media (max-width: 900px) {
-        .card-stat { grid-column: span 12; }
-        .card-main, .card-side { grid-column: span 12 !important; }
-      }
-      .card-stat::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, var(--purple), transparent);
-        opacity: 0.5;
-      }
-      .stat-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-      }
-      .stat-title {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .stat-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--purple2);
-        font-size: 14px;
-      }
-      .stat-val {
-        font-size: 28px;
-        font-weight: 700;
-        font-family: var(--font-mono);
-        letter-spacing: -1px;
-        margin-bottom: 4px;
-      }
-      .stat-footer {
-        font-size: 11px;
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-      .card-main {
-        grid-column: span 8;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      }
-      .card-side {
-        grid-column: span 4;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        display: flex;
-        flex-direction: column;
-      }
-      .card-title-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-      .card-title {
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: -0.3px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .card-title svg {
-        color: var(--purple);
-        width: 18px;
-        height: 18px;
-      }
-      .cuenta-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 14px;
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        margin-bottom: 10px;
-        transition: 0.2s;
-      }
-      .cuenta-row:hover {
-        border-color: var(--border2);
-        background: var(--bg3);
-      }
-      .cuenta-info {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .cuenta-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: rgba(139, 92, 246, 0.1);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--purple2);
-        font-family: var(--font-mono);
-      }
-      .cuenta-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-      .cuenta-alias {
-        font-size: 13px;
-        font-weight: 600;
-      }
-      .cuenta-sub {
-        font-size: 11px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-      }
-      .cuenta-badge {
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        background: rgba(16, 185, 129, 0.1);
-        color: #10b981;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-      }
-      .no-data {
-        text-align: center;
-        padding: 40px 20px;
-        color: var(--text-muted);
-        font-size: 13px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-      }
-      .no-data svg {
-        width: 40px;
-        height: 40px;
-        color: var(--border2);
-      }
-      .grid-copy {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .copy-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px;
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-      }
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 42px;
-        height: 22px;
-      }
-      .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        inset: 0;
-        background-color: rgba(139, 92, 246, 0.2);
-        border: 1px solid var(--border);
-        transition: .3s;
-        border-radius: 22px;
-      }
-      .slider::before {
-        position: absolute;
-        content: "";
-        height: 14px;
-        width: 14px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: .3s;
-        border-radius: 50%;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      }
-      input:checked + .slider {
-        background-color: var(--purple);
-        border-color: transparent;
-      }
-      input:checked + .slider::before {
-        transform: translateX(20px);
-      }
-      .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(5, 4, 9, 0.8);
-        backdrop-filter: blur(6px);
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        padding: 16px;
-      }
-      .modal-overlay.open {
-        opacity: 1;
-        pointer-events: auto;
-      }
-      .modal-card {
-        background: var(--card);
-        border: 1px solid var(--border2);
-        width: 100%;
-        max-width: 440px;
-        border-radius: 20px;
-        padding: 28px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-        position: relative;
-        transform: scale(0.95);
-        transition: transform 0.3s ease;
-      }
-      .modal-overlay.open .modal-card {
-        transform: scale(1);
-      }
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-      .modal-title {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: -0.4px;
-      }
-      .modal-close {
-        background: none;
-        border: none;
-        color: var(--text-muted);
-        font-size: 20px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        transition: 0.2s;
-      }
-      .modal-close:hover {
-        background: var(--bg3);
-        color: var(--text);
-      }
-      .form-group {
-        margin-bottom: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .form-label {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--text-muted);
-      }
-      .form-input {
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 10px 14px;
-        color: var(--text);
-        font-family: var(--font);
-        font-size: 13px;
-        transition: 0.2s;
-        width: 100%;
-      }
-      .form-input:focus {
-        outline: none;
-        border-color: var(--purple);
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
-      }
-      .form-row-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-      .password-container {
-        position: relative;
-        width: 100%;
-      }
-      .eye-btn {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: var(--text-muted);
-        cursor: pointer;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 4px;
-      }
-      .btn-submit {
-        background: var(--purple);
-        color: #fff;
-        border: none;
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        font-family: var(--font);
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.2s;
-        margin-top: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
-      }
-      .btn-submit:hover {
-        background: var(--purple2);
-      }
-      .btn-submit:disabled {
-        background: var(--border);
-        color: var(--text-muted);
-        cursor: not-allowed;
-        box-shadow: none;
-        border-color: transparent;
-      }
-      .spinner {
-        width: 16px;
-        height: 16px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-top-color: #fff;
-        border-radius: 50%;
-        animation: spin 0.6s linear infinite;
-        display: inline-block;
-      }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-      .floating-alert {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        background: #10b981;
-        color: #fff;
-        padding: 12px 20px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 600;
-        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-        z-index: 2000;
-        transform: translateY(100px);
-        opacity: 0;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .floating-alert.open {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      .floating-alert.error {
-        background: #ef4444;
-        box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
-      }
-      .tabla-historial {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-      }
-      .tabla-historial th, .tabla-historial td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid var(--border);
-        font-size: 13px;
-      }
-      .tabla-historial th {
-        color: var(--text-muted);
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 0.5px;
-      }
-      .metodo-pago-card {
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 16px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root { --bg: #08070f; --bg2: #0f0d1a; --bg3: #161325; --card: #12101e; --border: rgba(139,92,246,0.15); --border2: rgba(139,92,246,0.3); --purple: #8b5cf6; --purple2: #a78bfa; --text: #f3f4f6; --text-muted: #9ca3af; --shadow: rgba(0, 0, 0, 0.4); --font: 'Sora', sans-serif; --font-mono: 'JetBrains Mono', monospace; }
+      body.light-mode { --bg: #f5f3ff; --bg2: #ffffff; --bg3: #ede9fe; --card: #fdfdfd; --border: rgba(139,92,246,0.2); --border2: rgba(139,92,246,0.5); --purple: #7c3aed; --purple2: #6d28d9; --text: #1f2937; --text-muted: #6b7280; }
+      body { background: var(--bg); color: var(--text); font-family: var(--font); overflow-x: hidden; transition: background 0.3s, color 0.3s; padding-bottom: 60px; min-height: 100vh; }
+      .navbar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 64px; }
+      .nav-left { display: flex; align-items: center; gap: 12px; }
+      .menu-btn { background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border); transition: 0.2s; }
+      .menu-btn:hover { background: var(--border); border-color: var(--purple); }
+      .logo-container { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; letter-spacing: -0.5px; }
+      .logo-container img { height: 26px; }
+      .logo-txt { background: linear-gradient(135deg, #fff, var(--purple2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      body.light-mode .logo-txt { background: linear-gradient(135deg, #1f2937, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      .nav-right { display: flex; align-items: center; gap: 16px; }
+      .theme-toggle { background: rgba(139, 92, 246, 0.1); border: 1px solid var(--border); width: 44px; height: 24px; border-radius: 12px; position: relative; cursor: pointer; display: flex; align-items: center; padding: 2px; transition: background 0.3s; }
+      .theme-knob { width: 18px; height: 18px; background: #fff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.3s; }
+      body.light-mode .theme-knob { background: #fff; }
+      .user-badge { display: flex; align-items: center; gap: 8px; background: var(--bg3); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); font-size: 12px; font-weight: 500; font-family: var(--font-mono); }
+      .user-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700; }
+      .logout-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
+      .logout-btn:hover { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
+      .sidebar { position: fixed; top: 64px; left: -260px; bottom: 0; width: 260px; background: var(--bg2); border-right: 1px solid var(--border); z-index: 99; padding: 24px 16px; transition: left 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; }
+      .sidebar.open { left: 0; }
+      .sidebar-menu { display: flex; flex-direction: column; gap: 8px; }
+      .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; border: 1px solid transparent; cursor: pointer; }
+      .sidebar-item:hover, .sidebar-item.active { color: var(--text); background: var(--bg3); border-color: var(--border); }
+      .sidebar-item.active { border-color: var(--border2); color: var(--purple2); background: rgba(139, 92, 246, 0.05); }
+      body.light-mode .sidebar-item.active { color: var(--purple); background: rgba(139, 92, 246, 0.08); }
+      .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border); text-align: center; }
+      .sidebar-footer-txt { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+      .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 98; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; top: 64px; }
+      .overlay.open { opacity: 1; pointer-events: auto; }
+      .main-content { margin-top: 64px; padding: 32px 24px; max-width: 1300px; margin-left: auto; margin-right: auto; transition: opacity 0.2s ease; }
+      .header-section { margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-end; }
+      .welcome-txt { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+      .date-txt { font-size: 13px; color: var(--text-muted); font-family: var(--font-mono); }
+      .btn-primary { background: var(--purple); color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); }
+      .btn-primary:hover { background: var(--purple2); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(139, 92, 246, 0.35); }
+      .grid-dashboard { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; margin-bottom: 24px; }
+      .card-stat { grid-column: span 4; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+      @media (max-width: 900px) { .card-stat { grid-column: span 12; } .card-main, .card-side { grid-column: span 12 !important; } }
+      .card-stat::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--purple), transparent); opacity: 0.5; }
+      .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .stat-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+      .stat-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--purple2); font-size: 14px; }
+      .stat-val { font-size: 28px; font-weight: 700; font-family: var(--font-mono); letter-spacing: -1px; margin-bottom: 4px; }
+      .stat-footer { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+      .card-main { grid-column: span 8; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+      .card-side { grid-column: span 4; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); display: flex; flex-direction: column; }
+      .card-title-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+      .card-title { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; }
+      .card-title svg { color: var(--purple); width: 18px; height: 18px; }
+      .cuenta-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; transition: 0.2s; }
+      .cuenta-row:hover { border-color: var(--border2); background: var(--bg3); }
+      .cuenta-info { display: flex; align-items: center; gap: 12px; }
+      .cuenta-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--purple2); font-family: var(--font-mono); }
+      .cuenta-meta { display: flex; flex-direction: column; gap: 2px; }
+      .cuenta-alias { font-size: 13px; font-weight: 600; }
+      .cuenta-sub { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+      .cuenta-badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+      .no-data { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+      .no-data svg { width: 40px; height: 40px; color: var(--border2); }
+      .grid-copy { display: flex; flex-direction: column; gap: 12px; }
+      .copy-row { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; }
+      .switch { position: relative; display: inline-block; width: 42px; height: 22px; }
+      .switch input { opacity: 0; width: 0; height: 0; }
+      .slider { position: absolute; cursor: pointer; inset: 0; background-color: rgba(139, 92, 246, 0.2); border: 1px solid var(--border); transition: .3s; border-radius: 22px; }
+      .slider::before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+      input:checked + .slider { background-color: var(--purple); border-color: transparent; }
+      input:checked + .slider::before { transform: translateX(20px); }
+      .modal-overlay { position: fixed; inset: 0; background: rgba(5, 4, 9, 0.8); backdrop-filter: blur(6px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 16px; }
+      .modal-overlay.open { opacity: 1; pointer-events: auto; }
+      .modal-card { background: var(--card); border: 1px solid var(--border2); width: 100%; max-width: 440px; border-radius: 20px; padding: 28px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); position: relative; transform: scale(0.95); transition: transform 0.3s ease; }
+      .modal-overlay.open .modal-card { transform: scale(1); }
+      .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+      .modal-title { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; }
+      .modal-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; transition: 0.2s; }
+      .modal-close:hover { background: var(--bg3); color: var(--text); }
+      .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+      .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+      .form-input { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; color: var(--text); font-family: var(--font); font-size: 13px; transition: 0.2s; width: 100%; }
+      .form-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15); }
+      .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .password-container { position: relative; width: 100%; }
+      .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; padding: 4px; }
+      .btn-submit { background: var(--purple); color: #fff; border: none; width: 100%; padding: 12px; border-radius: 10px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 8px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); }
+      .btn-submit:hover { background: var(--purple2); }
+      .btn-submit:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; box-shadow: none; border-color: transparent; }
+      .spinner { width: 16px; height: 16px; border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .floating-alert { position: fixed; bottom: 24px; right: 24px; background: #10b981; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); z-index: 2000; transform: translateY(100px); opacity: 0; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
+      .floating-alert.open { transform: translateY(0); opacity: 1; }
+      .floating-alert.error { background: #ef4444; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3); }
+      .tabla-historial { width: 100%; border-collapse: collapse; margin-top: 10px; }
+      .tabla-historial th, .tabla-historial td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+      .tabla-historial th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+      .metodo-pago-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; }
     </style>
   </head>
   <body>
@@ -775,434 +133,258 @@
         </div>
         <button class="logout-btn" onclick="handleLogout()">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-          Salir
+          <span>Salir</span>
         </button>
       </div>
     </nav>
 
     <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar">
       <div class="sidebar-menu">
-        <div class="sidebar-item active" id="menu-dashboard" onclick="cambiarVista('dashboard')">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V16zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V16z"></path></svg>
-          Panel Principal
+        <div class="sidebar-item active" onclick="navegar('dashboard')">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          <span>Panel Principal</span>
         </div>
-        <div class="sidebar-item" id="menu-historial" onclick="cambiarVista('historial')">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-          Historial de Transacciones
+        <div class="sidebar-item" onclick="navegar('historial')">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+          <span>Historial de Pagos</span>
         </div>
-        <div class="sidebar-item" id="menu-pagos" onclick="cambiarVista('pagos')">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-          Métodos de Pago
+        <div class="sidebar-item" onclick="navegar('suscripcion')">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+          <span>Mi Suscripción</span>
         </div>
       </div>
       <div class="sidebar-footer">
-        <span class="sidebar-footer-txt">Zelus Engine v3.0.0</span>
+        <p class="sidebar-footer-txt">Zelus Bot v3.4.1</p>
       </div>
     </aside>
 
-    <main class="main-content" id="vista-dashboard">
-      <div class="header-section">
-        <div>
-          <h1 class="welcome-txt">Hola de nuevo</h1>
-          <p class="date-txt" id="realtime-clock">Cargando fecha...</p>
+    <div id="vista-login" style="display:none; min-height: calc(100vh - 64px); align-items: center; justify-content: center; padding: 20px; margin-top: 64px;">
+      <div class="modal-card" style="transform:none; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 400px; border-color: var(--border);">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <h2 style="font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px;">Bienvenido de nuevo</h2>
+          <p style="font-size: 13px; color: var(--text-muted);">Ingresa tus credenciales para acceder</p>
         </div>
-        <button class="btn-primary" onclick="openModal()">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
-          Vincular Cuenta
-        </button>
-      </div>
-
-      <div class="grid-dashboard">
-        <div class="card-stat">
-          <div class="stat-header">
-            <span class="stat-title">Cuentas Conectadas</span>
-            <div class="stat-icon">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 012-2M5 11V9a2 2 0 01-2-2m0 0V5a2 2 0 012-2h14a2 2 0 012 2v2M5 7h14"></path></svg>
-            </div>
-          </div>
-          <span class="stat-val" id="stat-total-cuentas">0</span>
-          <div class="stat-footer">Límite operativo: 2 cuentas simultáneas</div>
-        </div>
-        <div class="card-stat">
-          <div class="stat-header">
-            <span class="stat-title">Estado del Servidor</span>
-            <div class="stat-icon" style="color: #10b981;">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-          </div>
-          <span class="stat-val" style="color: #10b981; font-size: 22px;">ONLINE</span>
-          <div class="stat-footer" id="txt-uptime">Latencia óptima del Zelus Engine</div>
-        </div>
-        <div class="card-stat">
-          <div class="stat-header">
-            <span class="stat-title">Plan de Copy Trading</span>
-            <div class="stat-icon" style="color: #9333ea;">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-            </div>
-          </div>
-          <span class="stat-val" style="background: linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px;">PREMIUM</span>
-          <div class="stat-footer">Renovación automática activa</div>
-        </div>
-      </div>
-
-      <div class="grid-dashboard">
-        <div class="card-main">
-          <div class="card-title-container">
-            <h2 class="card-title">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 012-2M5 11V9a2 2 0 01-2-2m0 0V5a2 2 0 012-2h14a2 2 0 012 2v2M5 7h14"></path></svg>
-              Mis Cuentas de Trading Vinculadas
-            </h2>
-          </div>
-          <div id="lista-cuentas-vistas">
-            </div>
-        </div>
-
-        <div class="card-side">
-          <div class="card-title-container">
-            <h2 class="card-title">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-              Sistema de Copy
-            </h2>
-          </div>
-          <div class="grid-copy" id="lista-copy-cuentas">
-            </div>
-        </div>
-      </div>
-    </main>
-
-    <main class="main-content" id="vista-historial" style="display: none;">
-      <div class="header-section">
-        <div>
-          <h1 class="welcome-txt">Historial de Transacciones</h1>
-          <p class="date-txt">Registro de tus suscripciones y renovaciones</p>
-        </div>
-      </div>
-      <div class="card-main" style="grid-column: span 12; width: 100%;">
-        <table class="tabla-historial">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Fecha</th>
-              <th>Descripción</th>
-              <th>Monto</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="font-family: var(--font-mono);">#TRX-98231</td>
-              <td>05 May 2026</td>
-              <td>Suscripción Mensual Plan Premium - Zelus Copy</td>
-              <td style="font-family: var(--font-mono); font-weight: 600;">$49.00 USD</td>
-              <td><span class="cuenta-badge">Completado</span></td>
-            </tr>
-            <tr>
-              <td style="font-family: var(--font-mono);">#TRX-95104</td>
-              <td>05 Apr 2026</td>
-              <td>Suscripción Mensual Plan Premium - Zelus Copy</td>
-              <td style="font-family: var(--font-mono); font-weight: 600;">$49.00 USD</td>
-              <td><span class="cuenta-badge">Completado</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-
-    <main class="main-content" id="vista-pagos" style="display: none;">
-      <div class="header-section">
-        <div>
-          <h1 class="welcome-txt">Métodos de Pago</h1>
-          <p class="date-txt">Gestiona tus tarjetas y facturación automática</p>
-        </div>
-      </div>
-      <div class="card-side" style="grid-column: span 12; width: 100%;">
-        <h2 class="card-title">Tarjetas Guardadas</h2>
-        <div class="metodo-pago-card">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="background: rgba(139,92,246,0.1); padding: 8px; border-radius: 6px; font-weight: bold; color: var(--purple2);">VISA</div>
-            <div>
-              <p style="font-size: 14px; font-weight: 600;">Visa Premium Personal</p>
-              <p style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">•••• •••• •••• 4242</p>
-            </div>
-          </div>
-          <span class="cuenta-badge">Principal</span>
-        </div>
-      </div>
-    </main>
-
-    <div class="modal-overlay" id="modal-vincular">
-      <div class="modal-card">
-        <div class="modal-header">
-          <h3 class="modal-title">Vincular Nueva Cuenta</h3>
-          <button class="modal-close" onclick="closeModal()">×</button>
-        </div>
-        <form id="form-vincular-cuenta" onsubmit="handleVincular(event)">
+        <form id="login-form" onsubmit="handleLogin(event)">
           <div class="form-group">
-            <label class="form-label">Apodo de la Cuenta (Opcional)</label>
-            <input type="text" id="input-apodo" class="form-input" placeholder="Ej: Mi Cuenta Personal o Cuenta Fondeada">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" id="login-email" class="form-input" placeholder="tu@ejemplo.com" required>
           </div>
-          <div class="form-group">
-            <label class="form-label">Plataforma</label>
-            <select id="input-plataforma" class="form-input" style="cursor: pointer;">
-              <option value="MT5">MetaTrader 5 (Altamente Recomendado)</option>
-              <option value="MT4" disabled>MetaTrader 4 (Próximamente)</option>
-            </select>
-          </div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label class="form-label">Número de Login</label>
-              <input type="number" id="input-login" class="form-input" placeholder="Ej: 5092384" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Bróker / Compañía</label>
-              <input type="text" id="input-broker" class="form-input" placeholder="Ej: Exness, FTMO" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Servidor Exacto (Server)</label>
-            <input type="text" id="input-server" class="form-input" placeholder="Ej: Exness-MT5Trial6 o FTMO-Server" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Contraseña de Trading (Inversor o Máster)</label>
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label class="form-label">Contraseña</label>
             <div class="password-container">
-              <input type="password" id="input-password" class="form-input" placeholder="••••••••••••" required>
-              <button type="button" class="eye-btn" onclick="togglePasswordView()">👁️</button>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+              <button type="button" class="eye-btn" onclick="toggleEye('login-password')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </button>
             </div>
           </div>
-          <button type="submit" class="btn-submit" id="btn-submit-form">
-            Validar e Iniciar Conexión Realtime
-          </button>
+          <button type="submit" id="login-submit" class="btn-submit">Iniciar Sesión</button>
         </form>
       </div>
     </div>
 
-    <div class="floating-alert" id="floating-alert">
-      <span id="alert-icon">⚡</span>
-      <span id="alert-text">Mensaje del sistema</span>
+    <main class="main-content" id="main-content-panel" style="display:none;">
+      
+      <div id="section-dashboard" class="vista-seccion">
+        <div class="header-section">
+          <div>
+            <h1 class="welcome-txt">Hola, <span id="welcome-user">Inversor</span></h1>
+            <p class="date-txt" id="live-date">---</p>
+          </div>
+          <button class="btn-primary" onclick="openModal()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+            <span>Vincular Cuenta</span>
+          </button>
+        </div>
+
+        <div class="grid-dashboard">
+          <div class="card-stat">
+            <div class="stat-header">
+              <span class="stat-title">Cuentas Activas</span>
+              <div class="stat-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              </div>
+            </div>
+            <div>
+              <div class="stat-val" id="stat-cuentas">0</div>
+              <div class="stat-footer" id="stat-cuentas-txt">Cuentas MetaTrader 5 enlazadas</div>
+            </div>
+          </div>
+          <div class="card-stat">
+            <div class="stat-header">
+              <span class="stat-title">Balance Total</span>
+              <div class="stat-icon">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+            </div>
+            <div>
+              <div class="stat-val" id="stat-balance">$0.00</div>
+              <div class="stat-footer" id="stat-balance-txt">---</div>
+            </div>
+          </div>
+          <div class="card-stat">
+            <div class="stat-header">
+              <span class="stat-title">Estado del Servidor</span>
+              <div class="stat-icon" style="color:#10b981; background:rgba(16,185,129,0.1);">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+            </div>
+            <div>
+              <div class="stat-val" style="color:#10b981; font-size:24px;">OPERATIVO</div>
+              <div class="stat-footer" style="color:#10b981;">Zelus Engine corriendo en la nube</div>
+            </div>
+          </div>
+
+          <div class="card-main">
+            <div class="card-title-container">
+              <h2 class="card-title">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2zm0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Mis Cuentas de Inversión
+              </h2>
+            </div>
+            <div id="cuentas-container">
+              <div class="no-data">
+                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <p>No tienes ninguna cuenta de MT5 vinculada actualmente.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-side">
+            <div class="card-title-container">
+              <h2 class="card-title">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                Sistema de Coping de mis Clientes
+              </h2>
+            </div>
+            <div class="grid-copy" id="modulo-copy-sidebar">
+              <div class="no-data">
+                <p style="font-size:12px;">Las cuentas enlazadas aparecerán aquí para activar/desactivar el copy trading.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="section-historial" class="vista-seccion" style="display:none;">
+        <div class="header-section">
+          <div>
+            <h1 class="welcome-txt">Historial de Transacciones</h1>
+            <p class="date-txt">Registro histórico de renovaciones de licencia</p>
+          </div>
+        </div>
+        <div class="card-main" style="grid-column:span 12; width:100%;">
+          <div style="overflow-x:auto;">
+            <table class="tabla-historial">
+              <thead>
+                <tr>
+                  <th>ID Factura</th>
+                  <th>Fecha</th>
+                  <th>Concepto</th>
+                  <th>Monto</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="historial-tabla-body">
+                <tr>
+                  <td colspan="5" class="no-data">No se encontraron registros de pago.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="section-suscripcion" class="vista-seccion" style="display:none;">
+        <div class="header-section">
+          <div>
+            <h1 class="welcome-txt">Mi Licencia Zelus</h1>
+            <p class="date-txt">Gestiona los detalles de tu suscripción actual</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(12, 1fr); gap:20px;">
+          <div class="card-main" style="grid-column:span 6;">
+            <h3 style="font-size:16px; margin-bottom:14px;">Detalles del Plan</h3>
+            <div style="background:var(--bg2); padding:16px; border-radius:12px; border:1px solid var(--border); display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:between; font-size:13px;"><span style="color:var(--text-muted);">Plan Actual:</span><strong id="sub-plan-name" style="color:var(--purple2);">Cargando...</strong></div>
+              <div style="display:flex; justify-content:between; font-size:13px;"><span style="color:var(--text-muted);">Precio Mensual:</span><strong id="sub-plan-price">--</strong></div>
+              <div style="display:flex; justify-content:between; font-size:13px;"><span style="color:var(--text-muted);">Próxima Renovación:</span><strong id="sub-plan-date">--</strong></div>
+            </div>
+          </div>
+          <div class="card-main" style="grid-column:span 6;">
+            <h3 style="font-size:16px; margin-bottom:14px;">Método de Pago Vinculado</h3>
+            <div class="metodo-pago-card">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:40px; height:26px; background:#1e1b4b; border-radius:4px; border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:10px; font-family:var(--font-mono); color:#a78bfa;">CARD</div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-size:13px; font-weight:600;" id="sub-card-brand">•••• ••••</span>
+                  <span style="font-size:11px; color:var(--text-muted);" id="sub-card-expiry">Exp: --/--</span>
+                </div>
+              </div>
+              <span class="cuenta-badge" style="background:rgba(139,92,246,0.1); color:var(--purple2); border-color:var(--border);">PREDETERMINADO</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <div class="modal-overlay" id="modal-add-account">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Vincular Cuenta MT5</h3>
+          <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <form id="add-account-form" onsubmit="handleCreateAccount(event)">
+          <div class="form-group">
+            <label class="form-label">Nombre de la Cuenta (Alias)</label>
+            <input type="text" id="input-alias" class="form-input" placeholder="Ej. Cuenta Personal / Cuenta Corporativa" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Número de Cuenta MT5</label>
+              <input type="number" id="input-login" class="form-input" placeholder="12345678" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Servidor del Broker</label>
+              <input type="text" id="input-server" class="form-input" placeholder="Infinox-Live" required>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label class="form-label">Contraseña de Inversor / Trader</label>
+            <div class="password-container">
+              <input type="password" id="input-password" class="form-input" placeholder="••••••••" required>
+              <button type="button" class="eye-btn" onclick="toggleEye('input-password')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </button>
+            </div>
+          </div>
+          <button type="submit" id="submit-btn-account" class="btn-submit">Guardar y Sincronizar</button>
+        </form>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.8/dist/umd/supabase.js"></script>
+    <div class="floating-alert" id="custom-alert">
+      <span id="alert-msg">Operación realizada con éxito</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-      const SUPABASE_URL = "https://wxtbgnbfeptgqclndpqf.supabase.co"
-      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4dGJnbmJmZXB0Z3FjbG5kcHFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4NzMxMzIsImV4cCI6MjA1NDQ0OTEzMn0.Y3oX3bI9Zt9SOfV1fD-H8e3V4v3D7x_z1H_W5F7o_4c"
-      const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      const SUPABASE_URL = "https://wzbcshwllscgveaxvuyk.supabase.co"
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6YmNzaHdsbHNjZ3ZlYXh2dXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4MTUwODksImV4cCI6MjA1NTM5MTA4OX0.380gEbyUOnvG9X_813T8bF6Y9D017W2M2jW_rU8nC0M"
+      const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      let currentUser = null
 
-      let usuarioActual = null
-      let misCuentas = []
-
-      window.toggleSidebar = function() {
-        document.getElementById('sidebar').classList.toggle('open')
-        document.getElementById('overlay').classList.toggle('open')
+      window.showAlert = function(msg, isError=false) {
+        const alert = document.getElementById('custom-alert')
+        alert.innerText = msg
+        if(isError) alert.classList.add('error'); else alert.classList.remove('error');
+        alert.classList.add('open')
+        setTimeout(() => alert.classList.remove('open'), 3500)
       }
-
-      window.cambiarVista = function(vista) {
-        document.getElementById('vista-dashboard').style.display = vista === 'dashboard' ? 'block' : 'none'
-        document.getElementById('vista-historial').style.display = vista === 'historial' ? 'block' : 'none'
-        document.getElementById('vista-pagos').style.display = vista === 'pagos' ? 'block' : 'none'
-        
-        document.getElementById('menu-dashboard').classList.toggle('active', vista === 'dashboard')
-        document.getElementById('menu-historial').classList.toggle('active', vista === 'historial')
-        document.getElementById('menu-pagos').classList.toggle('active', vista === 'pagos')
-        
-        window.closeSidebar()
-      }
-
-      function mostrarAlerta(mensaje, esError = false) {
-        const alerta = document.getElementById('floating-alert')
-        const txt = document.getElementById('alert-text')
-        const icon = document.getElementById('alert-icon')
-        
-        txt.innerText = mensaje
-        if (esError) {
-          alerta.classList.add('error')
-          icon.innerText = "❌"
-        } else {
-          alerta.classList.remove('error')
-          icon.innerText = "⚡"
-        }
-        
-        alerta.classList.add('open')
-        setTimeout(() => { alerta.classList.remove('open') }, 4000)
-      }
-
-      async function verificarSesion() {
-        const { data: { session }, error } = await _supabase.auth.getSession()
-        if (error || !session) {
-          window.location.href = "login.html"
-          return
-        }
-        usuarioActual = session.user
-        
-        document.getElementById('user-badge-container').style.display = 'flex'
-        document.getElementById('user-email').innerText = usuarioActual.email
-        document.getElementById('user-initials').innerText = usuarioActual.email.charAt(0).toUpperCase()
-        
-        await cargarCuentasUsuario()
-        escucharCambiosValidaciones()
-      }
-
-      async function cargarCuentasUsuario() {
-        if (!usuarioActual) return
-        
-        const { data, error } = await _supabase
-          .table("cuentas")
-          .select("*")
-          .eq("usuario_id", usuarioActual.id)
-          .order("created_at", { ascending: false })
-
-        if (error) {
-          console.error("Error al obtener cuentas:", error)
-          return
-        }
-
-        misCuentas = data || []
-        
-        document.getElementById('stat-total-cuentas').innerText = misCuentas.length
-
-        const contenedorCuentas = document.getElementById('lista-cuentas-vistas')
-        const contenedorCopy = document.getElementById('lista-copy-cuentas')
-
-        // Renderizado del Panel de Cuentas Vinculadas
-        if (misCuentas.length === 0) {
-          contenedorCuentas.innerHTML = `
-            <div class="no-data">
-              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              No tienes ninguna cuenta vinculada todavía. Presiona el botón de arriba para comenzar.
-            </div>`
-        } else {
-          contenedorCuentas.innerHTML = misCuentas.map(cta => `
-            <div class="cuenta-row">
-              <div class="cuenta-info">
-                <div class="cuenta-icon">${cta.plataforma || 'MT5'}</div>
-                <div class="cuenta-meta">
-                  <span class="cuenta-alias">${cta.apodo || 'Cuenta de Trading'}</span>
-                  <span class="cuenta-sub">ID: ${cta.login} • ${cta.server}</span>
-                </div>
-              </div>
-              <span class="cuenta-badge">${cta.estado || 'activa'}</span>
-            </div>
-          `).join('')
-        }
-
-        // CAMBIO SOLICITADO: Mapeo dinámico de tus cuentas reales dentro del contenedor de la barra lateral "Sistema de Copy"
-        if (misCuentas.length === 0) {
-          contenedorCopy.innerHTML = `
-            <div class="no-data" style="padding: 20px 10px;">
-              Agrega una cuenta para activar el sistema de copy trading.
-            </div>`
-        } else {
-          contenedorCopy.innerHTML = misCuentas.map(cta => `
-            <div class="copy-row">
-              <div class="cuenta-info">
-                <div class="cuenta-meta">
-                  <span class="cuenta-alias" style="font-size:12px;">${cta.apodo || 'Cuenta de Trading'}</span>
-                  <span class="cuenta-sub" style="font-size:10px;">ID: ${cta.login}</span>
-                </div>
-              </div>
-              <label class="switch">
-                <input type="checkbox" onchange="toggleCopyTrading('${cta.id}', this.checked)">
-                <span class="slider"></span>
-              </label>
-            </div>
-          `).join('')
-        }
-      }
-
-      window.toggleCopyTrading = function(cuentaId, activado) {
-        console.log(`Cuenta ${cuentaId} modificó estado de copy trading a: ${activado}`);
-        mostrarAlerta(activado ? "Sistema de copy trading activado en esta cuenta." : "Sistema de copy trading pausado.");
-      }
-
-      function escucharCambiosValidaciones() {
-        if (!usuarioActual) return
-
-        _supabase
-          .channel('cambios-validaciones')
-          .on('postgres_changes', { 
-            event: 'UPDATE', 
-            schema: 'public', 
-            table: 'Validar_Cuentas',
-            filter: `usuario_id=eq.${usuarioActual.id}`
-          }, async (payload) => {
-            const registro = payload.new
-            if (registro.estado === 'exitosa') {
-              mostrarAlerta("¡Felicidades! Cuenta validada con éxito.")
-              closeModal()
-              await cargarCuentasUsuario() 
-            } else if (registro.estado === 'fallida') {
-              mostrarAlerta(registro.mensaje_error || "Error al autenticar credenciales en MT5.", true)
-              const btn = document.getElementById('btn-submit-form')
-              btn.disabled = false
-              btn.innerText = "Validar e Iniciar Conexión Realtime"
-            }
-          })
-          .subscribe()
-      }
-
-      window.openModal = function() {
-        if (misCuentas.length >= 2) {
-          mostrarAlerta("Has alcanzado el límite máximo permitido de 2 cuentas simultáneas.", true)
-          return
-        }
-        document.getElementById('modal-vincular').classList.add('open')
-      }
-
-      window.closeModal = function() {
-        document.getElementById('modal-vincular').classList.remove('open')
-        document.getElementById('form-vincular-cuenta').reset()
-        const btn = document.getElementById('btn-submit-form')
-        btn.disabled = false
-        btn.innerText = "Validar e Iniciar Conexión Realtime"
-      }
-
-      window.handleVincular = async function(e) {
-        e.preventDefault()
-        if (!usuarioActual) return
-
-        const btn = document.getElementById('btn-submit-form')
-        btn.disabled = true
-        btn.innerHTML = `<span class="spinner"></span> Consultando con Zelus Engine...`
-
-        const apodo = document.getElementById('input-apodo').value.trim()
-        const plataforma = document.getElementById('input-plataforma').value
-        const login = document.getElementById('input-login').value.trim()
-        const broker = document.getElementById('input-broker').value.trim()
-        const server = document.getElementById('input-server').value.trim()
-        const password = document.getElementById('input-password').value
-
-        const { error } = await _supabase
-          .table("Validar_Cuentas")
-          .insert({
-            usuario_id: usuarioActual.id,
-            apodo: apodo || null,
-            plataforma: plataforma,
-            login: parseInt(login),
-            broker: broker,
-            server: server,
-            password: password,
-            estado: 'pendiente'
-          })
-
-        if (error) {
-          mostrarAlerta("Error al enviar la solicitud: " + error.message, true)
-          btn.disabled = false
-          btn.innerText = "Validar e Iniciar Conexión Realtime"
-        } else {
-          mostrarAlerta("Solicitud enviada. Esperando respuesta de tu terminal MetaTrader...")
-        }
-      }
-
-      window.handleLogout = async function() {
-        await _supabase.auth.signOut()
-        window.location.href = "login.html"
-      }
-
-      window.togglePasswordView = function() {
-        const input = document.getElementById('input-password');
-        input.type = input.type==='password'?'text':'password'
-      }
-
+      window.toggleSidebar = function() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open') }
+      window.toggleEye = function(id) { const input = document.getElementById(id); input.type = input.type==='password'?'text':'password' }
       window.toggleTheme = function() {
         const body=document.body, knob=document.getElementById('theme-knob'), toggle=document.getElementById('theme-toggle')
         const isLight = body.classList.toggle('light-mode')
@@ -1210,36 +392,253 @@
         toggle.style.background = isLight?'#8b5cf6':'rgba(139,92,246,0.3)'
         localStorage.setItem('zelus_theme',isLight?'light':'dark')
       }
-
-      if (localStorage.getItem('zelus_theme')==='light') {
-        document.body.classList.add('light-mode');
-        setTimeout(()=>{
-          document.getElementById('theme-knob').style.transform='translateX(18px)';
-          document.getElementById('theme-toggle').style.background='#8b5cf6'
-        },0)
-      }
-
-      window.closeSidebar = function() {
-        document.querySelector('.sidebar').classList.remove('open');
-        document.getElementById('overlay').classList.remove('open')
-      }
+      if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
+      window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
 
       const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
-      function tiempoTranscurrido(fecha) {
-        const diff=Math.floor((Date.now()-fecha)/60000);
-        return diff<60?'Actualizado hace '+diff+' min':'Actualizado hace '+Math.floor(diff/60)+'h'
-      }
+      function tiempoTranscurrido(fecha) { const diff=Math.floor((Date.now()-fecha)/60000); return diff<60?'Actualizado hace '+diff+' min':'Actualizado hace '+Math.floor(diff/60)+'h' }
       const texto = tiempoTranscurrido(ultimaActualizacion)
-      document.getElementById('txt-uptime').innerText = 'Zelus Engine estable • ' + texto
+      document.getElementById('stat-balance-txt').innerText = texto
+      setInterval(() => { document.getElementById('stat-balance-txt').innerText = tiempoTranscurrido(ultimaActualizacion) }, 60000)
 
-      function actualizarReloj() {
-        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }
-        document.getElementById('realtime-clock').innerText = new Date().toLocaleDateString('es-ES', opciones)
+      function actualizarFecha() {
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+        let f = new Date().toLocaleDateString('es-ES', opciones)
+        document.getElementById('live-date').innerText = f.charAt(0).toUpperCase() + f.slice(1)
       }
-      setInterval(actualizarReloj, 1000)
-      actualizarReloj()
+      actualizarFecha()
 
-      verificarSesion()
+      window.navegar = function(seccion) {
+        document.querySelectorAll('.vista-seccion').forEach(s => s.style.display = 'none')
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'))
+        
+        if(seccion==='dashboard') document.getElementById('section-dashboard').style.display='block'
+        if(seccion==='historial') document.getElementById('section-historial').style.display='block'
+        if(seccion==='suscripcion') document.getElementById('section-suscripcion').style.display='block'
+        
+        const itemClickeado = event?.currentTarget
+        if(itemClickeado) itemClickeado.classList.add('active')
+        closeSidebar()
+      }
+
+      window.openModal = function() { document.getElementById('modal-add-account').classList.add('open') }
+      window.closeModal = function() { document.getElementById('modal-add-account').classList.remove('open'); document.getElementById('add-account-form').reset() }
+
+      async function chequearSesion() {
+        try {
+          const { data: { session }, error } = await _supabase.auth.getSession()
+          if(error) throw error
+          if(session) {
+            currentUser = session.user
+            mostrarApp()
+          } else {
+            mostrarLogin()
+          }
+        } catch(e) {
+          console.error(e)
+          mostrarLogin()
+        } finally {
+          document.getElementById('loading-screen').style.display = 'none'
+        }
+      }
+
+      function mostrarLogin() {
+        document.getElementById('vista-login').style.display = 'flex'
+        document.getElementById('main-content-panel').style.display = 'none'
+        document.getElementById('user-badge-container').style.display = 'none'
+      }
+
+      function mostrarApp() {
+        document.getElementById('vista-login').style.display = 'none'
+        document.getElementById('main-content-panel').style.display = 'block'
+        document.getElementById('user-badge-container').style.display = 'flex'
+        
+        document.getElementById('user-email').innerText = currentUser.email
+        document.getElementById('user-initials').innerText = currentUser.email.charAt(0).toUpperCase()
+        document.getElementById('welcome-user').innerText = currentUser.email.split('@')[0]
+        
+        cargarCuentasUsuario()
+        cargarDatosSuscripcionYFacturas()
+      }
+
+      window.handleLogin = async function(e) {
+        if(!e) { window.location.reload(); return; }
+        e.preventDefault()
+        const btn = document.getElementById('login-submit')
+        btn.disabled = true
+        btn.innerHTML = '<span class="spinner"></span>'
+        
+        const email = document.getElementById('login-email').value.trim()
+        const pass = document.getElementById('login-password').value
+        
+        try {
+          const { data, error } = await _supabase.auth.signInWithPassword({ email, password: pass })
+          if(error) throw error
+          currentUser = data.user
+          mostrarApp()
+          showAlert("Sesión iniciada correctamente")
+        } catch(err) {
+          showAlert(err.message || "Error al iniciar sesión", true)
+          btn.disabled = false
+          btn.innerText = "Iniciar Sesión"
+        }
+      }
+
+      window.handleLogout = async function() {
+        await _supabase.auth.signOut()
+        currentUser = null
+        window.location.reload()
+      }
+
+      async function cargarCuentasUsuario() {
+        const container = document.getElementById('cuentas-container')
+        const copySidebarContainer = document.getElementById('modulo-copy-sidebar')
+        
+        try {
+          const { data, error } = await _supabase.from('cuentas_mt5').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false })
+          if(error) throw error
+          
+          document.getElementById('stat-cuentas').innerText = data ? data.length : 0
+          
+          if(!data || data.length === 0) {
+            container.innerHTML = `<div class="no-data"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><p>No tienes ninguna cuenta de MT5 vinculada actualmente.</p></div>`
+            copySidebarContainer.innerHTML = `<div class="no-data"><p style="font-size:12px;">Las cuentas enlazadas aparecerán aquí para activar/desactivar el copy trading.</p></div>`
+            document.getElementById('stat-balance').innerText = "$0.00"
+            return
+          }
+          
+          let totalBalance = 0
+          let htmlCuentas = ""
+          let htmlCopySidebar = ""
+          
+          data.forEach(c => {
+            const bal = parseFloat(c.balance || 0)
+            totalBalance += bal
+            
+            // Render panel central
+            htmlCuentas += `
+              <div class="cuenta-row">
+                <div class="cuenta-info">
+                  <div class="cuenta-icon">MT5</div>
+                  <div class="cuenta-meta">
+                    <span class="cuenta-alias">${c.alias}</span>
+                    <span class="cuenta-sub">ID: ${c.login} · ${c.server}</span>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:16px;">
+                  <span style="font-family:var(--font-mono); font-weight:700; font-size:14px;">$${bal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+                  <span class="cuenta-badge">${c.estado || 'Inactivo'}</span>
+                </div>
+              </div>`
+
+            // Render dinámico del Sistema de Coping en barra lateral solicitado
+            htmlCopySidebar += `
+              <div class="copy-row">
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-size:13px; font-weight:600;">${c.alias}</span>
+                  <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">ID: ${c.login}</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" ${c.copy_activo ? 'checked' : ''} onchange="toggleCopyTrading('${c.id}', this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>`
+          })
+          
+          container.innerHTML = htmlCuentas
+          copySidebarContainer.innerHTML = htmlCopySidebar
+          document.getElementById('stat-balance').innerText = "$" + totalBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})
+          
+        } catch(err) {
+          console.error(err)
+          container.innerHTML = `<p style="color:#ef4444; font-size:13px; text-align:center; padding:20px;">Error al cargar las cuentas.</p>`
+          copySidebarContainer.innerHTML = `<p style="color:#ef4444; font-size:11px; text-align:center; padding:10px;">Error de carga.</p>`
+        }
+      }
+
+      window.toggleCopyTrading = async function(cuentaId, estadoActivo) {
+        try {
+          const { error } = await _supabase.from('cuentas_mt5').update({ copy_activo: estadoActivo }).eq('id', cuentaId)
+          if(error) throw error
+          showAlert(estadoActivo ? "Copy trading activado para la cuenta" : "Copy trading desactivado")
+        } catch(err) {
+          showAlert("Error al cambiar estado de copia", true)
+          cargarCuentasUsuario()
+        }
+      }
+
+      window.handleCreateAccount = async function(e) {
+        e.preventDefault()
+        const btn = document.getElementById('submit-btn-account')
+        btn.disabled = true
+        btn.innerHTML = '<span class="spinner"></span> Sincronizando...'
+        
+        const alias = document.getElementById('input-alias').value.trim()
+        const login = document.getElementById('input-login').value.trim()
+        const server = document.getElementById('input-server').value.trim()
+        const pass = document.getElementById('input-password').value
+        
+        try {
+          const { error } = await _supabase.from('cuentas_mt5').insert([{ user_id: currentUser.id, alias: alias, login: login, server: server, password_mt5: pass, balance: 0.00, estado: 'Inactivo', copy_activo: false }])
+          if(error) throw error
+          showAlert("Cuenta vinculada exitosamente")
+          closeModal()
+          cargarCuentasUsuario()
+        } catch(err) {
+          showAlert(err.message || "Error al guardar la cuenta", true)
+        } finally {
+          btn.disabled = false
+          btn.innerText = "Guardar y Sincronizar"
+        }
+      }
+
+      async function cargarDatosSuscripcionYFacturas() {
+        try {
+          const { data: sub, error: e1 } = await _supabase.from('suscripciones').select('*').eq('user_id', currentUser.id).maybeSingle()
+          if(e1) throw e1
+          
+          if(sub) {
+            document.getElementById('sub-plan-name').innerText = sub.plan_name ? sub.plan_name.toUpperCase() : 'PLAN ZELUS'
+            document.getElementById('sub-plan-price').innerText = sub.precio_mensual ? `$${sub.precio_mensual} USD / mes` : '--'
+            if(sub.proxima_renovacion) {
+              const d = new Date(sub.proxima_renovacion)
+              document.getElementById('sub-plan-date').innerText = d.toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' })
+            }
+            if(sub.tarjeta_ultimos_4) {
+              document.getElementById('sub-card-brand').innerText = `•••• •••• •••• ${sub.tarjeta_ultimos_4}`
+              document.getElementById('sub-card-expiry').innerText = `Exp: ${sub.tarjeta_exp_mes || '--'}/${sub.tarjeta_exp_anio || '--'}`
+            }
+          } else {
+            document.getElementById('sub-plan-name').innerText = "SIN PLAN ACTIVO"
+          }
+          
+          const { data: facturas, error: e2 } = await _supabase.from('facturas').select('*').eq('user_id', currentUser.id).order('fecha', { ascending: false })
+          if(e2) throw e2
+          
+          const tbody = document.getElementById('historial-tabla-body')
+          if(facturas && facturas.length > 0) {
+            let htmlFacturas = ""
+            facturas.forEach(f => {
+              const fFecha = new Date(f.fecha).toLocaleDateString('es-ES', { year:'numeric', month:'short', day:'numeric' })
+              htmlFacturas += `
+                <tr>
+                  <td style="font-family:var(--font-mono); font-size:12px; color:var(--purple2); font-weight:500;">#${f.id.substring(0,8).toUpperCase()}</td>
+                  <td>${fFecha}</td>
+                  <td>${f.concepto || 'Suscripción Zelus Engine'}</td>
+                  <td style="font-family:var(--font-mono); font-weight:600;">$${parseFloat(f.monto).toFixed(2)}</td>
+                  <td><span class="cuenta-badge">${f.estado || 'Pagado'}</span></td>
+                </tr>`
+            })
+            tbody.innerHTML = htmlFacturas
+          } else {
+            tbody.innerHTML = `<tr><td colspan="5" class="no-data">No se encontraron registros de pago.</td></tr>`
+          }
+        } catch(err) {
+          console.error("Error cargando suscripción/facturas:", err)
+        }
+      }
+
+      chequearSesion()
     </script>
   </body>
 </html>
