@@ -515,7 +515,6 @@
             const bal = parseFloat(c.balance || 0)
             totalBalance += bal
             
-            // Render panel central
             htmlCuentas += `
               <div class="cuenta-row">
                 <div class="cuenta-info">
@@ -530,8 +529,7 @@
                   <span class="cuenta-badge">${c.estado || 'Inactivo'}</span>
                 </div>
               </div>`
-
-            // Render dinámico del Sistema de Coping en barra lateral solicitado
+              
             htmlCopySidebar += `
               <div class="copy-row">
                 <div style="display:flex; flex-direction:column; gap:2px;">
