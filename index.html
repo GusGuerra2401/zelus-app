@@ -495,70 +495,89 @@
         const copySidebarContainer = document.getElementById('modulo-copy-sidebar')
         
         try {
-          const { data, error } = await _supabase.from('cuentas_mt5').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false })
-          if(error) throw error
+          // 1. CARGAR MIS CUENTAS (Las del usuario logueado en la tabla cuentas_mt5)
+          const { data: misCuentas, error: errorMisCuentas } = await _supabase
+            .from('cuentas_mt5')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('created_at', { ascending: false })
+            
+          if(errorMisCuentas) throw errorMisCuentas
           
-          document.getElementById('stat-cuentas').innerText = data ? data.length : 0
-          
-          if(!data || data.length === 0) {
-            container.innerHTML = `<div class="no-data"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><p>No tienes ninguna cuenta de MT5 vinculada actualmente.</p></div>`
-            copySidebarContainer.innerHTML = `<div class="no-data"><p style="font-size:12px;">Las cuentas enlazadas aparecerán aquí para activar/desactivar el copy trading.</p></div>`
-            document.getElementById('stat-balance').innerText = "$0.00"
-            return
-          }
+          document.getElementById('stat-cuentas').innerText = misCuentas ? misCuentas.length : 0
           
           let totalBalance = 0
           let htmlCuentas = ""
-          let htmlCopySidebar = ""
           
-          data.forEach(c => {
-            const bal = parseFloat(c.balance || 0)
-            totalBalance += bal
-            
-            htmlCuentas += `
-              <div class="cuenta-row">
-                <div class="cuenta-info">
-                  <div class="cuenta-icon">MT5</div>
-                  <div class="cuenta-meta">
-                    <span class="cuenta-alias">${c.alias}</span>
-                    <span class="cuenta-sub">ID: ${c.login} · ${c.server}</span>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:16px;">
-                  <span style="font-family:var(--font-mono); font-weight:700; font-size:14px;">$${bal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
-                  <span class="cuenta-badge">${c.estado || 'Inactivo'}</span>
-                </div>
-              </div>`
+          if(!misCuentas || misCuentas.length === 0) {
+            htmlCuentas = `<div class="no-data"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><p>No tienes ninguna cuenta de MT5 vinculada actualmente.</p></div>`
+            document.getElementById('stat-balance').innerText = "$0.00"
+          } else {
+            misCuentas.forEach(c => {
+              const bal = parseFloat(c.balance || 0)
+              totalBalance += bal
               
-            htmlCopySidebar += `
-              <div class="copy-row">
-                <div style="display:flex; flex-direction:column; gap:2px;">
-                  <span style="font-size:13px; font-weight:600;">${c.alias}</span>
-                  <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">ID: ${c.login}</span>
-                </div>
-                <label class="switch">
-                  <input type="checkbox" ${c.copy_activo ? 'checked' : ''} onchange="toggleCopyTrading('${c.id}', this.checked)">
-                  <span class="slider"></span>
-                </label>
-              </div>`
-          })
-          
+              htmlCuentas += `
+                <div class="cuenta-row">
+                  <div class="cuenta-info">
+                    <div class="cuenta-icon">MT5</div>
+                    <div class="cuenta-meta">
+                      <span class="cuenta-alias">${c.alias}</span>
+                      <span class="cuenta-sub">ID: ${c.login} · ${c.server}</span>
+                    </div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:16px;">
+                    <span style="font-family:var(--font-mono); font-weight:700; font-size:14px;">$${bal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+                    <span class="cuenta-badge">${c.estado || 'Inactivo'}</span>
+                  </div>
+                </div>`
+            })
+            document.getElementById('stat-balance').innerText = "$" + totalBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})
+          }
           container.innerHTML = htmlCuentas
+
+          // 2. CARGAR CUENTAS DE CLIENTES (Para el módulo derecho de Copy Trading)
+          // Buscamos en la tabla de clientes vinculados a este trader/usuario
+          const { data: cuentasClientes, error: errorClientes } = await _supabase
+            .from('cuentas_clientes')
+            .select('*')
+            .eq('trader_id', currentUser.id)
+            .order('created_at', { ascending: false })
+            
+          if(errorClientes) throw errorClientes
+          
+          let htmlCopySidebar = ""
+          if(!cuentasClientes || cuentasClientes.length === 0) {
+            htmlCopySidebar = `<div class="no-data"><p style="font-size:12px;">No tienes cuentas de clientes enlazadas para gestionar el copy trading.</p></div>`
+          } else {
+            cuentasClientes.forEach(cc => {
+              htmlCopySidebar += `
+                <div class="copy-row">
+                  <div style="display:flex; flex-direction:column; gap:2px;">
+                    <span style="font-size:13px; font-weight:600;">${cc.alias || 'Cliente'}</span>
+                    <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">ID: ${cc.login}</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" ${cc.copy_activo ? 'checked' : ''} onchange="toggleCopyTrading('${cc.id}', this.checked)">
+                    <span class="slider"></span>
+                  </label>
+                </div>`
+            })
+          }
           copySidebarContainer.innerHTML = htmlCopySidebar
-          document.getElementById('stat-balance').innerText = "$" + totalBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})
           
         } catch(err) {
           console.error(err)
-          container.innerHTML = `<p style="color:#ef4444; font-size:13px; text-align:center; padding:20px;">Error al cargar las cuentas.</p>`
-          copySidebarContainer.innerHTML = `<p style="color:#ef4444; font-size:11px; text-align:center; padding:10px;">Error de carga.</p>`
+          container.innerHTML = `<p style="color:#ef4444; font-size:13px; text-align:center; padding:20px;">Error al cargar tus cuentas.</p>`
+          copySidebarContainer.innerHTML = `<p style="color:#ef4444; font-size:11px; text-align:center; padding:10px;">Error de carga en clientes.</p>`
         }
       }
 
-      window.toggleCopyTrading = async function(cuentaId, estadoActivo) {
+      window.toggleCopyTrading = async function(clienteId, estadoActivo) {
         try {
-          const { error } = await _supabase.from('cuentas_mt5').update({ copy_activo: estadoActivo }).eq('id', cuentaId)
+          const { error } = await _supabase.from('cuentas_clientes').update({ copy_activo: estadoActivo }).eq('id', clienteId)
           if(error) throw error
-          showAlert(estadoActivo ? "Copy trading activado para la cuenta" : "Copy trading desactivado")
+          showAlert(estadoActivo ? "Copy trading activado para este cliente" : "Copy trading desactivado")
         } catch(err) {
           showAlert("Error al cambiar estado de copia", true)
           cargarCuentasUsuario()
