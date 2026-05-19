@@ -299,23 +299,8 @@
             <div class="card-header"><div class="card-title">Mi configuración</div></div>
             <div class="card-body">
               <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
-              <div class="cuenta-config" id="cfg-cuenta1">
-                <div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta1" onchange="toggleCuenta(1)"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">IC Markets MT5</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">#4821947 · $8,240</div></div><button class="toggle-btn" style="font-size:11px;padding:4px 10px;">⏸ Pausar</button></div>
-                <div class="cuenta-config-body" id="body-cuenta1">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
-                  <div class="lotaje-opt activo" id="c1-auto" onclick="elegirLotajeCuenta(1,'auto')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración automática</div><div id="dot-c1-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div></div><div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div></div>
-                  <div class="lotaje-opt" id="c1-manual" onclick="elegirLotajeCuenta(1,'manual')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración manual</div><div id="dot-c1-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div></div><div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div></div>
-                  <div id="c1-input-manual" style="display:none;margin-top:10px;"><div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div><div style="display:flex;gap:8px;"><input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;"><button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button></div></div>
-                </div>
-              </div>
-              <div class="cuenta-config" id="cfg-cuenta2">
-                <div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta2" onchange="toggleCuenta(2)"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">IC Markets MT5</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">Sin conectar</div></div><button class="toggle-btn" style="font-size:11px;padding:4px 10px;">⏸ Pausar</button></div>
-                <div class="cuenta-config-body" id="body-cuenta2">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
-                  <div class="lotaje-opt activo" id="c2-auto" onclick="elegirLotajeCuenta(2,'auto')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración automática</div><div id="dot-c2-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div></div><div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div></div>
-                  <div class="lotaje-opt" id="c2-manual" onclick="elegirLotajeCuenta(2,'manual')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-size:13px;font-weight:600;">Configuración manual</div><div id="dot-c2-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div></div><div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div></div>
-                  <div id="c2-input-manual" style="display:none;margin-top:10px;"><div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div><div style="display:flex;gap:8px;"><input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;"><button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button></div></div>
-                </div>
+              <div id="sistemas-cuentas-lista">
+                <div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">Cargando cuentas...</div>
               </div>
               <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--text2);">💰 Balance mínimo para conectar: <strong style="color:var(--text);">$500 USD</strong></div>
               <button id="btn-conectar-ahora" class="btn btn-primary" disabled style="width:100%;padding:12px;font-size:14px;">Conectar ahora</button>
@@ -544,6 +529,117 @@
       }
 
       // =================================================================
+      // FUNCIÓN PARA PINTAR CUENTAS EN EL PANEL MI CONFIGURACIÓN (SISTEMAS COPY)
+      // =================================================================
+      async function cargarCuentasSistemas() {
+        try {
+          const { data: { session: s } } = await supabase.auth.getSession();
+          if (!s) return;
+
+          const { data: cuentas, error } = await supabase
+            .from('cuentas')
+            .select('*')
+            .eq('usuario_id', s.user.id);
+          if (error) throw error;
+
+          const contenedor = document.getElementById('sistemas-cuentas-lista');
+          const btnConectar = document.getElementById('btn-conectar-ahora');
+          if (!contenedor) return;
+
+          if (!cuentas || cuentas.length === 0) {
+            contenedor.innerHTML = `<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>`;
+            if (btnConectar) { btnConectar.disabled = false; btnConectar.onclick = () => abrirModal(); }
+            return;
+          }
+
+          let html = '';
+          cuentas.forEach((cuenta, i) => {
+            const n = i + 1;
+            const detalle = cuenta.apodo ? `${cuenta.apodo}` : 'Sin apodo';
+            const loginStr = cuenta.login ? `#${cuenta.login}` : '';
+            const estaActiva = cuenta.estado === 'activa';
+            html += `
+              <div class="cuenta-config" id="cfg-cuenta-dyn-${n}">
+                <div class="cuenta-config-header">
+                  <input type="checkbox" id="chk-cuenta-dyn-${n}" onchange="toggleCuentaDyn(${n})">
+                  <div style="flex:1;">
+                    <div style="font-size:14px;font-weight:600;">${cuenta.broker || 'IC Markets'} ${cuenta.plataforma || 'MT5'}</div>
+                    <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">${loginStr}${loginStr && detalle ? ' · ' : ''}${detalle}</div>
+                  </div>
+                  <span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;${estaActiva ? 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);' : 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'}">
+                    <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>
+                    ${estaActiva ? 'Activa' : 'Inactiva'}
+                  </span>
+                </div>
+                <div class="cuenta-config-body" id="body-cuenta-dyn-${n}">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
+                  <div class="lotaje-opt activo" id="cdyn${n}-auto" onclick="elegirLotajeCuentaDyn(${n},'auto')">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                      <div style="font-size:13px;font-weight:600;">Configuración automática</div>
+                      <div id="dot-cdyn${n}-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div>
+                  </div>
+                  <div class="lotaje-opt" id="cdyn${n}-manual" onclick="elegirLotajeCuentaDyn(${n},'manual')">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                      <div style="font-size:13px;font-weight:600;">Configuración manual</div>
+                      <div id="dot-cdyn${n}-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div>
+                  </div>
+                  <div id="cdyn${n}-input-manual" style="display:none;margin-top:10px;">
+                    <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div>
+                    <div style="display:flex;gap:8px;">
+                      <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;">
+                      <button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+
+          contenedor.innerHTML = html;
+
+          // Habilitar botón conectar ahora si hay checkbox marcado
+          if (btnConectar) {
+            btnConectar.disabled = true;
+            btnConectar.onclick = () => abrirModal();
+          }
+        } catch(e) {
+          console.error('Error cargando cuentas en Sistemas Copy:', e);
+        }
+      }
+
+      window.toggleCuentaDyn = function(n) {
+        const chk = document.getElementById('chk-cuenta-dyn-' + n);
+        const cfg = document.getElementById('cfg-cuenta-dyn-' + n);
+        chk.checked ? cfg.classList.add('seleccionada') : cfg.classList.remove('seleccionada');
+        // Revisar si algún checkbox está activo
+        let alguno = false;
+        document.querySelectorAll('[id^="chk-cuenta-dyn-"]').forEach(c => { if(c.checked) alguno = true; });
+        const btn = document.getElementById('btn-conectar-ahora');
+        if (btn) btn.disabled = !alguno;
+      }
+
+      window.elegirLotajeCuentaDyn = function(n, tipo) {
+        const auto = document.getElementById('cdyn'+n+'-auto'), manual = document.getElementById('cdyn'+n+'-manual');
+        const dA = document.getElementById('dot-cdyn'+n+'-auto'), dM = document.getElementById('dot-cdyn'+n+'-manual');
+        const inp = document.getElementById('cdyn'+n+'-input-manual');
+        if (tipo === 'auto') {
+          auto.classList.add('activo'); manual.classList.remove('activo');
+          dA.style.background='var(--purple)'; dA.style.border='none';
+          dM.style.background='transparent'; dM.style.border='1px solid var(--text2)';
+          if(inp) inp.style.display='none';
+        } else {
+          manual.classList.add('activo'); auto.classList.remove('activo');
+          dM.style.background='var(--purple)'; dM.style.border='none';
+          dA.style.background='transparent'; dA.style.border='1px solid var(--text2)';
+          if(inp) inp.style.display='block';
+        }
+      }
+
+      // =================================================================
       // CONFIGURACIÓN SANEADA DE ESCUCHAS EN TIEMPO REAL (REALTIME FIX - ALL)
       // =================================================================
       supabase
@@ -553,6 +649,7 @@
            
            const { data: { session: sesionWebActiva } } = await supabase.auth.getSession();
            cargarCuentasDashboard();
+           cargarCuentasSistemas();
            
            if (sesionWebActiva && payload.new.usuario_id === sesionWebActiva.user.id) {
              const msg = document.getElementById('modal-msg');
@@ -629,6 +726,7 @@
                     msg.style.display = 'none';
                     
                     cargarCuentasDashboard();
+                    cargarCuentasSistemas();
                     validarFormulario();
                   }, 1500);
                 }
@@ -659,6 +757,7 @@
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
         verificarTerminos(session)
         cargarCuentasDashboard();
+        cargarCuentasSistemas();
       })
 
       const { data: { session: globalSession } } = await supabase.auth.getSession()
