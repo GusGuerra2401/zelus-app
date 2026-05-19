@@ -150,8 +150,6 @@
       .cuenta-config-header input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer; flex-shrink: 0; }
       .cuenta-config-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: none; }
       .cuenta-config.seleccionada .cuenta-config-body { display: block; }
-      .lotaje-opt { cursor: pointer; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 8px; transition: all 0.2s; }
-      .lotaje-opt.activo { border-color: var(--purple); background: rgba(139,92,246,0.08); }
       .section-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
       .section-footer p { font-size: 11px; color: var(--text2); line-height: 1.8; max-width: 720px; margin: 0 auto; }
       .tt-wrap { position: relative; display: inline-flex; align-items: baseline; }
@@ -239,7 +237,6 @@
               <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2330.10</td><td class="pnl-pos">+$210.00</td></tr>
             </tbody></table></div>
           </div>
-          
           <div class="card">
             <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT5 Activas</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
             <div id="cuentas-lista-dashboard">
@@ -258,7 +255,7 @@
             <div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div>
           </div>
         </div>
-        <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:20px;font-size:13px;color:var(--text2);line-height:1.7;">⚠️ <strong style="color:var(--text);">Política de operation:</strong> Las cuentas conectadas son exclusivas para el sistema de copy trading. Operar manualmente puede resultar en la suspensión del servicio.</div>
+        <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:20px;font-size:13px;color:var(--text2);line-height:1.7;">⚠️ <strong style="color:var(--text);">Política de operación:</strong> Las cuentas conectadas son exclusivas para el sistema de copy trading. Operar manualmente puede resultar en la suspensión del servicio.</div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
 
@@ -330,7 +327,7 @@
           <div class="escalon-card plata activo"><div class="escalon-icon">🥈</div><div class="escalon-nombre">Plata</div><div class="escalon-rango">$5,000 – $9,999 USD</div><div class="escalon-porcentaje">25%</div><div class="escalon-label">sobre ganancias generadas</div><div class="escalon-badge">✓ Tu escalón actual</div></div>
           <div class="escalon-card oro"><div class="escalon-icon">🥇</div><div class="escalon-nombre">Oro</div><div class="escalon-rango">$10,000+ USD</div><div class="escalon-porcentaje">20%</div><div class="escalon-label">sobre ganancias generadas</div><div class="escalon-badge">Mayor capital = menor %</div></div>
         </div>
-        <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:24px;font-size:13px;color:var(--text2);line-height:1.7;">📌 <strong style="color:var(--text);">Regla del escalón:</strong> Tu balance debe haber permanecido en el mismo escalón durante <strong style="color:var(--text);">todos los días del mes</strong>. Si un día cierra en un escalón más bajo, se aplica ese porcentaje. Solo se cobran las ganancias generadas por el sistema de copy. Si el mes es negativo, se guarda ese saldo y se descuenta de las ganancias futures.</div>
+        <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:24px;font-size:13px;color:var(--text2);line-height:1.7;">📌 <strong style="color:var(--text);">Regla del escalón:</strong> Tu balance debe haber permanecido en el mismo escalón durante <strong style="color:var(--text);">todos los días del mes</strong>. Si un día cierra en un escalón más bajo, se aplica ese porcentaje. Solo se cobran las ganancias generadas por el sistema de copy. Si el mes es negativo, se guarda ese saldo y se descuenta de las ganancias futuras.</div>
         <div class="saldo-negativo" style="display:none;" id="saldo-negativo-banner"><div style="font-size:28px;">📉</div><div><div class="saldo-negativo-monto" id="saldo-negativo-monto">-$0.00</div><div class="saldo-negativo-texto">No hay cobro este mes hasta recuperar pérdidas acumuladas.</div></div></div>
         <div class="section-title">Pago de abril 2026</div>
         <div class="pago-card">
@@ -372,29 +369,24 @@
       <button onclick="cerrarModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">✕</button>
       <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Conectar cuenta MT5</h2>
       <p style="font-size:13px;color:#a09cbf;margin-bottom:24px;">Ingresa los datos de tu cuenta de trading.</p>
-
       <div style="margin-bottom:16px;">
         <label class="modal-label">Plataforma</label>
         <input type="text" class="modal-input" value="MT5" readonly style="cursor:default;opacity:0.7;">
       </div>
-
       <div style="margin-bottom:16px;">
         <label class="modal-label">Apodo</label>
         <input id="input-apodo" type="text" class="modal-input" placeholder="Ej: Mi cuenta principal" oninput="validarFormulario()">
       </div>
-
       <div style="margin-bottom:4px;">
         <label class="modal-label">Broker</label>
         <input id="input-broker" type="text" class="modal-input" value="IC Markets" readonly>
         <p style="font-size:11px;color:#a09cbf;margin-top:6px;">Sólo te mostraremos los Brokers autorizados hasta el momento.</p>
       </div>
-
       <div style="margin-bottom:4px;margin-top:16px;">
         <label class="modal-label">Servidor</label>
         <input id="input-servidor" type="text" class="modal-input" placeholder="Cargando servidores..." readonly onclick="mostrarServidores()">
       </div>
       <div id="servidor-sugerencias" class="search-dropdown"></div>
-
       <div style="margin-bottom:16px;margin-top:16px;">
         <label class="modal-label">Login (número de cuenta)</label>
         <input id="input-login" type="text" class="modal-input" placeholder="Ej: 4821947" oninput="validarFormulario()">
@@ -415,8 +407,8 @@
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
 
-      const TERMINOS_TEXTO = `TÉRMINOS Y CONDICIONES DE USO... (Texto integrado Penguin FX)`;
       document.getElementById('terminos-scroll').textContent = `TÉRMINOS Y CONDICIONES DE USO\nZelus · Servicio de Copy Trading\nPenguin FX Academy\n\nVersión 1.0 — Abril 2026\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. ACEPTACIÓN DE LOS TÉRMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy...`;
+
       let servidoresDisponibles = []
       async function cargarServidores() {
         try {
@@ -483,24 +475,19 @@
         }
       }
 
-      // =================================================================
-      // FUNCIÓN BLINDADA PARA PINTAR LAS TARJETAS DINÁMICAS (CORREGIDA)
-      // =================================================================
+      // FUNCIÓN PARA PINTAR CUENTAS EN DASHBOARD Y MIS CUENTAS
       async function cargarCuentasDashboard() {
         try {
           const { data: { session: currentSession } } = await supabase.auth.getSession();
           if (!currentSession) return;
-
           const { data: cuentas, error } = await supabase
             .from('cuentas')
             .select('*')
             .eq('usuario_id', currentSession.user.id);
           if (error) throw error;
-
           const contenedorDash = document.getElementById('cuentas-lista-dashboard');
           const contenedorSec = document.getElementById('cuentas-lista-seccion');
           const mensajeVacio = `<div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">No tienes cuentas conectadas.</div>`;
-
           let htmlAcumulado = '';
           if (cuentas && cuentas.length > 0) {
             cuentas.forEach(cuenta => {
@@ -520,7 +507,6 @@
           } else {
             htmlAcumulado = mensajeVacio;
           }
-
           if (contenedorDash) contenedorDash.innerHTML = htmlAcumulado;
           if (contenedorSec) contenedorSec.innerHTML = htmlAcumulado;
         } catch (e) {
@@ -528,30 +514,24 @@
         }
       }
 
-      // =================================================================
-      // FUNCIÓN PARA PINTAR CUENTAS EN EL PANEL MI CONFIGURACIÓN (SISTEMAS COPY)
-      // =================================================================
+      // FUNCIÓN PARA PINTAR CUENTAS EN SISTEMAS COPY (sin opciones de lotaje)
       async function cargarCuentasSistemas() {
         try {
           const { data: { session: s } } = await supabase.auth.getSession();
           if (!s) return;
-
           const { data: cuentas, error } = await supabase
             .from('cuentas')
             .select('*')
             .eq('usuario_id', s.user.id);
           if (error) throw error;
-
           const contenedor = document.getElementById('sistemas-cuentas-lista');
           const btnConectar = document.getElementById('btn-conectar-ahora');
           if (!contenedor) return;
-
           if (!cuentas || cuentas.length === 0) {
             contenedor.innerHTML = `<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>`;
             if (btnConectar) { btnConectar.disabled = false; btnConectar.onclick = () => abrirModal(); }
             return;
           }
-
           let html = '';
           cuentas.forEach((cuenta, i) => {
             const n = i + 1;
@@ -572,36 +552,14 @@
                   </span>
                 </div>
                 <div class="cuenta-config-body" id="body-cuenta-dyn-${n}">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:10px;">Tipo de lotaje</div>
-                  <div class="lotaje-opt activo" id="cdyn${n}-auto" onclick="elegirLotajeCuentaDyn(${n},'auto')">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                      <div style="font-size:13px;font-weight:600;">Configuración automática</div>
-                      <div id="dot-cdyn${n}-auto" style="width:9px;height:9px;border-radius:50%;background:var(--purple);"></div>
-                    </div>
-                    <div style="font-size:11px;color:var(--text2);">Nosotros asignamos el lotaje dinámico según tu balance, déjalo en nuestras manos.</div>
-                  </div>
-                  <div class="lotaje-opt" id="cdyn${n}-manual" onclick="elegirLotajeCuentaDyn(${n},'manual')">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                      <div style="font-size:13px;font-weight:600;">Configuración manual</div>
-                      <div id="dot-cdyn${n}-manual" style="width:9px;height:9px;border-radius:50%;background:transparent;border:1px solid var(--text2);"></div>
-                    </div>
-                    <div style="font-size:11px;color:var(--text2);">Uso avanzado. Solo si conoces bien el sistema. <span style="color:var(--red);">No recomendado.</span></div>
-                  </div>
-                  <div id="cdyn${n}-input-manual" style="display:none;margin-top:10px;">
-                    <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Tamaño de lote</div>
-                    <div style="display:flex;gap:8px;">
-                      <input type="number" value="0.10" step="0.01" min="0.01" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:90px;outline:none;">
-                      <button class="btn btn-primary" style="padding:7px 12px;font-size:11px;">Guardar</button>
-                    </div>
+                  <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;">
+                    ⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.
                   </div>
                 </div>
               </div>
             `;
           });
-
           contenedor.innerHTML = html;
-
-          // Habilitar botón conectar ahora si hay checkbox marcado
           if (btnConectar) {
             btnConectar.disabled = true;
             btnConectar.onclick = () => abrirModal();
@@ -615,71 +573,43 @@
         const chk = document.getElementById('chk-cuenta-dyn-' + n);
         const cfg = document.getElementById('cfg-cuenta-dyn-' + n);
         chk.checked ? cfg.classList.add('seleccionada') : cfg.classList.remove('seleccionada');
-        // Revisar si algún checkbox está activo
         let alguno = false;
         document.querySelectorAll('[id^="chk-cuenta-dyn-"]').forEach(c => { if(c.checked) alguno = true; });
         const btn = document.getElementById('btn-conectar-ahora');
         if (btn) btn.disabled = !alguno;
       }
 
-      window.elegirLotajeCuentaDyn = function(n, tipo) {
-        const auto = document.getElementById('cdyn'+n+'-auto'), manual = document.getElementById('cdyn'+n+'-manual');
-        const dA = document.getElementById('dot-cdyn'+n+'-auto'), dM = document.getElementById('dot-cdyn'+n+'-manual');
-        const inp = document.getElementById('cdyn'+n+'-input-manual');
-        if (tipo === 'auto') {
-          auto.classList.add('activo'); manual.classList.remove('activo');
-          dA.style.background='var(--purple)'; dA.style.border='none';
-          dM.style.background='transparent'; dM.style.border='1px solid var(--text2)';
-          if(inp) inp.style.display='none';
-        } else {
-          manual.classList.add('activo'); auto.classList.remove('activo');
-          dM.style.background='var(--purple)'; dM.style.border='none';
-          dA.style.background='transparent'; dA.style.border='1px solid var(--text2)';
-          if(inp) inp.style.display='block';
-        }
-      }
-
-      // =================================================================
-      // CONFIGURACIÓN SANEADA DE ESCUCHAS EN TIEMPO REAL (REALTIME FIX - ALL)
-      // =================================================================
+      // REALTIME: cambios en tabla cuentas
       supabase
         .channel('cambios-cuentas-zelus')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'cuentas' }, async (payload) => {
            console.log('¡Evento detectado en tabla cuentas por Realtime!', payload.eventType, payload.new);
-           
            const { data: { session: sesionWebActiva } } = await supabase.auth.getSession();
            cargarCuentasDashboard();
            cargarCuentasSistemas();
-           
            if (sesionWebActiva && payload.new.usuario_id === sesionWebActiva.user.id) {
              const msg = document.getElementById('modal-msg');
              const btn = document.getElementById('btn-verificar');
-             
              if (msg && btn) {
                msg.style.display = 'block';
                msg.style.background = 'rgba(52,211,153,0.1)';
                msg.style.border = '1px solid rgba(52,211,153,0.3)';
                msg.style.color = '#34d399';
                msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
-               
                btn.textContent = '¡Conectado con éxito!';
                btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
-               
                setTimeout(() => {
                  document.getElementById('modal-bg').classList.remove('open');
                  document.getElementById('modal-box').classList.remove('open');
-                 
                  btn.textContent = 'Verificar y conectar cuenta';
                  btn.disabled = true;
                  btn.style.opacity = '0.4';
                  btn.style.background = 'linear-gradient(135deg,#8b5cf6,#d946ef)';
-                 
                  document.getElementById('input-apodo').value = '';
                  document.getElementById('input-servidor').value = '';
                  document.getElementById('input-login').value = '';
                  document.getElementById('input-password').value = '';
                  msg.style.display = 'none';
-                 
                  validarFormulario();
                }, 1500);
              }
@@ -687,18 +617,15 @@
         })
         .subscribe();
 
+      // REALTIME: cambios en tabla Validar_Cuentas
       supabase
         .channel('cambios-validaciones-zelus')
         .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Validar_Cuentas' }, async (payload) => {
            console.log('¡Actualización detectada en Validar_Cuentas!', payload.new.estado, payload.new);
-           
            const { data: { session: actualSession } } = await supabase.auth.getSession();
            const btn = document.getElementById('btn-verificar');
            const msg = document.getElementById('modal-msg');
-           
            if (actualSession && payload.new.usuario_id === actualSession.user.id) {
-             
-             // CASO A: Si el estado mapea el string exacto de Python con signos y tildes o "exitosa"
              if (payload.new.estado === '¡Éxito!' || payload.new.estado === 'exitosa') {
                 if (msg && btn) {
                   msg.style.display = 'block';
@@ -706,33 +633,26 @@
                   msg.style.border = '1px solid rgba(52,211,153,0.3)';
                   msg.style.color = '#34d399';
                   msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
-                  
                   btn.textContent = '¡Conectado!';
                   btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
-                  
                   setTimeout(() => {
                     document.getElementById('modal-bg').classList.remove('open');
                     document.getElementById('modal-box').classList.remove('open');
-                    
                     btn.textContent = 'Verificar y conectar cuenta';
                     btn.disabled = true;
                     btn.style.opacity = '0.4';
                     btn.style.background = 'linear-gradient(135deg,#8b5cf6,#d946ef)';
-                    
                     document.getElementById('input-apodo').value = '';
                     document.getElementById('input-servidor').value = '';
                     document.getElementById('input-login').value = '';
                     document.getElementById('input-password').value = '';
                     msg.style.display = 'none';
-                    
                     cargarCuentasDashboard();
                     cargarCuentasSistemas();
                     validarFormulario();
                   }, 1500);
                 }
              }
-
-             // CASO B: Falla de credenciales
              if (payload.new.estado === 'Fallida' || payload.new.estado === 'fallida') {
                 if (msg && btn) {
                   msg.style.display = 'block';
@@ -740,7 +660,6 @@
                   msg.style.border = '1px solid rgba(248,113,113,0.3)';
                   msg.style.color = '#f87171';
                   msg.textContent = '✗ ' + (payload.new.mensaje_error || 'Error en la validación.');
-                  
                   btn.textContent = 'Verificar y conectar cuenta';
                   btn.disabled = false;
                   btn.style.opacity = '1';
@@ -785,30 +704,6 @@
       }
       document.addEventListener('click', () => document.querySelectorAll('.tt-box').forEach(t => t.classList.remove('open')))
 
-      window.toggleCuenta = function(n) {
-        const chk = document.getElementById('chk-cuenta' + n)
-        const cfg = document.getElementById('cfg-cuenta' + n)
-        chk.checked ? cfg.classList.add('seleccionada') : cfg.classList.remove('seleccionada')
-        document.getElementById('btn-conectar-ahora').disabled = !(document.getElementById('chk-cuenta1').checked || document.getElementById('chk-cuenta2').checked)
-      }
-
-      window.elegirLotajeCuenta = function(n, tipo) {
-        const auto = document.getElementById('c'+n+'-auto'), manual = document.getElementById('c'+n+'-manual')
-        const dA = document.getElementById('dot-c'+n+'-auto'), dM = document.getElementById('dot-c'+n+'-manual')
-        const inp = document.getElementById('c'+n+'-input-manual')
-        if (tipo === 'auto') {
-          auto.classList.add('activo'); manual.classList.remove('activo')
-          dA.style.background='var(--purple)'; dA.style.border='none'
-          dM.style.background='transparent'; dM.style.border='1px solid var(--text2)'
-          inp.style.display='none'
-        } else {
-          manual.classList.add('activo'); auto.classList.remove('activo')
-          dM.style.background='var(--purple)'; dM.style.border='none'
-          dA.style.background='transparent'; dA.style.border='1px solid var(--text2)'
-          inp.style.display='block'
-        }
-      }
-
       window.validarFormulario = function() {
         const apodo = document.getElementById('input-apodo').value.trim()
         const servidor = document.getElementById('input-servidor').value.trim()
@@ -823,15 +718,12 @@
       window.verifyCuenta = window.verificarCuenta = async function() {
         const btn = document.getElementById('btn-verificar')
         const msg = document.getElementById('modal-msg')
-        
         btn.textContent = '🔄 Bot Zelus verifying en tu PC...'
         btn.disabled = true
         btn.style.opacity = '0.7'
         msg.style.display = 'none'
-        
         try {
           const { data: { session } } = await supabase.auth.getSession()
-          
           const { error } = await supabase
             .from('Validar_Cuentas')
             .insert([{
@@ -844,7 +736,6 @@
               usuario_id: session.user.id,
               estado: 'procesando'
             }]);
-
           if (error) throw error;
           msg.style.display = 'block'
           msg.style.background = 'rgba(139,92,246,0.1)'
@@ -877,12 +768,10 @@
           .select('id')
           .eq('usuario_id', session.user.id)
           .eq('estado', 'activa')
-
         if (cuentasActivas && cuentasActivas.length >= 2) {
           alert('Ya tienes 2 cuentas activas en tu Dashboard.')
           return
         }
-
         document.getElementById('modal-bg').classList.add('open')
         document.getElementById('modal-box').classList.add('open')
         document.getElementById('input-apodo').value = ''
@@ -891,7 +780,6 @@
         document.getElementById('input-password').value = ''
         document.getElementById('servidor-sugerencias').style.display = 'none'
         document.getElementById('modal-msg').style.display = 'none'
-        
         const btn = document.getElementById('btn-verificar')
         btn.disabled = true; btn.style.opacity = '0.4'
         btn.textContent = 'Verificar y conectar cuenta'
