@@ -1040,10 +1040,6 @@
         
         await cargarCuentasUsuario()
         escucharCambiosValidaciones()
-
-        // SOLUCIÓN AL CARGANDO INFINITO: Apagar el loading screen inicial al terminar de procesar
-        const loader = document.getElementById('loading-screen')
-        if (loader) loader.style.display = 'none'
       }
 
       async function cargarCuentasUsuario() {
@@ -1067,7 +1063,7 @@
         const contenedorCuentas = document.getElementById('lista-cuentas-vistas')
         const contenedorCopy = document.getElementById('lista-copy-cuentas')
 
-        // Renderizado del Panel Principal de Cuentas Vinculadas
+        // Renderizado del Panel de Cuentas Vinculadas
         if (misCuentas.length === 0) {
           contenedorCuentas.innerHTML = `
             <div class="no-data">
@@ -1089,7 +1085,7 @@
           `).join('')
         }
 
-        // CAMBIO IMPLEMENTADO: El módulo lateral "Sistema de Copy" ahora mapea dinámicamente tus cuentas agregadas
+        // CAMBIO SOLICITADO: Mapeo dinámico de tus cuentas reales dentro del contenedor de la barra lateral "Sistema de Copy"
         if (misCuentas.length === 0) {
           contenedorCopy.innerHTML = `
             <div class="no-data" style="padding: 20px 10px;">
