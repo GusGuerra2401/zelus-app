@@ -320,7 +320,7 @@
         justify-content: space-between;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 20px var(--shadow);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
       }
       @media (max-width: 900px) {
         .card-stat { grid-column: span 12; }
@@ -381,7 +381,7 @@
         border: 1px solid var(--border);
         border-radius: 16px;
         padding: 24px;
-        box-shadow: 0 4px 20px var(--shadow);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
       }
       .card-side {
         grid-column: span 4;
@@ -389,7 +389,7 @@
         border: 1px solid var(--border);
         border-radius: 16px;
         padding: 24px;
-        box-shadow: 0 4px 20px var(--shadow);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         display: flex;
         flex-direction: column;
       }
@@ -441,9 +441,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 16px;
+        font-size: 11px;
         font-weight: 700;
         color: var(--purple2);
+        font-family: var(--font-mono);
       }
       .cuenta-meta {
         display: flex;
@@ -749,6 +750,11 @@
   </head>
   <body>
 
+    <div id="loading-screen" style="position: fixed; inset: 0; background: #08070f; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
+      <div style="width: 40px; height: 40px; border: 3px solid rgba(139, 92, 246, 0.2); border-top-color: #8b5cf6; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+      <p style="color: #9ca3af; font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: -0.2px;">Cargando datos...</p>
+    </div>
+
     <nav class="navbar">
       <div class="nav-left">
         <button class="menu-btn" onclick="toggleSidebar()">
@@ -1034,6 +1040,10 @@
         
         await cargarCuentasUsuario()
         escucharCambiosValidaciones()
+
+        // SOLUCIÓN AL CARGANDO INFINITO: Apagar el loading screen inicial al terminar de procesar
+        const loader = document.getElementById('loading-screen')
+        if (loader) loader.style.display = 'none'
       }
 
       async function cargarCuentasUsuario() {
@@ -1057,7 +1067,7 @@
         const contenedorCuentas = document.getElementById('lista-cuentas-vistas')
         const contenedorCopy = document.getElementById('lista-copy-cuentas')
 
-        // 1. Renderizar módulo principal "Mis Cuentas de Trading Vinculadas"
+        // Renderizado del Panel Principal de Cuentas Vinculadas
         if (misCuentas.length === 0) {
           contenedorCuentas.innerHTML = `
             <div class="no-data">
@@ -1079,7 +1089,7 @@
           `).join('')
         }
 
-        // 2. MODIFICACIÓN SOLICITADA: Renderizar módulo lateral "Sistema de Copy" dinámicamente usando las cuentas agregadas reales
+        // CAMBIO IMPLEMENTADO: El módulo lateral "Sistema de Copy" ahora mapea dinámicamente tus cuentas agregadas
         if (misCuentas.length === 0) {
           contenedorCopy.innerHTML = `
             <div class="no-data" style="padding: 20px 10px;">
@@ -1091,7 +1101,7 @@
               <div class="cuenta-info">
                 <div class="cuenta-meta">
                   <span class="cuenta-alias" style="font-size:12px;">${cta.apodo || 'Cuenta de Trading'}</span>
-                  <span class="cuenta-sub" style="font-size:10px;">${cta.login}</span>
+                  <span class="cuenta-sub" style="font-size:10px;">ID: ${cta.login}</span>
                 </div>
               </div>
               <label class="switch">
@@ -1121,7 +1131,7 @@
           }, async (payload) => {
             const registro = payload.new
             if (registro.estado === 'exitosa') {
-              mostrarAlerta("¡Felicidades! Cuenta validada con éxito en local.")
+              mostrarAlerta("¡Felicidades! Cuenta validada con éxito.")
               closeModal()
               await cargarCuentasUsuario() 
             } else if (registro.estado === 'fallida') {
@@ -1156,7 +1166,7 @@
 
         const btn = document.getElementById('btn-submit-form')
         btn.disabled = true
-        btn.innerHTML = `<span class="spinner"></span> Consultando con Zelus Engine en local...`
+        btn.innerHTML = `<span class="spinner"></span> Consultando con Zelus Engine...`
 
         const apodo = document.getElementById('input-apodo').value.trim()
         const plataforma = document.getElementById('input-plataforma').value
@@ -1179,7 +1189,7 @@
           })
 
         if (error) {
-          mostrarAlerta("Error al enviar la solicitud al servidor: " + error.message, true)
+          mostrarAlerta("Error al enviar la solicitud: " + error.message, true)
           btn.disabled = false
           btn.innerText = "Validar e Iniciar Conexión Realtime"
         } else {
