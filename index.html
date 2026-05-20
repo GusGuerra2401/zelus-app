@@ -98,6 +98,8 @@
       .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
       .section-title::before { content: ''; width: 3px; height: 18px; background: linear-gradient(to bottom,var(--purple),var(--pink)); border-radius: 999px; display: inline-block; }
       .toggle-btn { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 8px; cursor: pointer; border: 1px solid var(--border2); background: rgba(139,92,246,0.1); color: var(--purple2); font-family: 'Sora',sans-serif; transition: all 0.2s; }
+      .toggle-btn.pausar { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.08); color: var(--red); }
+      .toggle-btn.activar { border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.08); color: var(--green); }
       .section-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
       .section-footer p { font-size: 11px; color: var(--text2); line-height: 1.8; max-width: 720px; margin: 0 auto; }
       .tt-wrap { position: relative; display: inline-flex; align-items: baseline; }
@@ -200,7 +202,7 @@
             <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Win rate</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;">71.4%</div></div>
             <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Trades mes</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;">42</div></div>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;"><button class="toggle-btn">⏸ Pausar</button><span style="font-size:12px;color:var(--text2);">👤 87 siguiendo</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:var(--text2);">👤 87 siguiendo</span></div>
         </div></div>
         <div class="two-col">
           <div class="card">
@@ -293,10 +295,7 @@
 
       <!-- PAGOS -->
       <div class="section" id="sec-pagos">
-
         <div class="section-title">Sistema de Pagos</div>
-
-        <!-- ESCALONES -->
         <div id="escalones-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
           <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden;text-align:center;">
             <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#4a4766;"></div>
@@ -335,124 +334,38 @@
             <div style="font-size:11px;color:var(--text2);margin-top:6px;">sobre ganancias generadas</div>
           </div>
         </div>
-
-        <!-- RESUMEN DE PAGO -->
         <div class="section-title">Resumen de pago · Mayo 2026</div>
-
-        <!-- Banner período -->
         <div style="display:flex;align-items:center;gap:10px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;padding:12px 18px;margin-bottom:20px;font-size:13px;color:var(--text2);">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0;stroke:var(--purple2);"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           <span>Período: <strong style="color:var(--text);">1 – 31 de mayo 2026</strong> · Corte: <strong style="color:var(--text);">31 de mayo 2026</strong> · Los datos se actualizarán al cierre del período.</span>
         </div>
-
-        <!-- Tarjetas de cuenta (sin botones) -->
         <div id="pago-cuentas-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:20px;">
-
-          <!-- TARJETA CUENTA 1 -->
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden;position:relative;">
             <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink));"></div>
-            <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
-              <div style="display:flex;align-items:center;gap:12px;">
-                <div style="width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.2);border:2px solid var(--purple);flex-shrink:0;"></div>
-                <div>
-                  <div style="font-size:14px;font-weight:700;">IC Markets MT5</div>
-                  <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">#4821947 · Mi cuenta principal</div>
-                </div>
-                <div style="margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(139,92,246,0.15);border:1px solid var(--border2);color:var(--purple2);">Pro</div>
-              </div>
-            </div>
-            <div style="padding:20px 24px;">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Ganancia del mes</div>
-                  <div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$1,204.00</div>
-                </div>
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Subtotal a pagar</div>
-                  <div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">$240.80</div>
-                </div>
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Día más bajo</div>
-                  <div style="font-size:13px;font-weight:600;">12 may · <span style="font-family:'JetBrains Mono',monospace;color:var(--yellow);">$6,020.00</span></div>
-                </div>
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Escalón aplicado</div>
-                  <div style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;">
-                    <div style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>
-                    Pro · 20%
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div style="padding:20px 24px;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:12px;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.2);border:2px solid var(--purple);flex-shrink:0;"></div><div><div style="font-size:14px;font-weight:700;">IC Markets MT5</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">#4821947 · Mi cuenta principal</div></div><div style="margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(139,92,246,0.15);border:1px solid var(--border2);color:var(--purple2);">Pro</div></div></div>
+            <div style="padding:20px 24px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Ganancia del mes</div><div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$1,204.00</div></div><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Subtotal a pagar</div><div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">$240.80</div></div><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Día más bajo</div><div style="font-size:13px;font-weight:600;">12 may · <span style="font-family:'JetBrains Mono',monospace;color:var(--yellow);">$6,020.00</span></div></div><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Escalón aplicado</div><div style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;"><div style="width:10px;height:10px;border-radius:50%;background:var(--purple);"></div>Pro · 20%</div></div></div></div>
           </div>
-
-          <!-- TARJETA CUENTA 2 -->
           <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;">
             <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--purple3);"></div>
-            <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
-              <div style="display:flex;align-items:center;gap:12px;">
-                <div style="width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.1);border:2px solid var(--purple3);flex-shrink:0;"></div>
-                <div>
-                  <div style="font-size:14px;font-weight:700;">IC Markets MT5</div>
-                  <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">#5193204 · Cuenta secundaria</div>
-                </div>
-                <div style="margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(139,92,246,0.08);border:1px solid var(--border);color:var(--purple3);">Base</div>
-              </div>
-            </div>
-            <div style="padding:20px 24px;">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Ganancia del mes</div>
-                  <div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$342.00</div>
-                </div>
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Subtotal a pagar</div>
-                  <div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">$102.60</div>
-                </div>
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Día más bajo</div>
-                  <div style="font-size:13px;font-weight:600;">8 may · <span style="font-family:'JetBrains Mono',monospace;color:var(--yellow);">$2,410.00</span></div>
-                </div>
-                <div>
-                  <div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Escalón aplicado</div>
-                  <div style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;">
-                    <div style="width:10px;height:10px;border-radius:50%;background:var(--purple3);"></div>
-                    Base · 30%
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div style="padding:20px 24px;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:12px;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.1);border:2px solid var(--purple3);flex-shrink:0;"></div><div><div style="font-size:14px;font-weight:700;">IC Markets MT5</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">#5193204 · Cuenta secundaria</div></div><div style="margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(139,92,246,0.08);border:1px solid var(--border);color:var(--purple3);">Base</div></div></div>
+            <div style="padding:20px 24px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Ganancia del mes</div><div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$342.00</div></div><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Subtotal a pagar</div><div style="font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">$102.60</div></div><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Día más bajo</div><div style="font-size:13px;font-weight:600;">8 may · <span style="font-family:'JetBrains Mono',monospace;color:var(--yellow);">$2,410.00</span></div></div><div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;">Escalón aplicado</div><div style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;"><div style="width:10px;height:10px;border-radius:50%;background:var(--purple3);"></div>Base · 30%</div></div></div></div>
           </div>
-
         </div>
-
-        <!-- TOTAL Y BOTONES DE PAGO UNIFICADOS -->
         <div style="background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:24px 28px;margin-bottom:28px;position:relative;overflow:hidden;">
           <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--pink));"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
-            <div>
-              <div style="font-size:12px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.08em;">Total a pagar este mes</div>
-              <div style="font-size:42px;font-weight:800;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">$343.40</div>
-            </div>
-            <div style="font-size:12px;color:var(--text2);line-height:1.8;text-align:right;">
-              <div>Cuenta #4821947 (Pro 20%) · <strong style="color:var(--text);">$240.80</strong></div>
-              <div>Cuenta #5193204 (Base 30%) · <strong style="color:var(--text);">$102.60</strong></div>
-            </div>
+            <div><div style="font-size:12px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.08em;">Total a pagar este mes</div><div style="font-size:42px;font-weight:800;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">$343.40</div></div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.8;text-align:right;"><div>Cuenta #4821947 (Pro 20%) · <strong style="color:var(--text);">$240.80</strong></div><div>Cuenta #5193204 (Base 30%) · <strong style="color:var(--text);">$102.60</strong></div></div>
           </div>
           <div style="display:flex;gap:12px;">
             <button style="flex:1;padding:14px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,var(--purple),var(--pink));color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);">💳 Pagar con tarjeta</button>
             <button style="flex:1;padding:14px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#f59e0b,#f97316);color:white;box-shadow:0 4px 20px rgba(245,158,11,0.3);">₿ Pagar con crypto</button>
           </div>
         </div>
-
-        <!-- REGLAS -->
         <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:24px;">
           <div style="font-size:14px;font-weight:700;margin-bottom:16px;color:var(--text);">¿Cómo se determina tu escalón?</div>
           <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">El sistema registra el balance de tu cuenta de trading cada día a las <strong style="color:var(--text);">5:00 PM hora de Nueva York</strong>. Al cierre del mes, se toma el día con el balance más bajo como referencia para determinar tu escalón — sin excepciones.</p>
-          <div style="background:rgba(139,92,246,0.08);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:20px;">
-            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple2);margin-bottom:6px;">Ejemplo</div>
-            <p style="font-size:12px;color:var(--text2);line-height:1.7;">Si durante 29 días del mes tu balance estuvo en <strong style="color:var(--text);">$6,000</strong>, pero un día bajó a <strong style="color:var(--text);">$4,800</strong>, tu escalón del mes será <strong style="color:var(--text);">Base (30%)</strong>, no Pro (20%). El día con el balance más bajo define el mes completo.</p>
-          </div>
+          <div style="background:rgba(139,92,246,0.08);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:20px;"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple2);margin-bottom:6px;">Ejemplo</div><p style="font-size:12px;color:var(--text2);line-height:1.7;">Si durante 29 días del mes tu balance estuvo en <strong style="color:var(--text);">$6,000</strong>, pero un día bajó a <strong style="color:var(--text);">$4,800</strong>, tu escalón del mes será <strong style="color:var(--text);">Base (30%)</strong>, no Pro (20%). El día con el balance más bajo define el mes completo.</p></div>
           <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text);">Reglas vigentes — sin excepción</div>
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div style="display:flex;gap:10px;font-size:13px;color:var(--text2);line-height:1.6;"><span style="color:var(--purple2);flex-shrink:0;">→</span><span>El escalón se calcula una vez al mes, al cierre del período. No se recalcula ni se ajusta de forma retroactiva.</span></div>
@@ -461,8 +374,6 @@
             <div style="display:flex;gap:10px;font-size:13px;color:var(--text2);line-height:1.6;"><span style="color:var(--purple2);flex-shrink:0;">→</span><span>Ninguna condición, acuerdo verbal o situación particular modifica estas reglas. Son fijas y aplican por igual a todos los miembros.</span></div>
           </div>
         </div>
-
-        <!-- ACTIVAR SISTEMA ESCALONADO -->
         <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px;">
           <div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--text);">¿Cómo activar tu sistema escalonado?</div>
           <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">Si aún no tienes cuenta en IC Markets, regístrate con el enlace oficial de Penguin FX Academy para acceder al sistema escalonado:</p>
@@ -470,16 +381,11 @@
           <p style="font-size:13px;color:var(--text2);line-height:1.7;">Si ya tenías cuenta previamente, o ya te registraste con el enlace anterior, escríbenos por WhatsApp y activamos tu sistema escalonado.</p>
           <a href="https://wa.me/525528478886?text=Hola%2C%20quisiera%20activar%20mi%20sistema%20escalonado%20de%20pagos" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:14px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:14px;padding:16px 20px;margin-top:16px;text-decoration:none;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:32px;height:32px;flex-shrink:0;fill:#25D366;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#25D366;margin-bottom:2px;">Activar sistema escalonado</div>
-              <div style="font-size:13px;color:var(--text);">Escríbenos por WhatsApp para activarlo.</div>
-            </div>
+            <div><div style="font-size:14px;font-weight:700;color:#25D366;margin-bottom:2px;">Activar sistema escalonado</div><div style="font-size:13px;color:var(--text);">Escríbenos por WhatsApp para activarlo.</div></div>
           </a>
         </div>
-
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
-
     </main>
 
     <!-- MODAL TÉRMINOS -->
@@ -504,6 +410,21 @@
       <button onclick="cerrarAviso()" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;">Entiendo y acepto</button>
     </div>
 
+    <!-- MODAL ACTIVAR/PAUSAR COPY -->
+    <div class="modal-bg" id="modal-copy-bg"></div>
+    <div class="modal-box" id="modal-copy-box" style="max-width:460px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div id="modal-copy-icono" style="font-size:40px;margin-bottom:12px;">▶️</div>
+        <div id="modal-copy-titulo" style="font-size:18px;font-weight:700;margin-bottom:16px;line-height:1.4;"></div>
+        <p id="modal-copy-texto" style="font-size:13px;color:var(--text2);line-height:1.8;text-align:left;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;padding:16px;"></p>
+      </div>
+      <div id="modal-copy-msg" style="display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="cerrarModalCopy()" style="flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;background:transparent;border:1px solid var(--border);color:var(--text2);">Cancelar</button>
+        <button id="btn-confirmar-copy" disabled style="flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;opacity:0.4;transition:opacity 0.3s;">Confirmar <span id="copy-countdown" style="font-family:'JetBrains Mono',monospace;">(5)</span></button>
+      </div>
+    </div>
+
     <!-- MODAL CONECTAR CUENTA -->
     <div class="modal-bg" id="modal-bg" onclick="cerrarModal()"></div>
     <div class="modal-box" id="modal-box">
@@ -526,8 +447,123 @@
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
 
+      const MAKE_WEBHOOK = 'https://hook.us2.make.com/p4u2e93vnayetcauknscoju7xhfy9fu3'
+
       document.getElementById('terminos-scroll').textContent = `TÉRMINOS Y CONDICIONES DE USO\nZelus · Servicio de Copy Trading\nPenguin FX Academy\n\nVersión 1.0 — Abril 2026\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. ACEPTACIÓN DE LOS TÉRMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted ("el Usuario") declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones de Uso. Si no está de acuerdo con alguno de los términos aquí establecidos, deberá abstenerse de utilizar el servicio.\n\nLa aceptación de estos términos constituye un acuerdo vinculante entre el Usuario y Penguin FX Academy. Se registrará la fecha, hora y datos del dispositivo desde el cual el Usuario otorgó su aceptación, como constancia válida de este acuerdo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n2. NATURALEZA DEL SERVICIO\n\nZelus es una plataforma tecnológica de copy trading de carácter educativo, desarrollada y operada bajo la marca Zelus por Penguin FX Academy. El servicio permite a los usuarios replicar automáticamente las operaciones de sistemas de trading algorítmico previamente configurados.\n\nZelus no es una gestora de inversiones, no actúa como asesor financiero, y no está registrada como tal ante ningún organismo regulador financiero. El servicio tiene una finalidad exclusivamente educativa y tecnológica.\n\nEl Usuario es responsable de verificar que el uso de este servicio cumple con la legislación vigente en su país o región de residencia.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n3. RIESGOS DEL TRADING Y LIMITACIÓN DE RESPONSABILIDAD\n\n3.1 Riesgo general\nEl trading en mercados financieros implica un riesgo significativo de pérdida de capital. Los rendimientos históricos del sistema no garantizan resultados futuros.\n\n3.2 Latencia y ejecución algorítmica\nEl trading algorítmico está sujeto a múltiples variables de latencia. Zelus controla únicamente las variables correspondientes a su infraestructura propia.\n\n3.3 Slippage\nEl slippage depende exclusivamente del broker utilizado por el Usuario. Zelus no se hace responsable por ninguna pérdida derivada de slippage.\n\n3.4 Configuración de lotaje\nSi el Usuario decide modificar manualmente la configuración de lotaje, asume plena responsabilidad por los resultados derivados de dicha decisión.\n\n3.5 Fallas de infraestructura\nZelus opera sobre servidores ubicados en República Dominicana. En caso de interrupción, Penguin FX Academy notificará a los usuarios a través del canal oficial de Discord y por correo electrónico.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n4. USO CORRECTO DEL SERVICIO\n\n4.1 Cuenta exclusiva para copy trading\nLas cuentas conectadas a Zelus deben destinarse de forma exclusiva a la ejecución del sistema de copy trading. Queda estrictamente prohibido realizar operaciones manuales.\n\n4.2 Capital mínimo requerido\nCada sistema especifica el capital mínimo requerido. Zelus no se hace responsable por resultados adversos derivados de operar con capital inferior al mínimo.\n\n4.3 Prohibición de uso comercial no autorizado\nEl servicio de Zelus es de carácter personal e intransferible. Queda estrictamente prohibido revender, redistribuir o comercializar las señales o el acceso al servicio.\n\n4.4 Declaración del Usuario\nAl aceptar estos términos, el Usuario declara ser mayor de edad, tener capacidad legal para celebrar este acuerdo, y haber resuelto todas sus dudas antes de conectar sus cuentas.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n5. SISTEMA DE PAGOS Y CONDICIONES COMERCIALES\n\n5.1 Modelo de pago escalonado\nEl servicio opera bajo un modelo de pago por desempeño. El porcentaje aplicable depende del escalón correspondiente al balance de la cuenta y del registro como referido de Penguin FX Academy.\n\n5.2 Regla del escalón\nEl sistema registra el balance diariamente a las 5:00 PM hora de Nueva York. El día con el balance más bajo determina el escalón del mes completo.\n\n5.3 Meses negativos\nSi el sistema genera pérdidas durante un mes, no se realizará ningún cobro. El monto negativo se descuenta de ganancias futuras.\n\n5.5 Adeudo y mora\nUn adeudo no liquidado en más de 30 días será considerado uso malicioso del servicio.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n6. PROTECCIÓN DE DATOS PERSONALES\n\nPenguin FX Academy recopila nombre, correo electrónico y datos de la cuenta de trading. No se almacenan contraseñas en texto plano. Los datos no se venden ni comparten con terceros salvo obligación legal. El Usuario tiene derechos ARCO conforme a la ley mexicana.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n7. MODIFICACIÓN DE LOS TÉRMINOS\n\nPenguin FX Academy se reserva el derecho de modificar estos Términos notificando con al menos 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n8. CAUSAS DE SUSPENSIÓN O CANCELACIÓN\n\nPenguin FX Academy podrá suspender el acceso ante: operación manual de cuentas, adeudo mayor a 30 días, uso comercial no autorizado, violación de estos términos, o comportamiento abusivo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n9. JURISDICCIÓN Y LEY APLICABLE\n\nEstos Términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier controversia se somete a los tribunales competentes de la Ciudad de México.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n10. CONTACTO Y RESOLUCIÓN DE DUDAS\n\nAntes de conectar sus cuentas, el Usuario deberá resolver todas sus dudas con Penguin FX Academy o sus promotores autorizados.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nPenguin FX Academy · Zelus Copy Trading\nVersión 1.0 — Abril 2026`;
 
+      // ================================================================
+      // MODAL ACTIVAR / PAUSAR COPY
+      // ================================================================
+      let copyModalData = { accion: null, cuenta_id: null, btnRef: null }
+      let copyCountdownInterval = null
+
+      window.abrirModalCopy = function(accion, cuenta_id, apodo, btnRef) {
+        copyModalData = { accion, cuenta_id, btnRef }
+
+        const icono = document.getElementById('modal-copy-icono')
+        const titulo = document.getElementById('modal-copy-titulo')
+        const texto = document.getElementById('modal-copy-texto')
+        const btnConfirmar = document.getElementById('btn-confirmar-copy')
+        const countdown = document.getElementById('copy-countdown')
+        const msg = document.getElementById('modal-copy-msg')
+
+        msg.style.display = 'none'
+
+        if (accion === 'activar') {
+          icono.textContent = '▶️'
+          titulo.textContent = `Activar copy trading · ${apodo}`
+          texto.innerHTML = `¿Confirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como activa de inmediato, pero el sistema comenzará a operar a las <strong>4:30 PM hora de Nueva York</strong>, al inicio de la sesión asiática. Activarla fuera de ese horario no genera ningún problema — simplemente no habrá operaciones hasta ese momento.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera operación del día.`
+        } else {
+          icono.textContent = '⏸️'
+          titulo.textContent = `Pausar copy trading · ${apodo}`
+          texto.innerHTML = `¿Confirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como pausada de inmediato, pero el sistema dejará de operar a las <strong>2:00 PM hora de Nueva York</strong>.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera hasta la última operación del día.`
+        }
+
+        // Cuenta regresiva 5 segundos
+        btnConfirmar.disabled = true
+        btnConfirmar.style.opacity = '0.4'
+        let segundos = 5
+        countdown.textContent = `(${segundos})`
+        clearInterval(copyCountdownInterval)
+        copyCountdownInterval = setInterval(() => {
+          segundos--
+          countdown.textContent = `(${segundos})`
+          if (segundos <= 0) {
+            clearInterval(copyCountdownInterval)
+            btnConfirmar.disabled = false
+            btnConfirmar.style.opacity = '1'
+            countdown.textContent = ''
+          }
+        }, 1000)
+
+        document.getElementById('modal-copy-bg').classList.add('open')
+        document.getElementById('modal-copy-box').classList.add('open')
+      }
+
+      window.cerrarModalCopy = function() {
+        clearInterval(copyCountdownInterval)
+        document.getElementById('modal-copy-bg').classList.remove('open')
+        document.getElementById('modal-copy-box').classList.remove('open')
+      }
+
+      document.getElementById('btn-confirmar-copy').addEventListener('click', async () => {
+        const btnConfirmar = document.getElementById('btn-confirmar-copy')
+        const msg = document.getElementById('modal-copy-msg')
+        btnConfirmar.disabled = true
+        btnConfirmar.textContent = 'Enviando...'
+        btnConfirmar.style.opacity = '0.7'
+
+        try {
+          const { data: { session } } = await supabase.auth.getSession()
+          const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
+
+          await fetch(MAKE_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              accion: copyModalData.accion,
+              nombre,
+              email: session.user.email,
+              cuenta_id: copyModalData.cuenta_id
+            })
+          })
+
+          // Actualizar botón en la tarjeta
+          if (copyModalData.btnRef) {
+            if (copyModalData.accion === 'activar') {
+              copyModalData.btnRef.textContent = '⏸ Pausar copy'
+              copyModalData.btnRef.className = 'toggle-btn pausar'
+              copyModalData.btnRef.onclick = () => abrirModalCopy('pausar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef)
+            } else {
+              copyModalData.btnRef.textContent = '▶ Activar copy'
+              copyModalData.btnRef.className = 'toggle-btn activar'
+              copyModalData.btnRef.onclick = () => abrirModalCopy('activar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef)
+            }
+          }
+
+          msg.style.display = 'block'
+          msg.style.background = 'rgba(52,211,153,0.1)'
+          msg.style.border = '1px solid rgba(52,211,153,0.3)'
+          msg.style.color = '#34d399'
+          msg.textContent = copyModalData.accion === 'activar' ? '✓ Solicitud de activación enviada.' : '✓ Solicitud de pausa enviada.'
+
+          setTimeout(() => cerrarModalCopy(), 1500)
+
+        } catch(e) {
+          msg.style.display = 'block'
+          msg.style.background = 'rgba(248,113,113,0.1)'
+          msg.style.border = '1px solid rgba(248,113,113,0.3)'
+          msg.style.color = '#f87171'
+          msg.textContent = '✗ Error al enviar. Intenta de nuevo.'
+          btnConfirmar.disabled = false
+          btnConfirmar.textContent = 'Confirmar'
+          btnConfirmar.style.opacity = '1'
+        }
+      })
+
+      // ================================================================
+      // CARGA DE SERVIDORES
+      // ================================================================
       let servidoresDisponibles = []
       async function cargarServidores() {
         try {
@@ -573,18 +609,56 @@
         } catch (e) { console.error("Error cargando cuentas:", e); }
       }
 
+      // ================================================================
+      // CARGA CUENTAS EN SISTEMAS COPY — CON BOTONES ACTIVAR/PAUSAR
+      // ================================================================
       async function cargarCuentasSistemas() {
         try {
           const { data: { session: s } } = await supabase.auth.getSession(); if (!s) return;
           const { data: cuentas, error } = await supabase.from('cuentas').select('*').eq('usuario_id', s.user.id); if (error) throw error;
           const contenedor = document.getElementById('sistemas-cuentas-lista'); const btnConectar = document.getElementById('btn-conectar-ahora'); if (!contenedor) return;
-          if (!cuentas || cuentas.length === 0) { contenedor.innerHTML = `<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>`; if (btnConectar) { btnConectar.disabled = false; btnConectar.onclick = () => abrirModal(); } return; }
+          if (!cuentas || cuentas.length === 0) {
+            contenedor.innerHTML = `<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>`;
+            if (btnConectar) { btnConectar.disabled = false; btnConectar.onclick = () => abrirModal(); } return;
+          }
           let html = '';
           cuentas.forEach((cuenta, i) => {
             const n = i + 1; const detalle = cuenta.apodo || 'Sin apodo'; const loginStr = cuenta.login ? `#${cuenta.login}` : ''; const estaActiva = cuenta.estado === 'activa';
-            html += `<div class="cuenta-config" id="cfg-cuenta-dyn-${n}"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-${n}" onchange="toggleCuentaDyn(${n})"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">${cuenta.broker || 'IC Markets'} ${cuenta.plataforma || 'MT5'}</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">${loginStr}${loginStr && detalle ? ' · ' : ''}${detalle}</div></div><span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;${estaActiva ? 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);' : 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'}"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>${estaActiva ? 'Activa' : 'Inactiva'}</span></div><div class="cuenta-config-body" id="body-cuenta-dyn-${n}"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;">⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.</div></div></div>`;
+            // copy_activo: si el campo no existe aún, asumimos true si la cuenta está activa
+            const copyActivo = cuenta.copy_activo !== undefined ? cuenta.copy_activo : estaActiva;
+            const btnTexto = copyActivo ? '⏸ Pausar copy' : '▶ Activar copy';
+            const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar';
+            const accionBtn = copyActivo ? 'pausar' : 'activar';
+            html += `
+              <div class="cuenta-config" id="cfg-cuenta-dyn-${n}">
+                <div class="cuenta-config-header">
+                  <input type="checkbox" id="chk-cuenta-dyn-${n}" onchange="toggleCuentaDyn(${n})">
+                  <div style="flex:1;">
+                    <div style="font-size:14px;font-weight:600;">${cuenta.broker || 'IC Markets'} ${cuenta.plataforma || 'MT5'}</div>
+                    <div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">${loginStr}${loginStr && detalle ? ' · ' : ''}${detalle}</div>
+                  </div>
+                  <span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;${estaActiva ? 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);' : 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'}">
+                    <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>
+                    ${estaActiva ? 'Activa' : 'Inactiva'}
+                  </span>
+                </div>
+                <div class="cuenta-config-body" id="body-cuenta-dyn-${n}">
+                  <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">
+                    ⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.
+                  </div>
+                  <button
+                    class="${btnClase}"
+                    data-apodo="${detalle}"
+                    id="btn-copy-${cuenta.id || n}"
+                    onclick="abrirModalCopy('${accionBtn}', '${cuenta.login}', '${detalle}', this)"
+                    style="width:100%;padding:10px;font-size:13px;">
+                    ${btnTexto}
+                  </button>
+                </div>
+              </div>`;
           });
-          contenedor.innerHTML = html; if (btnConectar) { btnConectar.disabled = true; btnConectar.onclick = () => abrirModal(); }
+          contenedor.innerHTML = html;
+          if (btnConectar) { btnConectar.disabled = true; btnConectar.onclick = () => abrirModal(); }
         } catch(e) { console.error('Error cargando cuentas en Sistemas Copy:', e); }
       }
 
