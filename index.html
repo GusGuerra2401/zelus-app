@@ -168,6 +168,9 @@
         <div class="user-avatar" id="user-avatar">?</div>
         <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Plan Pro</div></div>
       </div>
+      <div style="text-align:center;padding:12px 12px 0;font-size:10px;color:var(--text2);opacity:0.6;">
+        © <span id="copyright-year"></span> Zelus by Penguin FX
+      </div>
     </aside>
 
     <main class="main">
@@ -420,11 +423,11 @@
         if (accion === 'activar') {
           icono.textContent = '▶️'
           titulo.textContent = `Activar copy trading · ${apodo}`
-          texto.innerHTML = `¿Confirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como activa de inmediato, pero el sistema comenzará a operar a las <strong>6:30 PM hora de Nueva York</strong>, al inicio de la sesión asiática. Activarla fuera de ese horario no genera ningún problema — simplemente no habrá operaciones hasta ese momento.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera operación del día.`
+          texto.innerHTML = `¿Confirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como activa de inmediato, pero el sistema comenzará a operar a las <strong>4:30 PM hora de Nueva York</strong>, al inicio de la sesión asiática. Activarla fuera de ese horario no genera ningún problema — simplemente no habrá operaciones hasta ese momento.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera operación del día.`
         } else {
           icono.textContent = '⏸️'
           titulo.textContent = `Pausar copy trading · ${apodo}`
-          texto.innerHTML = `¿Confirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como pausada de inmediato, pero el sistema dejará de operar a las <strong>4:00 PM hora de Nueva York</strong>.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera hasta la última operación del día.`
+          texto.innerHTML = `¿Confirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como pausada de inmediato, pero el sistema dejará de operar a las <strong>2:00 PM hora de Nueva York</strong>.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera hasta la última operación del día.`
         }
         btnConfirmar.disabled = true
         btnConfirmar.style.opacity = '0.4'
@@ -721,6 +724,8 @@
       }
       if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
       window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
+
+      document.getElementById('copyright-year').textContent = new Date().getFullYear()
 
       const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
       function tiempoTranscurrido(fecha) { const diff=Math.floor((Date.now()-fecha)/60000); return diff<60?'Actualizado hace '+diff+' min':'Actualizado hace '+Math.floor(diff/60)+'h' }
