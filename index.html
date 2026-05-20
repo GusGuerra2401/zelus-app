@@ -420,11 +420,11 @@
         if (accion === 'activar') {
           icono.textContent = '▶️'
           titulo.textContent = `Activar copy trading · ${apodo}`
-          texto.innerHTML = `¿Confirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como activa de inmediato, pero el sistema comenzará a operar a las <strong>4:30 PM hora de Nueva York</strong>, al inicio de la sesión asiática. Activarla fuera de ese horario no genera ningún problema — simplemente no habrá operaciones hasta ese momento.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera operación del día.`
+          texto.innerHTML = `¿Confirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como activa de inmediato, pero el sistema comenzará a operar a las <strong>6:30 PM hora de Nueva York</strong>, al inicio de la sesión asiática. Activarla fuera de ese horario no genera ningún problema — simplemente no habrá operaciones hasta ese momento.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera operación del día.`
         } else {
           icono.textContent = '⏸️'
           titulo.textContent = `Pausar copy trading · ${apodo}`
-          texto.innerHTML = `¿Confirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como pausada de inmediato, pero el sistema dejará de operar a las <strong>2:00 PM hora de Nueva York</strong>.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera hasta la última operación del día.`
+          texto.innerHTML = `¿Confirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como pausada de inmediato, pero el sistema dejará de operar a las <strong>4:00 PM hora de Nueva York</strong>.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera hasta la última operación del día.`
         }
         btnConfirmar.disabled = true
         btnConfirmar.style.opacity = '0.4'
