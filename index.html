@@ -286,7 +286,7 @@
       <div class="section" id="sec-historial">
         <div class="section-title">Historial de Trades</div>
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Todas las operaciones</div><div class="card-subtitle">Trades copiados en tu cuenta · <span id="update-historial" style="color:var(--purple3);"></span></div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;">📥 Exportar</button></div>
+          <div class="card-header"><div><div class="card-title">Todas las operaciones</div><div class="card-subtitle">Trades copiados en tu cuenta · <span id="update-historial" style="color:var(--purple3);"></span></div></div></div>
           <div style="padding:0 24px 24px;"><table class="trades-table"><thead><tr><th>Par</th><th>Tipo</th><th>Lotes</th><th>Apertura</th><th>Cierre</th><th>P&L</th><th>Fecha</th></tr></thead><tbody>
             <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2341.50</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2358.20</td><td class="pnl-pos">+$167.00</td><td style="font-size:12px;color:var(--text2);">14 abr 2026</td></tr>
             <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type sell">SELL</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2358.20</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2353.70</td><td class="pnl-neg">-$45.00</td><td style="font-size:12px;color:var(--text2);">13 abr 2026</td></tr>
@@ -364,7 +364,7 @@
         <div class="card">
           <div class="card-header">
             <div><div class="card-title">Cuentas conectadas al copy</div><div class="card-subtitle">Beneficio intradía · XAUUSD · Zelus Gold</div></div>
-            <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;">📥 Exportar</button>
+            
           </div>
           <div style="overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;min-width:700px;">
@@ -668,7 +668,7 @@
           const contenedorDash = document.getElementById('cuentas-lista-dashboard'); const contenedorSec = document.getElementById('cuentas-lista-seccion');
           const mensajeVacio = `<div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">No tienes cuentas conectadas.</div>`;
           let html = '';
-          if (cuentas && cuentas.length > 0) { cuentas.forEach(cuenta => { html += `<div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">${cuenta.broker || 'IC Markets'} ${cuenta.plataforma}</div><div class="broker-detail">#${cuenta.login} · ${cuenta.apodo}</div></div><div class="broker-status ${cuenta.estado === 'activa' ? 'connected' : 'disconnected'}"><span class="broker-dot"></span> ${cuenta.estado === 'activa' ? 'Activa' : 'Inactiva'}</div></div>`; }); } else { html = mensajeVacio; }
+          if (cuentas && cuentas.length > 0) { cuentas.forEach(cuenta => { html += `<div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">${cuenta.broker || 'IC Markets'} ${cuenta.plataforma}</div><div class="broker-detail">#${cuenta.login} · ${cuenta.apodo}</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="broker-status ${cuenta.estado === 'activa' ? 'connected' : 'disconnected'}"><span class="broker-dot"></span> ${cuenta.estado === 'activa' ? 'Activa' : 'Inactiva'}</div><button style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:'Sora',sans-serif;" onclick="desconectarCuenta('${cuenta.id}', '${cuenta.apodo}')">Desconectar</button></div></div>`; }); } else { html = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = html; if (contenedorSec) contenedorSec.innerHTML = html;
         } catch (e) { console.error("Error cargando cuentas:", e); }
       }
@@ -805,7 +805,7 @@
 
       window.verifyCuenta = window.verificarCuenta = async function() {
         const btn = document.getElementById('btn-verificar'); const msg = document.getElementById('modal-msg');
-        btn.textContent = '🔄 Bot Zelus verifying en tu PC...'; btn.disabled = true; btn.style.opacity = '0.7'; msg.style.display = 'none';
+        btn.textContent = 'Cargando ⏳'; btn.disabled = true; btn.style.opacity = '0.7'; msg.style.display = 'none';
         try {
           const { data: { session } } = await supabase.auth.getSession()
           const { error } = await supabase.from('Validar_Cuentas').insert([{ apodo: document.getElementById('input-apodo').value.trim(), plataforma: 'MT5', broker: 'IC Markets', server: document.getElementById('input-servidor').value.trim(), login: parseInt(document.getElementById('input-login').value.trim()), password: document.getElementById('input-password').value.trim(), usuario_id: session.user.id, estado: 'procesando' }]);
@@ -822,6 +822,11 @@
         document.getElementById('input-apodo').value = ''; document.getElementById('input-servidor').value = ''; document.getElementById('input-login').value = ''; document.getElementById('input-password').value = '';
         document.getElementById('servidor-sugerencias').style.display = 'none'; document.getElementById('modal-msg').style.display = 'none';
         const btn = document.getElementById('btn-verificar'); btn.disabled = true; btn.style.opacity = '0.4'; btn.textContent = 'Verificar y conectar cuenta';
+      }
+
+      window.desconectarCuenta = function(id, apodo) {
+        // TODO: definir comportamiento de desconexión
+        alert('Próximamente: desconectar cuenta ' + apodo)
       }
 
       window.cerrarModal = function() { document.getElementById('modal-bg').classList.remove('open'); document.getElementById('modal-box').classList.remove('open'); document.getElementById('servidor-sugerencias').style.display = 'none'; }
