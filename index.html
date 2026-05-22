@@ -136,31 +136,29 @@
       .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
       .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
       .escalon-banner { display: flex; align-items: center; gap: 16px; border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; }
-      .escalon-banner.activo { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
-      .escalon-banner.inactivo { background: #f9fafb; border: 1px solid #e5e7eb; }
-      body:not(.light-mode) .escalon-banner.activo { background: rgba(52,211,153,0.1); border: 1.5px solid rgba(52,211,153,0.3); }
-      body:not(.light-mode) .escalon-banner.inactivo { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+      .escalon-banner.activo { background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.4); }
+      .escalon-banner.inactivo { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.35); }
+      body.light-mode .escalon-banner.activo { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.35); }
+      body.light-mode .escalon-banner.inactivo { background: rgba(251,191,36,0.08); border: 1px solid rgba(217,119,6,0.3); }
       .escalon-banner-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-      .escalon-banner.activo .escalon-banner-icon { background: #166534; }
-      .escalon-banner.inactivo .escalon-banner-icon { background: #e5e7eb; }
-      body:not(.light-mode) .escalon-banner.activo .escalon-banner-icon { background: #14532d; }
-      body:not(.light-mode) .escalon-banner.inactivo .escalon-banner-icon { background: rgba(255,255,255,0.1); }
+      .escalon-banner.activo .escalon-banner-icon { background: #059669; }
+      .escalon-banner.inactivo .escalon-banner-icon { background: #d97706; }
+      body.light-mode .escalon-banner.activo .escalon-banner-icon { background: #059669; }
+      body.light-mode .escalon-banner.inactivo .escalon-banner-icon { background: #d97706; }
       .escalon-banner-texto { flex: 1; }
       .escalon-banner-titulo { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
-      .escalon-banner.activo .escalon-banner-titulo { color: #166534; }
-      .escalon-banner.inactivo .escalon-banner-titulo { color: #111827; }
-      body:not(.light-mode) .escalon-banner.activo .escalon-banner-titulo { color: #34d399; }
-      body:not(.light-mode) .escalon-banner.inactivo .escalon-banner-titulo { color: var(--text); }
+      .escalon-banner.activo .escalon-banner-titulo { color: #34d399; }
+      .escalon-banner.inactivo .escalon-banner-titulo { color: #fbbf24; }
+      body.light-mode .escalon-banner.activo .escalon-banner-titulo { color: #065f46; }
+      body.light-mode .escalon-banner.inactivo .escalon-banner-titulo { color: #92400e; }
       .escalon-banner-subtitulo { font-size: 13px; line-height: 1.5; }
-      .escalon-banner.activo .escalon-banner-subtitulo { color: #166534; opacity: 0.8; }
-      .escalon-banner.inactivo .escalon-banner-subtitulo { color: #6b7280; }
-      body:not(.light-mode) .escalon-banner.activo .escalon-banner-subtitulo { color: rgba(52,211,153,0.7); opacity: 1; }
-      body:not(.light-mode) .escalon-banner.inactivo .escalon-banner-subtitulo { color: var(--text2); }
+      .escalon-banner.activo .escalon-banner-subtitulo { color: rgba(52,211,153,0.75); }
+      .escalon-banner.inactivo .escalon-banner-subtitulo { color: rgba(251,191,36,0.75); }
+      body.light-mode .escalon-banner.activo .escalon-banner-subtitulo { color: rgba(6,95,70,0.75); }
+      body.light-mode .escalon-banner.inactivo .escalon-banner-subtitulo { color: rgba(146,64,14,0.75); }
       .escalon-banner-badge { font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
-      .escalon-banner.activo .escalon-banner-badge { background: #166534; color: #86efac; }
-      .escalon-banner.inactivo .escalon-banner-badge { background: transparent; color: #6b7280; font-weight: 500; }
-      body:not(.light-mode) .escalon-banner.activo .escalon-banner-badge { background: #14532d; color: #86efac; }
-      body:not(.light-mode) .escalon-banner.inactivo .escalon-banner-badge { color: var(--text2); }
+      .escalon-banner.activo .escalon-banner-badge { background: #059669; color: white; }
+      .escalon-banner.inactivo .escalon-banner-badge { background: #d97706; color: white; }
       @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}.escalon-banner-badge{align-self:flex-start;}}
     </style>
   </head>
@@ -484,11 +482,11 @@
             banner.innerHTML = '<div class="escalon-banner-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="escalon-banner-texto"><div class="escalon-banner-titulo">Escal\u00f3n activo \u2014 ' + formatearMes(mesActual) + '</div><div class="escalon-banner-subtitulo">Tu cuenta participa en el sistema escalonado este mes.</div></div><div class="escalon-banner-badge">\u2713 Activo</div>'
           } else {
             banner.className = 'escalon-banner inactivo'
-            banner.innerHTML = '<div class="escalon-banner-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg></div><div class="escalon-banner-texto"><div class="escalon-banner-titulo">Sin escal\u00f3n activo \u2014 ' + formatearMes(mesActual) + '</div><div class="escalon-banner-subtitulo">Aplica tarifa Est\u00e1ndar (35%). Contacta a Penguin FX para m\u00e1s info.</div></div><div class="escalon-banner-badge">Est\u00e1ndar</div>'
+            banner.innerHTML = '<div class="escalon-banner-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg></div><div class="escalon-banner-texto"><div class="escalon-banner-titulo">Sin escal\u00f3n activo \u2014 ' + formatearMes(mesActual) + '</div><div class="escalon-banner-subtitulo">Aplica tarifa Est\u00e1ndar (35%). Contacta a Penguin FX para m\u00e1s info.</div></div><div class="escalon-banner-badge">Est\u00e1ndar</div>'
           }
         } catch(e) {
           banner.className = 'escalon-banner inactivo'
-          banner.innerHTML = '<div class="escalon-banner-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg></div><div class="escalon-banner-texto"><div class="escalon-banner-titulo">Sin escal\u00f3n activo \u2014 ' + formatearMes(mesActual) + '</div><div class="escalon-banner-subtitulo">Aplica tarifa Est\u00e1ndar (35%). Contacta a Penguin FX para m\u00e1s info.</div></div><div class="escalon-banner-badge">Est\u00e1ndar</div>'
+          banner.innerHTML = '<div class="escalon-banner-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg></div><div class="escalon-banner-texto"><div class="escalon-banner-titulo">Sin escal\u00f3n activo \u2014 ' + formatearMes(mesActual) + '</div><div class="escalon-banner-subtitulo">Aplica tarifa Est\u00e1ndar (35%). Contacta a Penguin FX para m\u00e1s info.</div></div><div class="escalon-banner-badge">Est\u00e1ndar</div>'
         }
       }
       function formatearMes(mesStr) {
