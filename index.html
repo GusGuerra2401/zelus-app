@@ -602,10 +602,36 @@
         try {
           const { data: { session: currentSession } } = await supabase.auth.getSession(); if (!currentSession) return;
           const { data: cuentas, error } = await supabase.from('cuentas').select('*').eq('usuario_id', currentSession.user.id); if (error) throw error;
+          // Consultar estado_copy para saber si el copy está pausado antes de permitir desconectar
+          const { data: estados } = await supabase.from('estado_copy').select('cuenta_login, estado').eq('usuario_id', currentSession.user.id);
+          const mapaEstados = {};
+          if (estados) estados.forEach(e => { mapaEstados[e.cuenta_login] = e.estado; });
           const contenedorDash = document.getElementById('cuentas-lista-dashboard'); const contenedorSec = document.getElementById('cuentas-lista-seccion');
           const mensajeVacio = '<div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">No tienes cuentas conectadas.</div>';
           let html = '';
-          if (cuentas && cuentas.length > 0) { cuentas.forEach(cuenta => { html += '<div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' · ' + cuenta.apodo + '</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="broker-status ' + (cuenta.estado === 'activa' ? 'connected' : 'disconnected') + '"><span class="broker-dot"></span> ' + (cuenta.estado === 'activa' ? 'Activa' : 'Inactiva') + '</div><button style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;" onclick="desconectarCuenta(\'' + cuenta.id + '\', \'' + cuenta.apodo + '\')">Desconectar</button></div></div>'; }); } else { html = mensajeVacio; }
+          if (cuentas && cuentas.length > 0) {
+            cuentas.forEach(cuenta => {
+              const estadoCopy = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+              const estaPausado = estadoCopy === 'pausado';
+              const estaDesconectado = estadoCopy === 'desconectado';
+              // Badge de estado
+              let badgeClass, badgeLabel;
+              if (estadoCopy === 'activo') { badgeClass = 'connected'; badgeLabel = 'Activa'; }
+              else if (estadoCopy === 'pausado') { badgeClass = 'disconnected'; badgeLabel = 'Pausado'; }
+              else if (estadoCopy === 'desconectado') { badgeClass = 'disconnected'; badgeLabel = 'Desconectado'; }
+              else { badgeClass = 'disconnected'; badgeLabel = 'Inactiva'; }
+              // Botón desconectar: solo activo si el copy está pausado
+              let btnDesconectar;
+              if (estaDesconectado) {
+                btnDesconectar = '<button disabled style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;">Desconectada</button>';
+              } else if (estaPausado) {
+                btnDesconectar = '<button style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;" onclick="desconectarCuenta(\'' + cuenta.id + '\', \'' + cuenta.apodo + '\', \'' + cuenta.login + '\')">Desconectar</button>';
+              } else {
+                btnDesconectar = '<button disabled title="Debes pausar el copy en Sistemas Copy primero" style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;" onclick="alert(\'Debes pausar el copy trading antes de desconectar la cuenta.\')">Desconectar</button>';
+              }
+              html += '<div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' · ' + cuenta.apodo + '</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="broker-status ' + badgeClass + '"><span class="broker-dot"></span> ' + badgeLabel + '</div>' + btnDesconectar + '</div></div>';
+            });
+          } else { html = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = html; if (contenedorSec) contenedorSec.innerHTML = html;
         } catch (e) { console.error("Error cargando cuentas:", e); }
       }
@@ -626,20 +652,33 @@
             const estadoCopy = mapaEstados[cuenta.login] || (estaActiva ? 'activo' : 'inactivo');
             const copyActivo = estadoCopy === 'activo';
             const estaPausado = estadoCopy === 'pausado';
-            const btnTexto = copyActivo ? '⏸ Pausar copy' : '▶ Activar copy';
-            const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar';
-            const accionBtn = copyActivo ? 'pausar' : 'activar';
+            const estaDesconectado = estadoCopy === 'desconectado';
             // Badge de estado del copy
             let badgeColor, badgeLabel;
             if (estadoCopy === 'activo') { badgeColor = 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeLabel = 'Activa'; }
             else if (estadoCopy === 'pausado') { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
             else if (estadoCopy === 'desconectado') { badgeColor = 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'; badgeLabel = 'Desconectado'; }
             else { badgeColor = 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'; badgeLabel = 'Inactivo'; }
-            // Botón desconectar: solo habilitado si está pausado
-            const btnDesconectar = estaPausado
-              ? '<button style="font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;margin-top:10px;width:100%;" onclick="desconectarCuenta(\'' + cuenta.id + '\', \'' + detalle + '\', \'' + cuenta.login + '\')">Desconectar cuenta</button>'
-              : '<button disabled title="Debes pausar el copy primero" style="font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;margin-top:10px;width:100%;opacity:0.5;">Desconectar cuenta (pausa primero)</button>';
-            html += '<div class="cuenta-config" id="cfg-cuenta-dyn-' + n + '"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-' + n + '" onchange="toggleCuentaDyn(' + n + ')"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);font-family:\'JetBrains Mono\',monospace;">' + loginStr + (loginStr && detalle ? ' · ' : '') + detalle + '</div></div><span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span></div><div class="cuenta-config-body" id="body-cuenta-dyn-' + n + '"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.</div><button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy(\'' + accionBtn + '\', \'' + cuenta.login + '\', \'' + detalle + '\', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>' + btnDesconectar + '</div></div>';
+            // Botón activar/pausar: bloqueado completamente si la cuenta está desconectada
+            let btnCopy;
+            if (estaDesconectado) {
+              btnCopy = '<button disabled title="Esta cuenta fue desconectada. Conecta una nueva cuenta." style="width:100%;padding:10px;font-size:13px;font-weight:600;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;">Cuenta desconectada</button>';
+            } else {
+              const btnTexto = copyActivo ? '⏸ Pausar copy' : '▶ Activar copy';
+              const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar';
+              const accionBtn = copyActivo ? 'pausar' : 'activar';
+              btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy(\'' + accionBtn + '\', \'' + cuenta.login + '\', \'' + detalle + '\', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>';
+            }
+            // Botón desconectar: solo habilitado si está pausado, oculto si ya está desconectado
+            let btnDesconectar;
+            if (estaDesconectado) {
+              btnDesconectar = '';
+            } else if (estaPausado) {
+              btnDesconectar = '<button style="font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;margin-top:10px;width:100%;" onclick="desconectarCuenta(\'' + cuenta.id + '\', \'' + detalle + '\', \'' + cuenta.login + '\')">Desconectar cuenta</button>';
+            } else {
+              btnDesconectar = '<button disabled title="Debes pausar el copy primero" style="font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;margin-top:10px;width:100%;opacity:0.5;">Desconectar cuenta (pausa primero)</button>';
+            }
+            html += '<div class="cuenta-config" id="cfg-cuenta-dyn-' + n + '"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-' + n + '" onchange="toggleCuentaDyn(' + n + ')"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);font-family:\'JetBrains Mono\',monospace;">' + loginStr + (loginStr && detalle ? ' · ' : '') + detalle + '</div></div><span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span></div><div class="cuenta-config-body" id="body-cuenta-dyn-' + n + '"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.</div>' + btnCopy + btnDesconectar + '</div></div>';
           });
           contenedor.innerHTML = html;
         } catch(e) { console.error('Error cargando cuentas en Sistemas Copy:', e); }
