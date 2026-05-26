@@ -157,6 +157,8 @@
       @media(max-width:480px){#escalones-grid{grid-template-columns:1fr!important}}
       @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
       @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}}
+      body.light-mode .pendiente-titulo { color: #6d4e00 !important; }
+      body.light-mode .pendiente-sub { color: rgba(109,78,0,0.75) !important; }
     </style>
   </head>
   <body>
@@ -202,18 +204,13 @@
       </header>
       <!-- DASHBOARD -->
       <div class="section active" id="sec-dashboard">
-        <!-- 4 stat cards — período 30d -->
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">$12,847</div><div class="stat-change">Últimos 30 días <span class="up">↑ +4.2%</span></div></div>
-          <div class="stat-card"><div class="stat-label">📈 P&L 30d</div><div class="stat-value green">+$1,204</div><div class="stat-change">Rendimiento <span class="up">↑ +9.37%</span></div></div>
+          <div class="stat-card"><div class="stat-label">📈 P&amp;L 30d</div><div class="stat-value green">+$1,204</div><div class="stat-change">Rendimiento <span class="up">↑ +9.37%</span></div></div>
           <div class="stat-card"><div class="stat-label">⚡ Trades copiados 30d</div><div class="stat-value purple">148</div><div class="stat-change">Últimos 30 días <span class="up">↑ 23 más</span></div></div>
           <div class="stat-card"><div class="stat-label">✅ Win rate 30d</div><div class="stat-value green">68.2%</div><div class="stat-change">Últimos 30 días <span class="up">↑ +2.1%</span></div></div>
         </div>
-
-        <!-- Tarjetas de cuentas del cliente -->
         <div id="cuentas-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:28px;"></div>
-
-        <!-- Zelus Gold card -->
         <div class="section-title">Sistemas de Copy Trading</div>
         <div style="margin-bottom:28px;"><div class="card" style="padding:20px;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
@@ -228,14 +225,11 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:var(--text2);">👤 87 siguiendo</span></div>
         </div></div>
-
-        <!-- Mis cuentas — ancho completo -->
         <div class="section-title">Mis cuentas</div>
         <div class="card" style="margin-bottom:28px;">
           <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT5 Activas</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
           <div id="cuentas-lista-dashboard"><div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div></div>
         </div>
-
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
       <!-- MIS CUENTAS -->
@@ -510,7 +504,7 @@
         return nombres[parseInt(mes)-1] + ' ' + anio
       }
 
-      document.getElementById('terminos-scroll').textContent = "TÉRMINOS Y CONDICIONES DE USO\nZelus · Servicio de Copy Trading\nPenguin FX Academy\n\nVersión 1.0 — Abril 2026\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. ACEPTACIÓN DE LOS TÉRMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted (\"el Usuario\") declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones de Uso. Si no está de acuerdo con alguno de los términos aquí establecidos, deberá abstenerse de utilizar el servicio.\n\nLa aceptación de estos términos constituye un acuerdo vinculante entre el Usuario y Penguin FX Academy. Se registrará la fecha, hora y datos del dispositivo desde el cual el Usuario otorgó su aceptación, como constancia válida de este acuerdo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n2. NATURALEZA DEL SERVICIO\n\nZelus es una plataforma tecnológica de copy trading de carácter educativo, desarrollada y operada bajo la marca Zelus por Penguin FX Academy. El servicio permite a los usuarios replicar automáticamente las operaciones de sistemas de trading algorítmico previamente configurados.\n\nZelus no es una gestora de inversiones, no actúa como asesor financiero, y no está registrada como tal ante ningún organismo regulador financiero. El servicio tiene una finalidad exclusivamente educativa y tecnológica.\n\nEl Usuario es responsable de verificar que el uso de este servicio cumple con la legislación vigente en su país o región de residencia.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n3. RIESGOS DEL TRADING Y LIMITACIÓN DE RESPONSABILIDAD\n\n3.1 Riesgo general\nEl trading en mercados financieros implica un riesgo significativo de pérdida de capital. Los rendimientos históricos del sistema no garantizan resultados futuros.\n\n3.2 Latencia y ejecución algorítmica\nEl trading algorítmico está sujeto a múltiples variables de latencia. Zelus controla únicamente las variables correspondientes a su infraestructura propia.\n\n3.3 Slippage\nEl slippage depende exclusivamente del broker utilizado por el Usuario. Zelus no se hace responsable por ninguna pérdida derivada de slippage.\n\n3.4 Configuración de lotaje\nSi el Usuario decide modificar manualmente la configuración de lotaje, asume plena responsabilidad por los resultados derivados de dicha decisión.\n\n3.5 Fallas de infraestructura\nZelus opera sobre servidores ubicados en República Dominicana. En caso de interrupción, Penguin FX Academy notificará a los usuarios a través del canal oficial de Discord y por correo electrónico.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n4. USO CORRECTO DEL SERVICIO\n\n4.1 Cuenta exclusiva para copy trading\nLas cuentas conectadas a Zelus deben destinarse de forma exclusiva a la ejecución del sistema de copy trading. Queda estrictamente prohibido realizar operaciones manuales.\n\n4.2 Capital mínimo requerido\nCada sistema especifica el capital mínimo requerido. Zelus no se hace responsable por resultados adversos derivados de operar con capital inferior al mínimo.\n\n4.3 Prohibición de uso comercial no autorizado\nEl servicio de Zelus es de carácter personal e intransferible. Queda estrictamente prohibido revender, redistribuir o comercializar las señales o el acceso al servicio.\n\n4.4 Declaración del Usuario\nAl aceptar estos términos, el Usuario declara ser mayor de edad, tener capacidad legal para celebrar este acuerdo, y haber resuelto todas sus dudas antes de conectar sus cuentas.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n5. SISTEMA DE PAGOS Y CONDICIONES COMERCIALES\n\n5.1 Modelo de pago escalonado\nEl servicio opera bajo un modelo de pago por desempeño. El porcentaje aplicable depende del escalón correspondiente al balance de la cuenta y del registro como referido de Penguin FX Academy.\n\n5.2 Regla del escalón\nEl sistema registra el balance diariamente a las 5:00 PM hora de Nueva York. El día con el balance más bajo determina el escalón del mes completo.\n\n5.3 Meses negativos\nSi el sistema genera pérdidas durante un mes, no se realizará ningún cobro. El monto negativo se descuenta de ganancias futuras.\n\n5.5 Adeudo y mora\nUn adeudo no liquidado en más de 30 días será considerado uso malicioso del servicio.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n6. PROTECCIÓN DE DATOS PERSONALES\n\nPenguin FX Academy recopila nombre, correo electrónico y datos de la cuenta de trading. No se almacenan contraseñas en texto plano. Los datos no se venden ni comparten con terceros salvo obligación legal. El Usuario tiene derechos ARCO conforme a la ley mexicana.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n7. MODIFICACIÓN DE LOS TÉRMINOS\n\nPenguin FX Academy se reserva el derecho de modificar estos Términos notificando con al menos 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n8. CAUSAS DE SUSPENSIÓN O CANCELACIÓN\n\nPenguin FX Academy podrá suspender el acceso ante: operación manual de cuentas, adeudo mayor a 30 días, uso comercial no autorizado, violación de estos términos, o comportamiento abusivo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n9. JURISDICCIÓN Y LEY APLICABLE\n\nEstos Términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier controversia se somete a los tribunales competentes de la Ciudad de México.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n10. CONTACTO Y RESOLUCIÓN DE DUDAS\n\nAntes de conectar sus cuentas, el Usuario deberá resolver todas sus dudas con Penguin FX Academy o sus promotores autorizados.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nPenguin FX Academy · Zelus Copy Trading\nVersión 1.0 — Abril 2026";
+      document.getElementById('terminos-scroll').textContent = "T\u00c9RMINOS Y CONDICIONES DE USO\nZelus \u00b7 Servicio de Copy Trading\nPenguin FX Academy\n\nVersi\u00f3n 1.0 \u2014 Abril 2026\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n1. ACEPTACI\u00d3N DE LOS T\u00c9RMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted (\"el Usuario\") declara haber le\u00eddo, comprendido y aceptado \u00edntegramente los presentes T\u00e9rminos y Condiciones de Uso.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n2. NATURALEZA DEL SERVICIO\n\nZelus es una plataforma tecnol\u00f3gica de copy trading de car\u00e1cter educativo. No es una gestora de inversiones ni act\u00faa como asesor financiero.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n3. RIESGOS DEL TRADING\n\nEl trading en mercados financieros implica un riesgo significativo de p\u00e9rdida de capital. Los rendimientos hist\u00f3ricos no garantizan resultados futuros.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n4. USO CORRECTO DEL SERVICIO\n\nLas cuentas conectadas a Zelus deben destinarse de forma exclusiva al copy trading. Queda prohibido revender o comercializar las se\u00f1ales.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n5. SISTEMA DE PAGOS\n\nEl servicio opera bajo un modelo de pago por desempe\u00f1o. El d\u00eda con el balance m\u00e1s bajo determina el escal\u00f3n del mes completo. Los meses negativos no se cobran.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n6. PROTECCI\u00d3N DE DATOS\n\nNo se almacenan contrase\u00f1as en texto plano. Los datos no se venden ni comparten con terceros salvo obligaci\u00f3n legal.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n7. MODIFICACI\u00d3N DE T\u00c9RMINOS\n\nPenguin FX Academy se reserva el derecho de modificar estos T\u00e9rminos notificando con al menos 15 d\u00edas de anticipaci\u00f3n.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n8. CAUSAS DE SUSPENSI\u00d3N\n\nPenguin FX Academy podr\u00e1 suspender el acceso ante: operaci\u00f3n manual, adeudo mayor a 30 d\u00edas, uso comercial no autorizado o comportamiento abusivo.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n9. JURISDICCI\u00d3N\n\nEstos T\u00e9rminos se rigen por las leyes de los Estados Unidos Mexicanos.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nPenguin FX Academy \u00b7 Zelus Copy Trading \u00b7 Versi\u00f3n 1.0 \u2014 Abril 2026";
 
       let copyModalData = { accion: null, cuenta_id: null, btnRef: null }
       let copyCountdownInterval = null
@@ -530,7 +524,7 @@
         } else {
           icono.textContent = '\u23f8\ufe0f'
           titulo.textContent = 'Pausar copy trading \u00b7 ' + apodo
-          texto.innerHTML = '\u00bfConfirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedar\u00e1 registrada como pausada de inmediato, pero el sistema dejar\u00e1 de operar a las <strong>2:00 PM hora de Nueva York</strong>.'
+          texto.innerHTML = '\u00bfConfirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedar\u00e1 registrada como pausada de inmediato, pero el sistema dejar\u00e1 de operar a las <strong>4:00 PM hora de Nueva York</strong>.'
         }
         btnConfirmar.disabled = true; btnConfirmar.style.opacity = '0.4'; btnConfirmar.textContent = 'Confirmar '
         let segundos = 5
@@ -645,31 +639,40 @@
           } else { htmlDash = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = htmlDash;
 
-          // Populate cuentas-stats-grid with one card per account
+          // Populate cuentas-stats-grid — one card per account
           const statsGrid = document.getElementById('cuentas-stats-grid');
           if (statsGrid) {
             if (!cuentas || cuentas.length === 0) {
               statsGrid.innerHTML = '';
             } else {
+              const mono = "font-family:'JetBrains Mono',monospace";
               statsGrid.innerHTML = cuentas.map(cuenta => {
-                const ec = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
-                let badgeHtml;
-                if (ec === 'activo') badgeHtml = '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);">Copy activo</span>';
-                else if (ec === 'pausado') badgeHtml = '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);">Pausado</span>';
-                else badgeHtml = '<span style="font-size:11px;font-weight:600;color:#fbbf24;">Pendiente</span>';
-                return '<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;">' +
-                  '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">' +
-                    '<div><div style="font-size:14px;font-weight:700;">' + cuenta.apodo + '</div>' +
-                    '<div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:2px;">#' + cuenta.login + '</div></div>' +
-                    badgeHtml +
-                  '</div>' +
-                  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
-                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Balance</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;">$8,420</div></div>' +
-                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">P&L 30d</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$612</div></div>' +
-                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Trades 30d</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);">148</div></div>' +
-                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Win rate</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">68.2%</div></div>' +
-                  '</div>' +
-                '</div>';
+                const ecSt = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+                let badgeSt, badgeTxt;
+                if (ecSt === 'activo') { badgeSt = 'font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeTxt = 'Copy activo'; }
+                else if (ecSt === 'pausado') { badgeSt = 'font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeTxt = 'Pausado'; }
+                else { badgeSt = 'font-size:11px;font-weight:600;color:#fbbf24;'; badgeTxt = 'Pendiente'; }
+                return [
+                  '<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;">',
+                    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">',
+                      '<div>',
+                        '<div style="font-size:14px;font-weight:700;">' + cuenta.apodo + '</div>',
+                        '<div style="font-size:11px;color:var(--text2);' + mono + ';margin-top:2px;">#' + cuenta.login + '</div>',
+                      '</div>',
+                      '<span style="' + badgeSt + '">' + badgeTxt + '</span>',
+                    '</div>',
+                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">',
+                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Balance</div>',
+                        '<div style="font-size:18px;font-weight:700;' + mono + ';">$8,420</div></div>',
+                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">P&L 30d</div>',
+                        '<div style="font-size:18px;font-weight:700;' + mono + ';color:var(--green);">+$612</div></div>',
+                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Trades 30d</div>',
+                        '<div style="font-size:18px;font-weight:700;' + mono + ';color:var(--purple2);">148</div></div>',
+                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Win rate</div>',
+                        '<div style="font-size:18px;font-weight:700;' + mono + ';color:var(--green);">68.2%</div></div>',
+                    '</div>',
+                  '</div>'
+                ].join('');
               }).join('');
             }
           }
