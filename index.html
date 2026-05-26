@@ -552,6 +552,8 @@
           // Guardar estado en estado_copy
           const nuevoEstado = copyModalData.accion === 'activar' ? 'activo' : 'pausado';
           await supabase.from('estado_copy').upsert({ cuenta_login: parseInt(copyModalData.cuenta_id), usuario_id: session.user.id, estado: nuevoEstado, actualizado_en: new Date().toISOString() }, { onConflict: 'cuenta_login,usuario_id' });
+          // Recargar ambas secciones de inmediato sin esperar Realtime
+          cargarCuentasDashboard(); cargarCuentasSistemas();
           if (copyModalData.btnRef) {
             if (copyModalData.accion === 'activar') { copyModalData.btnRef.textContent = '⏸ Pausar copy'; copyModalData.btnRef.className = 'toggle-btn pausar'; copyModalData.btnRef.onclick = () => abrirModalCopy('pausar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef) }
             else { copyModalData.btnRef.textContent = '▶ Activar copy'; copyModalData.btnRef.className = 'toggle-btn activar'; copyModalData.btnRef.onclick = () => abrirModalCopy('activar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef) }
@@ -705,6 +707,11 @@
             }, 1500);
           }
         }
+      }).subscribe();
+
+      // Canal Realtime para estado_copy: actualiza botones al instante cuando cambia el estado
+      supabase.channel('cambios-estado-copy-zelus').on('postgres_changes', { event: '*', schema: 'public', table: 'estado_copy' }, async () => {
+        cargarCuentasDashboard(); cargarCuentasSistemas();
       }).subscribe();
 
       supabase.channel('cambios-validaciones-zelus').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Validar_Cuentas' }, async (payload) => {
