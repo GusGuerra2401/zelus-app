@@ -94,6 +94,8 @@
       .broker-status { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
       .broker-status.connected { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
       .broker-status.disconnected { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: var(--red); }
+      .broker-status.paused { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: var(--yellow); }
+      .broker-status.pending { background: rgba(251,191,36,0.08); border: 1px solid rgba(217,119,6,0.3); color: #fbbf24; }
       .broker-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
       .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
       .section-title::before { content: ''; width: 3px; height: 18px; background: linear-gradient(to bottom,var(--purple),var(--pink)); border-radius: 999px; display: inline-block; }
@@ -135,31 +137,26 @@
       .sidebar-overlay.open { display: block; }
       .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
       .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
-      .escalon-banner { display: flex; align-items: center; gap: 16px; border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; }
-      .escalon-banner.activo { background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.4); }
-      .escalon-banner.inactivo { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.35); }
-      body.light-mode .escalon-banner.activo { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.35); }
-      body.light-mode .escalon-banner.inactivo { background: rgba(251,191,36,0.08); border: 1px solid rgba(217,119,6,0.3); }
-      .escalon-banner-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-      .escalon-banner.activo .escalon-banner-icon { background: #059669; }
-      .escalon-banner.inactivo .escalon-banner-icon { background: #d97706; }
-      body.light-mode .escalon-banner.activo .escalon-banner-icon { background: #059669; }
-      body.light-mode .escalon-banner.inactivo .escalon-banner-icon { background: #d97706; }
+      .escalon-banner { display: flex; align-items: center; justify-content: space-between; border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; gap: 14px; }
+      .escalon-banner.activo { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.25); }
+      .escalon-banner.inactivo { background: var(--card); border: 1px solid var(--border); }
+      .escalon-banner-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+      .escalon-banner.activo .escalon-banner-icon { background: rgba(52,211,153,0.15); }
+      .escalon-banner.inactivo .escalon-banner-icon { background: var(--bg3); }
       .escalon-banner-texto { flex: 1; }
       .escalon-banner-titulo { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
-      .escalon-banner.activo .escalon-banner-titulo { color: #34d399; }
-      .escalon-banner.inactivo .escalon-banner-titulo { color: #fbbf24; }
-      body.light-mode .escalon-banner.activo .escalon-banner-titulo { color: #065f46; }
-      body.light-mode .escalon-banner.inactivo .escalon-banner-titulo { color: #92400e; }
-      .escalon-banner-subtitulo { font-size: 13px; line-height: 1.5; }
-      .escalon-banner.activo .escalon-banner-subtitulo { color: rgba(52,211,153,0.75); }
-      .escalon-banner.inactivo .escalon-banner-subtitulo { color: rgba(251,191,36,0.75); }
-      body.light-mode .escalon-banner.activo .escalon-banner-subtitulo { color: rgba(6,95,70,0.75); }
-      body.light-mode .escalon-banner.inactivo .escalon-banner-subtitulo { color: rgba(146,64,14,0.75); }
-      .escalon-banner-badge { font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
-      .escalon-banner.activo .escalon-banner-badge { background: #059669; color: white; }
-      .escalon-banner.inactivo .escalon-banner-badge { background: #d97706; color: white; }
-      @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}.escalon-banner-badge{align-self:flex-start;}}
+      .escalon-banner.activo .escalon-banner-titulo { color: var(--green); }
+      .escalon-banner.inactivo .escalon-banner-titulo { color: var(--text); }
+      .escalon-banner-subtitulo { font-size: 13px; color: var(--text2); }
+      .escalon-banner-badge { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
+      .escalon-banner.activo .escalon-banner-badge { background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
+      .escalon-banner.inactivo .escalon-banner-badge { background: var(--bg3); border: 1px solid var(--border); color: var(--text2); }
+      @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+      @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}}
+      @media(max-width:768px){#escalones-grid{grid-template-columns:repeat(2,1fr)!important}}
+      @media(max-width:480px){#escalones-grid{grid-template-columns:1fr!important}}
+      @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
+      @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}}
     </style>
   </head>
   <body>
@@ -200,7 +197,6 @@
           <div><h1 id="page-title">Dashboard</h1><p>Bienvenido a tu área personal · Zelus by Penguin FX</p></div>
         </div>
         <div class="topbar-right">
-          <div class="status-badge"><span class="status-dot"></span>Copy activo</div>
           <button class="btn btn-primary" onclick="abrirModal()">+ Nueva cuenta</button>
         </div>
       </header>
@@ -408,6 +404,31 @@
         </div>
       </div>
     </main>
+    <!-- MODAL DESCONECTAR: copy activo -->
+    <div class="modal-bg" id="modal-desc-activo-bg" onclick="cerrarModalDescActivo()"></div>
+    <div class="modal-box" id="modal-desc-activo-box" style="max-width:440px;">
+      <button onclick="cerrarModalDescActivo()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">&#x2715;</button>
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-size:36px;margin-bottom:12px;">&#x26A0;&#xFE0F;</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:16px;line-height:1.4;">&#x00BF;Est&#x00E1;s seguro de que deseas desconectar esta cuenta?</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:left;">Para continuar, primero debes pausar el copy asociado desde <strong style="color:var(--text);">Sistemas Copy</strong>. Una vez pausado, podr&#x00E1;s regresar aqu&#x00ED; para desconectar.</p>
+      </div>
+      <button onclick="cerrarModalDescActivo()" style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;">Entendido</button>
+    </div>
+    <!-- MODAL DESCONECTAR: confirmacion -->
+    <div class="modal-bg" id="modal-desc-confirmar-bg" onclick="cerrarModalDescConfirmar()"></div>
+    <div class="modal-box" id="modal-desc-confirmar-box" style="max-width:440px;">
+      <button onclick="cerrarModalDescConfirmar()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a09cbf;font-size:22px;cursor:pointer;line-height:1;">&#x2715;</button>
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-size:36px;margin-bottom:12px;">&#x1F534;</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:16px;line-height:1.4;">&#x00BF;Est&#x00E1;s seguro de que deseas desconectar <span id="modal-desc-apodo" style="color:var(--purple2);"></span>?</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.2);border-radius:12px;padding:16px;text-align:left;">Esta acci&#x00F3;n no se puede deshacer. Tu solicitud ser&#x00E1; procesada de inmediato, pero tu cuenta permanecer&#x00E1; visible hasta que liquides cualquier saldo pendiente en tu pr&#x00F3;xima fecha de pago.</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="cerrarModalDescConfirmar()" style="flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;background:transparent;border:1px solid var(--border);color:var(--text2);">Cancelar</button>
+        <button id="btn-desc-confirmar" disabled style="flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;opacity:0.4;">S&#x00ED;, desconectar</button>
+      </div>
+    </div>
     <!-- MODAL TÉRMINOS -->
     <div class="modal-bg" id="modal-terminos-bg"></div>
     <div class="modal-box" id="modal-terminos-box" style="max-width:560px;">
@@ -464,18 +485,12 @@
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const MAKE_WEBHOOK = 'https://hook.us2.make.com/p4u2e93vnayetcauknscoju7xhfy9fu3'
 
-      // BANNER ESCALON
       async function cargarEscalonBanner(email) {
         const banner = document.getElementById('escalon-banner')
         if (!banner || !email) return
         const mesActual = new Date().toISOString().slice(0, 7)
         try {
-          const { data, error } = await supabase
-            .from('escalon_activo')
-            .select('correo_penguin')
-            .eq('correo_penguin', email)
-            .eq('mes', mesActual)
-            .maybeSingle()
+          const { data, error } = await supabase.from('escalon_activo').select('correo_penguin').eq('correo_penguin', email).eq('mes', mesActual).maybeSingle()
           if (error) throw error
           if (data) {
             banner.className = 'escalon-banner activo'
@@ -495,7 +510,7 @@
         return nombres[parseInt(mes)-1] + ' ' + anio
       }
 
-      document.getElementById('terminos-scroll').textContent = "TÉRMINOS Y CONDICIONES DE USO\nZelus · Servicio de Copy Trading\nPenguin FX Academy\n\nVersión 1.0 — Abril 2026\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. ACEPTACIÓN DE LOS TÉRMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted (\"el Usuario\") declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones de Uso. Si no está de acuerdo con alguno de los términos aquí establecidos, deberá abstenerse de utilizar el servicio.\n\nLa aceptación de estos términos constituye un acuerdo vinculante entre el Usuario y Penguin FX Academy. Se registrará la fecha, hora y datos del dispositivo desde el cual el Usuario otorgó su aceptación, como constancia válida de este acuerdo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n2. NATURALEZA DEL SERVICIO\n\nZelus es una plataforma tecnológica de copy trading de carácter educativo, desarrollada y operada bajo la marca Zelus por Penguin FX Academy. El servicio permite a los usuarios replicar automáticamente las operaciones de sistemas de trading algorítmico previamente configurados.\n\nZelus no es una gestora de inversiones, no actúa como asesor financiero, y no está registrada como tal ante ningún organismo regulador financiero. El servicio tiene una finalidad exclusivamente educativa y tecnológica.\n\nEl Usuario es responsable de verificar que el uso de este servicio cumple con la legislación vigente en su país o región de residencia.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n3. RIESGOS DEL TRADING Y LIMITACIÓN DE RESPONSABILIDAD\n\n3.1 Riesgo general\nEl trading en mercados financieros implica un riesgo significativo de pérdida de capital. Los rendimientos históricos del sistema no garantizan resultados futuros.\n\n3.2 Latencia y ejecución algorítmica\nEl trading algorítmico está sujeto a múltiples variables de latencia. Zelus controla únicamente las variables correspondientes a su infraestructura propia.\n\n3.3 Slippage\nEl slippage depende exclusivamente del broker utilizado por el Usuario. Zelus no se hace responsable por ninguna pérdida derivada de slippage.\n\n3.4 Configuración de lotaje\nSi el Usuario decide modificar manualmente la configuración de lotaje, asume plena responsabilidad por los resultados derivados de dicha decisión.\n\n3.5 Fallas de infraestructura\nZelus opera sobre servidores ubicados en República Dominicana. En caso de interrupción, Penguin FX Academy notificará a los usuarios a través del canal oficial de Discord y por correo electrónico.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n4. USO CORRECTO DEL SERVICIO\n\n4.1 Cuenta exclusiva para copy trading\nLas cuentas conectadas a Zelus deben destinarse de forma exclusiva a la ejecución del sistema de copy trading. Queda estrictamente prohibido realizar operaciones manuales.\n\n4.2 Capital mínimo requerido\nCada sistema especifica el capital mínimo requerido. Zelus no se hace responsable por resultados adversos derivados de operar con capital inferior al mínimo.\n\n4.3 Prohibición de uso comercial no autorizado\nEl servicio de Zelus es de carácter personal e intransferible. Queda estrictamente prohibido revender, redistribuir o comercializar las señales o el acceso al servicio.\n\n4.4 Declaración del Usuario\nAl aceptar estos términos, el Usuario declara ser mayor de edad, tener capacidad legal para celebrar este acuerdo, y haber resuelto todas sus dudas antes de conectar sus cuentas.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n5. SISTEMA DE PAGOS Y CONDICIONES COMERCIALES\n\n5.1 Modelo de pago escalonado\nEl servicio opera bajo un modelo de pago por desempeño. El porcentaje aplicable depende del escalón correspondiente al balance de la cuenta y del registro como referido de Penguin FX Academy.\n\n5.2 Regla del escalón\nEl sistema registra el balance diariamente a las 5:00 PM hora de Nueva York. El día con el balance más bajo determina el escalón del mes completo.\n\n5.3 Meses negativos\nSi el sistema genera pérdidas durante un mes, no se realizará ningún cobro. El monto negativo se descuenta de ganancias futuras.\n\n5.5 Adeudo y mora\nUn adeudo no liquidado en más de 30 días será considerado uso malicioso del servicio.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n6. PROTECCIÓN DE DATOS PERSONALES\n\nPenguin FX Academy recopila nombre, correo electrónico y datos de la cuenta de trading. No se almacenan contraseñas en texto plano. Los datos no se venden ni comparten con terceros salvo obligación legal. El Usuario tiene derechos ARCO conforme a la ley mexicana.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n7. MODIFICACIÓN DE LOS TÉRMINOS\n\nPenguin FX Academy se reserva el derecho de modificar estos Términos notificando con al menos 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n8. CAUSAS DE SUSPENSIÓN O CANCELACIÓN\n\nPenguin FX Academy podrá suspender el acceso ante: operación manual de cuentas, adeudo mayor a 30 días, uso comercial no autorizado, violación de estos términos, o comportamiento abusivo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n9. JURISDICCIÓN Y LEY APLICABLE\n\nEstos Términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier controversia se somete a los tribunales competentes de la Ciudad de México.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n10. CONTACTO Y RESOLUCIÓN DE DUDAS\n\nAntes de conectar sus cuentas, el Usuario deberá resolver todas sus dudas con Penguin FX Academy o sus promotores autorizados.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nPenguin FX Academy · Zelus Copy Trading\nVersión 1.0 — Abril 2026";
+      document.getElementById('terminos-scroll').textContent = "TÉRMINOS Y CONDICIONES DE USO\nZelus · Servicio de Copy Trading\nPenguin FX Academy\n\nVersión 1.0 — Abril 2026\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. ACEPTACIÓN DE LOS TÉRMINOS\nAl acceder y utilizar la plataforma Zelus, operada por Penguin FX Academy, usted (\"el Usuario\") declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones de Uso. Si no está de acuerdo con alguno de los términos aquí establecidos, deberá abstenerse de utilizar el servicio.\n\nLa aceptación de estos términos constituye un acuerdo vinculante entre el Usuario y Penguin FX Academy. Se registrará la fecha, hora y datos del dispositivo desde el cual el Usuario otorgó su aceptación, como constancia válida de este acuerdo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n2. NATURALEZA DEL SERVICIO\n\nZelus es una plataforma tecnológica de copy trading de carácter educativo, desarrollada y operada bajo la marca Zelus por Penguin FX Academy. El servicio permite a los usuarios replicar automáticamente las operaciones de sistemas de trading algorítmico previamente configurados.\n\nZelus no es una gestora de inversiones, no actúa como asesor financiero, y no está registrada como tal ante ningún organismo regulador financiero. El servicio tiene una finalidad exclusivamente educativa y tecnológica.\n\nEl Usuario es responsable de verificar que el uso de este servicio cumple con la legislación vigente en su país o región de residencia.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n3. RIESGOS DEL TRADING Y LIMITACIÓN DE RESPONSABILIDAD\n\n3.1 Riesgo general\nEl trading en mercados financieros implica un riesgo significativo de pérdida de capital. Los rendimientos históricos del sistema no garantizan resultados futuros.\n\n3.2 Latencia y ejecución algorítmica\nEl trading algorítmico está sujeto a múltiples variables de latencia. Zelus controla únicamente las variables correspondientes a su infraestructura propia.\n\n3.3 Slippage\nEl slippage depende exclusivamente del broker utilizado por el Usuario. Zelus no se hace responsable por ninguna pérdida derivada de slippage.\n\n3.4 Configuración de lotaje\nSi el Usuario decide modificar manualmente la configuración de lotaje, asume plena responsabilidad por los resultados derivados de dicha decisión.\n\n3.5 Fallas de infraestructura\nZelus opera sobre servidores ubicados en República Dominicana. En caso de interrupción, Penguin FX Academy notificará a los usuarios a través del canal oficial de Discord y por correo electrónico.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n4. USO CORRECTO DEL SERVICIO\n\n4.1 Cuenta exclusiva para copy trading\nLas cuentas conectadas a Zelus deben destinarse de forma exclusiva a la ejecución del sistema de copy trading. Queda estrictamente prohibido realizar operaciones manuales.\n\n4.2 Capital mínimo requerido\nCada sistema especifica el capital mínimo requerido. Zelus no se hace responsable por resultados adversos derivados de operar con capital inferior al mínimo.\n\n4.3 Prohibición de uso comercial no autorizado\nEl servicio de Zelus es de carácter personal e intransferible. Queda estrictamente prohibido revender, redistribuir o comercializar las señales o el acceso al servicio.\n\n4.4 Declaración del Usuario\nAl aceptar estos términos, el Usuario declara ser mayor de edad, tener capacidad legal para celebrar este acuerdo, y haber resuelto todas sus dudas antes de conectar sus cuentas.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n5. SISTEMA DE PAGOS Y CONDICIONES COMERCIALES\n\n5.1 Modelo de pago escalonado\nEl servicio opera bajo un modelo de pago por desempeño. El porcentaje aplicable depende del escalón correspondiente al balance de la cuenta y del registro como referido de Penguin FX Academy.\n\n5.2 Regla del escalón\nEl sistema registra el balance diariamente a las 5:00 PM hora de Nueva York. El día con el balance más bajo determina el escalón del mes completo.\n\n5.3 Meses negativos\nSi el sistema genera pérdidas durante un mes, no se realizará ningún cobro. El monto negativo se descuenta de ganancias futuras.\n\n5.5 Adeudo y mora\nUn adeudo no liquidado en más de 30 días será considerado uso malicioso del servicio.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n6. PROTECCIÓN DE DATOS PERSONALES\n\nPenguin FX Academy recopila nombre, correo electrónico y datos de la cuenta de trading. No se almacenan contraseñas en texto plano. Los datos no se venden ni comparten con terceros salvo obligación legal. El Usuario tiene derechos ARCO conforme a la ley mexicana.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n7. MODIFICACIÓN DE LOS TÉRMINOS\n\nPenguin FX Academy se reserva el derecho de modificar estos Términos notificando con al menos 15 días de anticipación.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n8. CAUSAS DE SUSPENSIÓN O CANCELACIÓN\n\nPenguin FX Academy podrá suspender el acceso ante: operación manual de cuentas, adeudo mayor a 30 días, uso comercial no autorizado, violación de estos términos, o comportamiento abusivo.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n9. JURISDICCIÓN Y LEY APLICABLE\n\nEstos Términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier controversia se somete a los tribunales competentes de la Ciudad de México.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n10. CONTACTO Y RESOLUCIÓN DE DUDAS\n\nAntes de conectar sus cuentas, el Usuario deberá resolver todas sus dudas con Penguin FX Academy o sus promotores autorizados.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nPenguin FX Academy · Zelus Copy Trading\nVersión 1.0 — Abril 2026"
 
       let copyModalData = { accion: null, cuenta_id: null, btnRef: null }
       let copyCountdownInterval = null
@@ -509,26 +524,20 @@
         const msg = document.getElementById('modal-copy-msg')
         msg.style.display = 'none'
         if (accion === 'activar') {
-          icono.textContent = '▶️'
-          titulo.textContent = 'Activar copy trading · ' + apodo
-          texto.innerHTML = '¿Confirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como activa de inmediato, pero el sistema comenzará a operar a las <strong>4:30 PM hora de Nueva York</strong>, al inicio de la sesión asiática. Activarla fuera de ese horario no genera ningún problema — simplemente no habrá operaciones hasta ese momento.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera operación del día.'
+          icono.textContent = '\u25b6\ufe0f'
+          titulo.textContent = 'Activar copy trading \u00b7 ' + apodo
+          texto.innerHTML = '\u00bfConfirmas que deseas <strong>activar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedar\u00e1 registrada como activa de inmediato, pero el sistema comenzar\u00e1 a operar a las <strong>4:30 PM hora de Nueva York</strong>.<br><br>Zelus aplica par\u00e1metros estrictos de gesti\u00f3n de capital desde la primera operaci\u00f3n del d\u00eda.'
         } else {
-          icono.textContent = '⏸️'
-          titulo.textContent = 'Pausar copy trading · ' + apodo
-          texto.innerHTML = '¿Confirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedará registrada como pausada de inmediato, pero el sistema dejará de operar a las <strong>2:00 PM hora de Nueva York</strong>.<br><br>Zelus aplica parámetros estrictos de gestión de capital desde la primera hasta la última operación del día.'
+          icono.textContent = '\u23f8\ufe0f'
+          titulo.textContent = 'Pausar copy trading \u00b7 ' + apodo
+          texto.innerHTML = '\u00bfConfirmas que deseas <strong>pausar</strong> el copy trading para esta cuenta?<br><br>Tu cuenta quedar\u00e1 registrada como pausada de inmediato, pero el sistema dejar\u00e1 de operar a las <strong>2:00 PM hora de Nueva York</strong>.'
         }
-        btnConfirmar.disabled = true
-        btnConfirmar.style.opacity = '0.4'
-        btnConfirmar.textContent = 'Confirmar '
+        btnConfirmar.disabled = true; btnConfirmar.style.opacity = '0.4'; btnConfirmar.textContent = 'Confirmar '
         let segundos = 5
-        const span = document.createElement('span')
-        span.style.fontFamily = "'JetBrains Mono',monospace"
-        span.textContent = '(' + segundos + ')'
-        btnConfirmar.appendChild(span)
+        const span = document.createElement('span'); span.style.fontFamily = "'JetBrains Mono',monospace"; span.textContent = '(' + segundos + ')'; btnConfirmar.appendChild(span)
         clearInterval(copyCountdownInterval)
         copyCountdownInterval = setInterval(() => {
-          segundos--
-          span.textContent = '(' + segundos + ')'
+          segundos--; span.textContent = '(' + segundos + ')'
           if (segundos <= 0) { clearInterval(copyCountdownInterval); btnConfirmar.disabled = false; btnConfirmar.style.opacity = '1'; span.textContent = '' }
         }, 1000)
         document.getElementById('modal-copy-bg').classList.add('open')
@@ -549,20 +558,18 @@
           const { data: { session } } = await supabase.auth.getSession()
           const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
           await fetch(MAKE_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: copyModalData.accion, nombre, email: session.user.email, cuenta_id: copyModalData.cuenta_id }) })
-          // Guardar estado en estado_copy
           const nuevoEstado = copyModalData.accion === 'activar' ? 'activo' : 'pausado';
           await supabase.from('estado_copy').upsert({ cuenta_login: parseInt(copyModalData.cuenta_id), usuario_id: session.user.id, estado: nuevoEstado, actualizado_en: new Date().toISOString() }, { onConflict: 'cuenta_login,usuario_id' });
-          // Recargar ambas secciones de inmediato sin esperar Realtime
           cargarCuentasDashboard(); cargarCuentasSistemas();
           if (copyModalData.btnRef) {
-            if (copyModalData.accion === 'activar') { copyModalData.btnRef.textContent = '⏸ Pausar copy'; copyModalData.btnRef.className = 'toggle-btn pausar'; copyModalData.btnRef.onclick = () => abrirModalCopy('pausar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef) }
-            else { copyModalData.btnRef.textContent = '▶ Activar copy'; copyModalData.btnRef.className = 'toggle-btn activar'; copyModalData.btnRef.onclick = () => abrirModalCopy('activar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef) }
+            if (copyModalData.accion === 'activar') { copyModalData.btnRef.textContent = '\u23f8 Pausar copy'; copyModalData.btnRef.className = 'toggle-btn pausar'; copyModalData.btnRef.onclick = () => abrirModalCopy('pausar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef) }
+            else { copyModalData.btnRef.textContent = '\u25b6 Activar copy'; copyModalData.btnRef.className = 'toggle-btn activar'; copyModalData.btnRef.onclick = () => abrirModalCopy('activar', copyModalData.cuenta_id, copyModalData.btnRef.dataset.apodo, copyModalData.btnRef) }
           }
           msg.style.display = 'block'; msg.style.background = 'rgba(52,211,153,0.1)'; msg.style.border = '1px solid rgba(52,211,153,0.3)'; msg.style.color = '#34d399'
-          msg.textContent = copyModalData.accion === 'activar' ? '✓ Solicitud de activación enviada.' : '✓ Solicitud de pausa enviada.'
+          msg.textContent = copyModalData.accion === 'activar' ? '\u2713 Solicitud de activaci\u00f3n enviada.' : '\u2713 Solicitud de pausa enviada.'
           setTimeout(() => cerrarModalCopy(), 1500)
         } catch(e) {
-          msg.style.display = 'block'; msg.style.background = 'rgba(248,113,113,0.1)'; msg.style.border = '1px solid rgba(248,113,113,0.3)'; msg.style.color = '#f87171'; msg.textContent = '✗ Error al enviar. Intenta de nuevo.'
+          msg.style.display = 'block'; msg.style.background = 'rgba(248,113,113,0.1)'; msg.style.border = '1px solid rgba(248,113,113,0.3)'; msg.style.color = '#f87171'; msg.textContent = '\u2717 Error al enviar. Intenta de nuevo.'
           btnConfirmar.disabled = false; btnConfirmar.textContent = 'Confirmar'; btnConfirmar.style.opacity = '1'
         }
       })
@@ -597,25 +604,20 @@
           const data = await res.json()
           if (res.ok && data.ok) { document.getElementById('modal-terminos-bg').classList.remove('open'); document.getElementById('modal-terminos-box').classList.remove('open') }
           else { msg.style.display = 'block'; msg.textContent = 'Error al registrar.'; btn.disabled = false; btn.style.opacity = '1' }
-        } catch(e) { msg.style.display = 'block'; msg.textContent = 'Error de conexión.'; btn.disabled = false; btn.style.opacity = '1' }
+        } catch(e) { msg.style.display = 'block'; msg.textContent = 'Error de conexi\u00f3n.'; btn.disabled = false; btn.style.opacity = '1' }
       }
 
-      // Sesión cacheada para no llamar a Supabase en cada recarga
       let _sesionCache = null;
       async function obtenerSesion() {
         if (_sesionCache) return _sesionCache;
         const { data: { session } } = await supabase.auth.getSession();
-        _sesionCache = session;
-        return session;
+        _sesionCache = session; return session;
       }
-      // Limpiar caché al cerrar sesión
       supabase.auth.onAuthStateChange((event, session) => { _sesionCache = session; });
 
-      // Función unificada: una sola llamada trae datos para ambas secciones
       async function cargarTodasLasCuentas() {
         try {
           const session = await obtenerSesion(); if (!session) return;
-          // Ambas queries en paralelo — no secuencial
           const [{ data: cuentas, error }, { data: estados }] = await Promise.all([
             supabase.from('cuentas').select('*').eq('usuario_id', session.user.id),
             supabase.from('estado_copy').select('cuenta_login, estado').eq('usuario_id', session.user.id)
@@ -624,53 +626,62 @@
           const mapaEstados = {};
           if (estados) estados.forEach(e => { mapaEstados[e.cuenta_login] = e.estado; });
 
-          // --- Sección Dashboard / Mis Cuentas ---
           const contenedorDash = document.getElementById('cuentas-lista-dashboard');
           const contenedorSec = document.getElementById('cuentas-lista-seccion');
-          const mensajeVacio = '<div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">No tienes cuentas conectadas.</div>';
+          const mensajeVacio = '<div style="padding:24px;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>';
+
+          // Dashboard: solo estado del copy, sin boton desconectar
           let htmlDash = '';
           if (cuentas && cuentas.length > 0) {
             cuentas.forEach(cuenta => {
-              const estadoCopy = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
-              const estaPausado = estadoCopy === 'pausado'; const estaDesconectado = estadoCopy === 'desconectado';
-              let badgeClass, badgeLabel;
-              if (estadoCopy === 'activo') { badgeClass = 'connected'; badgeLabel = 'Activa'; }
-              else if (estadoCopy === 'pausado') { badgeClass = 'disconnected'; badgeLabel = 'Pausado'; }
-              else if (estadoCopy === 'desconectado') { badgeClass = 'disconnected'; badgeLabel = 'Desconectado'; }
-              else { badgeClass = 'disconnected'; badgeLabel = 'Inactiva'; }
-              let btnDesconectar;
-              if (estaDesconectado) { btnDesconectar = '<button disabled style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;">Desconectada</button>'; }
-              else if (estaPausado) { btnDesconectar = '<button style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;" onclick="desconectarCuenta(\'' + cuenta.id + '\', \'' + cuenta.apodo + '\', \'' + cuenta.login + '\')">Desconectar</button>'; }
-              else { btnDesconectar = '<button disabled title="Debes pausar el copy en Sistemas Copy primero" style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;">Desconectar</button>'; }
-              htmlDash += '<div class="broker-item"><div class="broker-icon">🏦</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' · ' + cuenta.apodo + '</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="broker-status ' + badgeClass + '"><span class="broker-dot"></span> ' + badgeLabel + '</div>' + btnDesconectar + '</div></div>';
+              const ec = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+              let bc, bl;
+              if (ec === 'activo') { bc = 'connected'; bl = 'Copy activo'; }
+              else if (ec === 'pausado') { bc = 'paused'; bl = 'Pausado'; }
+              else if (ec === 'desconectado') { bc = 'pending'; bl = 'Pendiente de desconexi\u00f3n'; }
+              else { bc = 'paused'; bl = 'Pausado'; }
+              htmlDash += '<div class="broker-item"><div class="broker-icon">\ud83c\udfe6</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' \u00b7 ' + cuenta.apodo + '</div></div><div style="display:flex;align-items:center;"><div class="broker-status ' + bc + '"><span class="broker-dot"></span> ' + bl + '</div></div></div>';
             });
           } else { htmlDash = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = htmlDash;
-          if (contenedorSec) contenedorSec.innerHTML = htmlDash;
 
-          // --- Sección Sistemas Copy ---
+          // Mis Cuentas: estado + boton desconectar con modal
+          let htmlSec = '';
+          if (cuentas && cuentas.length > 0) {
+            cuentas.forEach(cuenta => {
+              const ec2 = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+              let bc2, bl2;
+              if (ec2 === 'activo') { bc2 = 'connected'; bl2 = 'Copy activo'; }
+              else if (ec2 === 'pausado') { bc2 = 'paused'; bl2 = 'Pausado'; }
+              else if (ec2 === 'desconectado') { bc2 = 'pending'; bl2 = 'Pendiente de desconexi\u00f3n'; }
+              else { bc2 = 'paused'; bl2 = 'Pausado'; }
+              const btnD = ec2 === 'desconectado'
+                ? '<button disabled style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;">Desconectada</button>'
+                : '<button style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;" onclick="abrirModalDesconectar(\'' + cuenta.id + '\',\'' + cuenta.apodo + '\',\'' + cuenta.login + '\',\'' + ec2 + '\')">Desconectar</button>';
+              htmlSec += '<div class="broker-item"><div class="broker-icon">\ud83c\udfe6</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' \u00b7 ' + cuenta.apodo + '</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="broker-status ' + bc2 + '"><span class="broker-dot"></span> ' + bl2 + '</div>' + btnD + '</div></div>';
+            });
+          } else { htmlSec = mensajeVacio; }
+          if (contenedorSec) contenedorSec.innerHTML = htmlSec;
+
+          // Sistemas Copy
           const contenedorSistemas = document.getElementById('sistemas-cuentas-lista');
           if (contenedorSistemas) {
             if (!cuentas || cuentas.length === 0) { contenedorSistemas.innerHTML = '<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>'; }
             else {
               let htmlSistemas = '';
               cuentas.forEach((cuenta, i) => {
-                const n = i + 1; const detalle = cuenta.apodo || 'Sin apodo'; const loginStr = cuenta.login ? '#' + cuenta.login : ''; const estaActiva = cuenta.estado === 'activa';
-                const estadoCopy = mapaEstados[cuenta.login] || (estaActiva ? 'activo' : 'inactivo');
-                const copyActivo = estadoCopy === 'activo'; const estaPausado = estadoCopy === 'pausado'; const estaDesconectado = estadoCopy === 'desconectado';
+                const n = i + 1; const detalle = cuenta.apodo || 'Sin apodo'; const loginStr = cuenta.login ? '#' + cuenta.login : '';
+                const ec3 = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+                const copyActivo = ec3 === 'activo'; const estaDesconectado = ec3 === 'desconectado';
                 let badgeColor, badgeLabel;
-                if (estadoCopy === 'activo') { badgeColor = 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeLabel = 'Activa'; }
-                else if (estadoCopy === 'pausado') { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
-                else if (estadoCopy === 'desconectado') { badgeColor = 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'; badgeLabel = 'Desconectado'; }
-                else { badgeColor = 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);'; badgeLabel = 'Inactivo'; }
+                if (ec3 === 'activo') { badgeColor = 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeLabel = 'Copy activo'; }
+                else if (ec3 === 'pausado') { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
+                else if (ec3 === 'desconectado') { badgeColor = 'background:rgba(251,191,36,0.08);border:1px solid rgba(217,119,6,0.3);color:#fbbf24;'; badgeLabel = 'Pendiente de desconexi\u00f3n'; }
+                else { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
                 let btnCopy;
-                if (estaDesconectado) { btnCopy = '<button disabled style="width:100%;padding:10px;font-size:13px;font-weight:600;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;opacity:0.5;">Cuenta desconectada</button>'; }
-                else { const btnTexto = copyActivo ? '⏸ Pausar copy' : '▶ Activar copy'; const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar'; const accionBtn = copyActivo ? 'pausar' : 'activar'; btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy(\'' + accionBtn + '\', \'' + cuenta.login + '\', \'' + detalle + '\', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>'; }
-                let btnDesconectar;
-                if (estaDesconectado) { btnDesconectar = ''; }
-                else if (estaPausado) { btnDesconectar = '<button style="font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;margin-top:10px;width:100%;" onclick="desconectarCuenta(\'' + cuenta.id + '\', \'' + detalle + '\', \'' + cuenta.login + '\')">Desconectar cuenta</button>'; }
-                else { btnDesconectar = '<button disabled style="font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:not-allowed;border:1px solid rgba(100,100,100,0.3);background:rgba(100,100,100,0.05);color:#555;font-family:\'Sora\',sans-serif;margin-top:10px;width:100%;opacity:0.5;">Desconectar cuenta (pausa primero)</button>'; }
-                htmlSistemas += '<div class="cuenta-config" id="cfg-cuenta-dyn-' + n + '"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-' + n + '" onchange="toggleCuentaDyn(' + n + ')"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);font-family:\'JetBrains Mono\',monospace;">' + loginStr + (loginStr && detalle ? ' · ' : '') + detalle + '</div></div><span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span></div><div class="cuenta-config-body" id="body-cuenta-dyn-' + n + '"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.</div>' + btnCopy + btnDesconectar + '</div></div>';
+                if (estaDesconectado) { btnCopy = '<div style="padding:12px 14px;border-radius:10px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);"><p style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:4px;">\u23f3 Pendiente de desconexi\u00f3n</p><p style="font-size:12px;color:rgba(251,191,36,0.75);">Tu solicitud fue recibida. La cuenta permanecer\u00e1 visible hasta liquidar tu saldo pendiente.</p></div>'; }
+                else { const btnTexto = copyActivo ? '\u23f8 Pausar copy' : '\u25b6 Activar copy'; const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar'; const accionBtn = copyActivo ? 'pausar' : 'activar'; btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy(\'' + accionBtn + '\', \'' + cuenta.login + '\', \'' + detalle + '\', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>'; }
+                htmlSistemas += '<div class="cuenta-config" id="cfg-cuenta-dyn-' + n + '"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-' + n + '" onchange="toggleCuentaDyn(' + n + ')"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);font-family:\'JetBrains Mono\',monospace;">' + loginStr + (loginStr && detalle ? ' \u00b7 ' : '') + detalle + '</div></div><span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span></div><div class="cuenta-config-body" id="body-cuenta-dyn-' + n + '"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">\u26a1 Tu lotaje es calculado autom\u00e1ticamente seg\u00fan tu balance. No necesitas configurar nada, nosotros nos encargamos.</div>' + btnCopy + '</div></div>';
               });
               contenedorSistemas.innerHTML = htmlSistemas;
             }
@@ -678,7 +689,6 @@
         } catch(e) { console.error('Error cargando cuentas:', e); }
       }
 
-      // Alias para compatibilidad con el resto del código que llama a estas funciones por separado
       function cargarCuentasDashboard() { return cargarTodasLasCuentas(); }
       function cargarCuentasSistemas() { return cargarTodasLasCuentas(); }
 
@@ -693,8 +703,8 @@
         if (sesionWebActiva && payload.new.usuario_id === sesionWebActiva.user.id) {
           const msg = document.getElementById('modal-msg'); const btn = document.getElementById('btn-verificar');
           if (msg && btn) {
-            msg.style.display = 'block'; msg.style.background = 'rgba(52,211,153,0.1)'; msg.style.border = '1px solid rgba(52,211,153,0.3)'; msg.style.color = '#34d399'; msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
-            btn.textContent = '¡Conectado con éxito!'; btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
+            msg.style.display = 'block'; msg.style.background = 'rgba(52,211,153,0.1)'; msg.style.border = '1px solid rgba(52,211,153,0.3)'; msg.style.color = '#34d399'; msg.textContent = '\u2713 \u00a1Cuenta validada y conectada con \u00e9xito!';
+            btn.textContent = '\u00a1Conectado con \u00e9xito!'; btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
             setTimeout(() => {
               document.getElementById('modal-bg').classList.remove('open'); document.getElementById('modal-box').classList.remove('open');
               btn.textContent = 'Verificar y conectar cuenta'; btn.disabled = true; btn.style.opacity = '0.4'; btn.style.background = 'linear-gradient(135deg,#8b5cf6,#d946ef)';
@@ -705,8 +715,6 @@
         }
       }).subscribe();
 
-      // Canal Realtime para estado_copy: actualiza botones al instante cuando cambia el estado
-      // Debounce para evitar recargas dobles si llegan dos eventos Realtime seguidos
       let _recargaTimer = null;
       function recargarCuentasDebounced() { clearTimeout(_recargaTimer); _recargaTimer = setTimeout(() => cargarTodasLasCuentas(), 80); }
 
@@ -718,10 +726,10 @@
         const { data: { session: actualSession } } = await supabase.auth.getSession();
         const btn = document.getElementById('btn-verificar'); const msg = document.getElementById('modal-msg');
         if (actualSession && payload.new.usuario_id === actualSession.user.id) {
-          if (payload.new.estado === '¡Éxito!' || payload.new.estado === 'exitosa') {
+          if (payload.new.estado === '\u00a1\u00c9xito!' || payload.new.estado === 'exitosa') {
             if (msg && btn) {
-              msg.style.display = 'block'; msg.style.background = 'rgba(52,211,153,0.1)'; msg.style.border = '1px solid rgba(52,211,153,0.3)'; msg.style.color = '#34d399'; msg.textContent = '✓ ¡Cuenta validada y conectada con éxito!';
-              btn.textContent = '¡Conectado!'; btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
+              msg.style.display = 'block'; msg.style.background = 'rgba(52,211,153,0.1)'; msg.style.border = '1px solid rgba(52,211,153,0.3)'; msg.style.color = '#34d399'; msg.textContent = '\u2713 \u00a1Cuenta validada y conectada con \u00e9xito!';
+              btn.textContent = '\u00a1Conectado!'; btn.style.background = 'linear-gradient(135deg, #22c55e, #15803d)';
               setTimeout(() => {
                 document.getElementById('modal-bg').classList.remove('open'); document.getElementById('modal-box').classList.remove('open');
                 btn.textContent = 'Verificar y conectar cuenta'; btn.disabled = true; btn.style.opacity = '0.4'; btn.style.background = 'linear-gradient(135deg,#8b5cf6,#d946ef)';
@@ -733,7 +741,7 @@
           if (payload.new.estado === 'Fallida' || payload.new.estado === 'fallida') {
             if (msg && btn) {
               msg.style.display = 'block'; msg.style.background = 'rgba(248,113,113,0.1)'; msg.style.border = '1px solid rgba(248,113,113,0.3)'; msg.style.color = '#f87171';
-              msg.textContent = '✗ ' + (payload.new.mensaje_error || 'Error en la validación.');
+              msg.textContent = '\u2717 ' + (payload.new.mensaje_error || 'Error en la validaci\u00f3n.');
               btn.textContent = 'Verificar y conectar cuenta'; btn.disabled = false; btn.style.opacity = '1';
             }
           }
@@ -779,13 +787,13 @@
 
       window.verifyCuenta = window.verificarCuenta = async function() {
         const btn = document.getElementById('btn-verificar'); const msg = document.getElementById('modal-msg');
-        btn.textContent = 'Cargando ⏳'; btn.disabled = true; btn.style.opacity = '0.7'; msg.style.display = 'none';
+        btn.textContent = 'Cargando \u23f3'; btn.disabled = true; btn.style.opacity = '0.7'; msg.style.display = 'none';
         try {
           const { data: { session } } = await supabase.auth.getSession()
           const { error } = await supabase.from('Validar_Cuentas').insert([{ apodo: document.getElementById('input-apodo').value.trim(), plataforma: 'MT5', broker: 'IC Markets', server: document.getElementById('input-servidor').value.trim(), login: parseInt(document.getElementById('input-login').value.trim()), password: document.getElementById('input-password').value.trim(), usuario_id: session.user.id, estado: 'procesando' }]);
           if (error) throw error;
-          msg.style.display = 'block'; msg.style.background = 'rgba(139,92,246,0.1)'; msg.style.border = '1px solid var(--border2)'; msg.style.color = 'var(--purple2)'; msg.textContent = '⏳ Solicitud en cola. Esperando respuesta de MetaTrader...'
-        } catch(e) { msg.style.display = 'block'; msg.style.color = '#f87171'; msg.textContent = '✗ Error: ' + e.message; btn.textContent = 'Verificar y conectar cuenta'; btn.disabled = false; btn.style.opacity = '1'; }
+          msg.style.display = 'block'; msg.style.background = 'rgba(139,92,246,0.1)'; msg.style.border = '1px solid var(--border2)'; msg.style.color = 'var(--purple2)'; msg.textContent = '\u23f3 Solicitud en cola. Esperando respuesta de MetaTrader...'
+        } catch(e) { msg.style.display = 'block'; msg.style.color = '#f87171'; msg.textContent = '\u2717 Error: ' + e.message; btn.textContent = 'Verificar y conectar cuenta'; btn.disabled = false; btn.style.opacity = '1'; }
       }
 
       window.abrirModal = async function() {
@@ -798,15 +806,52 @@
         const btn = document.getElementById('btn-verificar'); btn.disabled = true; btn.style.opacity = '0.4'; btn.textContent = 'Verificar y conectar cuenta';
       }
 
-      window.desconectarCuenta = async function(id, apodo, login) {
-        if (!confirm('¿Seguro que deseas desconectar la cuenta ' + apodo + '? Esta acción no se puede deshacer.')) return;
+      // Modal desconectar
+      let _descData = {};
+      let _descInterval = null;
+      window.abrirModalDesconectar = function(id, apodo, login, estadoCopy) {
+        _descData = { id, apodo, login };
+        if (estadoCopy === 'activo') {
+          document.getElementById('modal-desc-activo-bg').classList.add('open');
+          document.getElementById('modal-desc-activo-box').classList.add('open');
+        } else {
+          document.getElementById('modal-desc-confirmar-bg').classList.add('open');
+          document.getElementById('modal-desc-confirmar-box').classList.add('open');
+          document.getElementById('modal-desc-apodo').textContent = apodo;
+          const btn = document.getElementById('btn-desc-confirmar');
+          btn.disabled = true; btn.style.opacity = '0.4';
+          let secs = 3; btn.textContent = 'S\u00ed, desconectar (' + secs + ')';
+          clearInterval(_descInterval);
+          _descInterval = setInterval(() => {
+            secs--;
+            if (secs <= 0) { clearInterval(_descInterval); btn.disabled = false; btn.style.opacity = '1'; btn.textContent = 'S\u00ed, desconectar'; }
+            else { btn.textContent = 'S\u00ed, desconectar (' + secs + ')'; }
+          }, 1000);
+        }
+      }
+      window.cerrarModalDescActivo = function() {
+        document.getElementById('modal-desc-activo-bg').classList.remove('open');
+        document.getElementById('modal-desc-activo-box').classList.remove('open');
+      }
+      window.cerrarModalDescConfirmar = function() {
+        clearInterval(_descInterval);
+        document.getElementById('modal-desc-confirmar-bg').classList.remove('open');
+        document.getElementById('modal-desc-confirmar-box').classList.remove('open');
+      }
+      document.getElementById('btn-desc-confirmar').addEventListener('click', async () => {
+        const { id, apodo, login } = _descData;
         try {
           const { data: { session } } = await supabase.auth.getSession();
+          const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0];
+          await fetch(MAKE_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: 'desconectar', nombre, email: session.user.email, cuenta_id: login }) });
           await supabase.from('estado_copy').upsert({ cuenta_login: parseInt(login), usuario_id: session.user.id, estado: 'desconectado', actualizado_en: new Date().toISOString() }, { onConflict: 'cuenta_login,usuario_id' });
           await supabase.from('cuentas').update({ estado: 'inactiva' }).eq('id', id).eq('usuario_id', session.user.id);
+          cerrarModalDescConfirmar();
           cargarCuentasDashboard(); cargarCuentasSistemas();
-        } catch(e) { alert('Error al desconectar: ' + e.message); }
-      }
+        } catch(e) { alert('Error: ' + e.message); }
+      });
+      window.desconectarCuenta = function(id, apodo, login) { abrirModalDesconectar(id, apodo, login, 'pausado'); }
+
       window.cerrarModal = function() { document.getElementById('modal-bg').classList.remove('open'); document.getElementById('modal-box').classList.remove('open'); document.getElementById('servidor-sugerencias').style.display = 'none'; }
       window.cerrarAviso = function() { document.getElementById('modal-aviso-bg').classList.remove('open'); document.getElementById('modal-aviso-box').classList.remove('open') }
 
