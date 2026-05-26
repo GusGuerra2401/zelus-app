@@ -205,7 +205,7 @@
       <!-- DASHBOARD -->
       <div class="section active" id="sec-dashboard">
 
-        <div id="cuentas-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:28px;"></div>
+        <div id="cuentas-stats-grid"></div>
         <div class="section-title">Sistemas de Copy Trading</div>
         <div style="margin-bottom:28px;"><div class="card" style="padding:20px;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
@@ -642,7 +642,7 @@
             } else {
               const mono = "font-family:'JetBrains Mono',monospace";
               const sampleStats = { balance: '$8,420', pnl: '+$612', trades: '148', winrate: 68.2 };
-              let html = '';
+              let gridHtml = '';
               cuentas.forEach(cuenta => {
                 const ecSt = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
                 let badgeSt, badgeTxt;
@@ -651,23 +651,24 @@
                 else { badgeSt = 'font-size:11px;font-weight:600;color:#fbbf24;'; badgeTxt = 'Pendiente de desconexión'; }
                 const wr = sampleStats.winrate;
                 const wrColor = wr > 35 ? 'var(--green)' : wr >= 20 ? 'var(--yellow)' : 'var(--red)';
-                // Título del grupo
-                html += '<div style="margin-bottom:12px;">' +
-                  '<div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:6px;">' +
-                    '<span style="width:3px;height:18px;background:linear-gradient(to bottom,var(--purple),var(--pink));border-radius:999px;display:inline-block;flex-shrink:0;"></span>' +
-                    cuenta.apodo + ' <span style="' + mono + ';font-size:12px;font-weight:400;color:var(--text2);">#' + cuenta.login + '</span>' +
-                  '</div>' +
-                  '<span style="' + badgeSt + '">' + badgeTxt + '</span>' +
+                gridHtml += '<div style="margin-bottom:28px;">';
+                // Título
+                gridHtml += '<div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:6px;">' +
+                  '<span style="width:3px;height:18px;background:linear-gradient(to bottom,var(--purple),var(--pink));border-radius:999px;display:inline-block;flex-shrink:0;"></span>' +
+                  cuenta.apodo + ' <span style="' + mono + ';font-size:12px;font-weight:400;color:var(--text2);">#' + cuenta.login + '</span>' +
                   '</div>';
-                // 4 tarjetas en stats-grid
-                html += '<div class="stats-grid" style="margin-bottom:28px;">' +
+                // Badge estado copy
+                gridHtml += '<div style="margin-bottom:16px;"><span style="' + badgeSt + '">' + badgeTxt + '</span></div>';
+                // 4 tarjetas
+                gridHtml += '<div class="stats-grid">' +
                   '<div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">' + sampleStats.balance + '</div><div class="stat-change">Últimos 30 días</div></div>' +
                   '<div class="stat-card"><div class="stat-label">📈 P&L 30d</div><div class="stat-value green">' + sampleStats.pnl + '</div><div class="stat-change">Rendimiento 30 días</div></div>' +
                   '<div class="stat-card"><div class="stat-label">⚡ Trades copiados 30d</div><div class="stat-value purple">' + sampleStats.trades + '</div><div class="stat-change">Últimos 30 días</div></div>' +
                   '<div class="stat-card"><div class="stat-label">✅ Win rate 30d</div><div class="stat-value" style="color:' + wrColor + ';">' + wr + '%</div><div class="stat-change">Últimos 30 días</div></div>' +
                   '</div>';
+                gridHtml += '</div>';
               });
-              statsGrid.innerHTML = html;
+              statsGrid.innerHTML = gridHtml;
             }
           }
 
