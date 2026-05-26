@@ -164,12 +164,20 @@
       .escalon-banner.inactivo .escalon-banner-badge { background: #92400e; color: white; }
       body.light-mode .escalon-banner.activo .escalon-banner-badge { background: #166534; color: #86efac; }
       body.light-mode .escalon-banner.inactivo .escalon-banner-badge { background: #92400e; color: #fef3c7; }
+      
+      .sistemas-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); font-family: 'Sora', sans-serif; transition: all 0.2s; }
+      .sistemas-tab.active { background: rgba(139,92,246,0.15); color: var(--purple2); border-color: var(--border2); }
+      .sistemas-tab:hover:not(.active) { background: rgba(139,92,246,0.06); color: var(--text); border-color: var(--border); }
       @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}.escalon-banner-badge{align-self:flex-start;}}
       @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
       @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform 0.3s ease}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:16px 20px}.topbar-left p,.topbar-right .status-badge{display:none}.hamburger{display:flex}.section{padding:20px 16px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.two-col{grid-template-columns:1fr}}
       @media(max-width:768px){#escalones-grid{grid-template-columns:repeat(2,1fr)!important}}
       @media(max-width:480px){#escalones-grid{grid-template-columns:1fr!important}}
       @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
+      
+      .sistemas-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); font-family: 'Sora', sans-serif; transition: all 0.2s; }
+      .sistemas-tab.active { background: rgba(139,92,246,0.15); color: var(--purple2); border-color: var(--border2); }
+      .sistemas-tab:hover:not(.active) { background: rgba(139,92,246,0.06); color: var(--text); border-color: var(--border); }
       @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}}
       body.light-mode .pendiente-titulo { color: #6d4e00 !important; }
       body.light-mode .pendiente-sub { color: rgba(109,78,0,0.75) !important; }
@@ -276,11 +284,16 @@
             <div class="stat-value purple">1.42 / 2.1</div><div class="stat-change">Sharpe 60d / Calmar 60d</div>
           </div>
         </div>
-        <!-- Mi configuración — ancho completo, primero -->
-        <div class="card" style="margin-bottom:20px;">
-          <div class="card-header"><div class="card-title">Mi configuración</div></div>
-          <div class="card-body">
-            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
+        <!-- Mi configuración — tabs centrados, ancho máximo 640px -->
+        <div style="margin-bottom:20px;">
+          <div style="font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <span style="width:3px;height:18px;background:linear-gradient(to bottom,var(--purple),var(--pink));border-radius:999px;display:inline-block;"></span>
+            Mi configuración
+          </div>
+          <div style="max-width:640px;margin:0 auto;">
+            <!-- Tabs de cuentas -->
+            <div id="sistemas-tabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
+            <!-- Contenido del tab activo -->
             <div id="sistemas-cuentas-lista"><div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">Cargando cuentas...</div></div>
           </div>
         </div>
@@ -703,13 +716,46 @@
           } else { htmlSec = mensajeVacio; }
           if (contenedorSec) contenedorSec.innerHTML = htmlSec;
 
-          // Sistemas Copy
+          // Sistemas Copy — tabs por cuenta
           const contenedorSistemas = document.getElementById('sistemas-cuentas-lista');
+          const tabsContainer = document.getElementById('sistemas-tabs');
           if (contenedorSistemas) {
-            if (!cuentas || cuentas.length === 0) { contenedorSistemas.innerHTML = '<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>'; }
-            else {
-              let htmlSistemas = '';
-              cuentas.forEach((cuenta, i) => {
+            if (!cuentas || cuentas.length === 0) {
+              contenedorSistemas.innerHTML = '<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>';
+              if (tabsContainer) tabsContainer.innerHTML = '';
+            } else {
+              // Build tab buttons
+              if (tabsContainer) {
+                tabsContainer.innerHTML = cuentas.map((cuenta, i) =>
+                  '<button class="sistemas-tab' + (i === 0 ? ' active' : '') + '" onclick="switchSistemaTab(' + i + ')" id="sistemas-tab-' + i + '">' + cuenta.apodo + '</button>'
+                ).join('');
+              }
+              // Store cuentas for tab switching
+              window._sistemasCuentas = cuentas;
+              window._sistemasMapaEstados = mapaEstados;
+              window.switchSistemaTab = function(idx) {
+                document.querySelectorAll('.sistemas-tab').forEach((t,i) => t.classList.toggle('active', i === idx));
+                renderSistemaTab(idx);
+              };
+              function renderSistemaTab(idx) {
+                const cuenta = window._sistemasCuentas[idx];
+                const mapaEst = window._sistemasMapaEstados;
+                const n = idx + 1; const detalle = cuenta.apodo || 'Sin apodo'; const loginStr = cuenta.login ? '#' + cuenta.login : '';
+                const ec3 = mapaEst[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+                const copyActivo = ec3 === 'activo'; const estaDesconectado = ec3 === 'desconectado';
+                let badgeColor, badgeLabel;
+                if (ec3 === 'activo') { badgeColor = 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeLabel = 'Copy activo'; }
+                else if (ec3 === 'pausado') { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
+                else if (ec3 === 'desconectado') { badgeColor = null; badgeLabel = ''; }
+                else { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
+                let btnCopy;
+                if (estaDesconectado) { btnCopy = '<div style="padding:12px 14px;border-radius:10px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);"><p style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:4px;" class="pendiente-titulo">⏳ Pendiente de desconexión</p><p style="font-size:12px;color:rgba(251,191,36,0.75);" class="pendiente-sub">Tu solicitud fue recibida. La cuenta permanecerá visible hasta liquidar tu saldo pendiente.</p></div>'; }
+                else { const btnTexto = copyActivo ? '⏸ Pausar copy' : '▶ Activar copy'; const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar'; const accionBtn = copyActivo ? 'pausar' : 'activar'; btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy('' + accionBtn + '', '' + cuenta.login + '', '' + detalle + '', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>'; }
+                contenedorSistemas.innerHTML = '<div class="cuenta-config seleccionada"><div class="cuenta-config-header"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;">' + loginStr + (loginStr && detalle ? ' · ' : '') + detalle + '</div></div>' + (badgeColor ? '<span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span>' : '') + '</div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.</div>' + btnCopy + '</div></div>';
+              }
+              renderSistemaTab(0);
+              // skip old forEach loop
+              if (false) { let htmlSistemas = ''; cuentas.forEach((cuenta, i) => {
                 const n = i + 1; const detalle = cuenta.apodo || 'Sin apodo'; const loginStr = cuenta.login ? '#' + cuenta.login : '';
                 const ec3 = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
                 const copyActivo = ec3 === 'activo'; const estaDesconectado = ec3 === 'desconectado';
@@ -723,7 +769,9 @@
                 else { const btnTexto = copyActivo ? '\u23f8 Pausar copy' : '\u25b6 Activar copy'; const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar'; const accionBtn = copyActivo ? 'pausar' : 'activar'; btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy(\'' + accionBtn + '\', \'' + cuenta.login + '\', \'' + detalle + '\', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>'; }
                 htmlSistemas += '<div class="cuenta-config" id="cfg-cuenta-dyn-' + n + '"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-' + n + '" onchange="toggleCuentaDyn(' + n + ')"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);font-family:\'JetBrains Mono\',monospace;">' + loginStr + (loginStr && detalle ? ' \u00b7 ' : '') + detalle + '</div></div>' + (badgeColor ? '<span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span>' : '') + '</div><div class="cuenta-config-body" id="body-cuenta-dyn-' + n + '"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">\u26a1 Tu lotaje es calculado autom\u00e1ticamente seg\u00fan tu balance. No necesitas configurar nada, nosotros nos encargamos.</div>' + btnCopy + '</div></div>';
               });
-              contenedorSistemas.innerHTML = htmlSistemas;
+              contenedorSistemas.innerHTML = htmlSistemas; // unreachable
+            }
+          } // end if(false)
             }
           }
         // --- Historial: una sección por cuenta ---
