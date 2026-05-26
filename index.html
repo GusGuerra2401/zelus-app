@@ -204,12 +204,7 @@
       </header>
       <!-- DASHBOARD -->
       <div class="section active" id="sec-dashboard">
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">$12,847</div><div class="stat-change">Últimos 30 días <span class="up">↑ +4.2%</span></div></div>
-          <div class="stat-card"><div class="stat-label">📈 P&amp;L 30d</div><div class="stat-value green">+$1,204</div><div class="stat-change">Rendimiento <span class="up">↑ +9.37%</span></div></div>
-          <div class="stat-card"><div class="stat-label">⚡ Trades copiados 30d</div><div class="stat-value purple">148</div><div class="stat-change">Últimos 30 días <span class="up">↑ 23 más</span></div></div>
-          <div class="stat-card"><div class="stat-label">✅ Win rate 30d</div><div class="stat-value green">68.2%</div><div class="stat-change">Últimos 30 días <span class="up">↑ +2.1%</span></div></div>
-        </div>
+
         <div id="cuentas-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:28px;"></div>
         <div class="section-title">Sistemas de Copy Trading</div>
         <div style="margin-bottom:28px;"><div class="card" style="padding:20px;">
@@ -639,40 +634,48 @@
           } else { htmlDash = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = htmlDash;
 
-          // Populate cuentas-stats-grid — one card per account
+          // Populate cuentas-stats-grid — 4 stat cards per account
           const statsGrid = document.getElementById('cuentas-stats-grid');
           if (statsGrid) {
             if (!cuentas || cuentas.length === 0) {
               statsGrid.innerHTML = '';
             } else {
               const mono = "font-family:'JetBrains Mono',monospace";
+              // Sample stats — will be replaced by real API data
+              const sampleStats = { balance: '$8,420', pnl: '+$612', trades: '148', winrate: 68.2 };
               statsGrid.innerHTML = cuentas.map(cuenta => {
                 const ecSt = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
                 let badgeSt, badgeTxt;
                 if (ecSt === 'activo') { badgeSt = 'font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeTxt = 'Copy activo'; }
                 else if (ecSt === 'pausado') { badgeSt = 'font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeTxt = 'Pausado'; }
                 else { badgeSt = 'font-size:11px;font-weight:600;color:#fbbf24;'; badgeTxt = 'Pendiente'; }
-                return [
-                  '<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;">',
-                    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">',
-                      '<div>',
-                        '<div style="font-size:14px;font-weight:700;">' + cuenta.apodo + '</div>',
-                        '<div style="font-size:11px;color:var(--text2);' + mono + ';margin-top:2px;">#' + cuenta.login + '</div>',
-                      '</div>',
-                      '<span style="' + badgeSt + '">' + badgeTxt + '</span>',
-                    '</div>',
-                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">',
-                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Balance</div>',
-                        '<div style="font-size:18px;font-weight:700;' + mono + ';">$8,420</div></div>',
-                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">P&L 30d</div>',
-                        '<div style="font-size:18px;font-weight:700;' + mono + ';color:var(--green);">+$612</div></div>',
-                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Trades 30d</div>',
-                        '<div style="font-size:18px;font-weight:700;' + mono + ';color:var(--purple2);">148</div></div>',
-                      '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Win rate</div>',
-                        '<div style="font-size:18px;font-weight:700;' + mono + ';color:var(--green);">68.2%</div></div>',
-                    '</div>',
-                  '</div>'
-                ].join('');
+                const wr = sampleStats.winrate;
+                const wrColor = wr > 35 ? 'var(--green)' : wr >= 20 ? 'var(--yellow)' : 'var(--red)';
+                const cardBase = 'background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;';
+                const labelSt = 'font-size:10px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;';
+                const valSt = 'font-size:26px;font-weight:700;' + mono + ';letter-spacing:-0.02em;';
+                const subSt = 'font-size:12px;margin-top:6px;color:var(--text2);';
+                const titleRow = '<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">' +
+                  '<span>' + cuenta.apodo + ' <span style="' + mono + ';font-weight:400;opacity:0.7;">#' + cuenta.login + '</span></span>' +
+                  '<span style="' + badgeSt + '">' + badgeTxt + '</span>' +
+                  '</div>';
+                const card1 = '<div style="' + cardBase + '">' + titleRow +
+                  '<div style="' + labelSt + '">💰 Balance total</div>' +
+                  '<div style="' + valSt + '">' + sampleStats.balance + '</div>' +
+                  '<div style="' + subSt + '">Últimos 30 días</div></div>';
+                const card2 = '<div style="' + cardBase + '">' + titleRow +
+                  '<div style="' + labelSt + '">📈 P&amp;L 30d</div>' +
+                  '<div style="' + valSt + ';color:var(--green);">' + sampleStats.pnl + '</div>' +
+                  '<div style="' + subSt + '">Rendimiento 30 días</div></div>';
+                const card3 = '<div style="' + cardBase + '">' + titleRow +
+                  '<div style="' + labelSt + '">⚡ Trades copiados 30d</div>' +
+                  '<div style="' + valSt + ';color:var(--purple2);">' + sampleStats.trades + '</div>' +
+                  '<div style="' + subSt + '">Últimos 30 días</div></div>';
+                const card4 = '<div style="' + cardBase + '">' + titleRow +
+                  '<div style="' + labelSt + '">✅ Win rate 30d</div>' +
+                  '<div style="' + valSt + ';color:' + wrColor + ';">' + wr + '%</div>' +
+                  '<div style="' + subSt + '">Últimos 30 días</div></div>';
+                return card1 + card2 + card3 + card4;
               }).join('');
             }
           }
