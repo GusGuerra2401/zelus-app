@@ -284,13 +284,15 @@
             <div class="stat-value purple">1.42 / 2.1</div><div class="stat-change">Sharpe 60d / Calmar 60d</div>
           </div>
         </div>
-        <!-- Mi configuración — caja blanca a todo el ancho -->
+        <!-- Mi configuración — caja blanca a todo el ancho, contenido centrado sin cambios -->
         <div class="section-title">Mi configuración</div>
-        <div class="card" style="margin-bottom:20px;padding:24px;">
-          <!-- Tabs de cuentas -->
-          <div id="sistemas-tabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
-          <!-- Contenido del tab activo -->
-          <div id="sistemas-cuentas-lista"><div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">Cargando cuentas...</div></div>
+        <div class="card" style="margin-bottom:20px;">
+          <div style="padding:24px;display:flex;flex-direction:column;align-items:center;">
+            <!-- Tabs de cuentas -->
+            <div id="sistemas-tabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
+            <!-- Contenido del tab activo -->
+            <div id="sistemas-cuentas-lista" style="width:100%;max-width:440px;"><div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">Cargando cuentas...</div></div>
+          </div>
         </div>
         <!-- Trades del sistema — ancho completo, debajo -->
         <div class="card" style="margin-bottom:28px;">
