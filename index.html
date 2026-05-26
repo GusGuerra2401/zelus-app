@@ -202,40 +202,40 @@
       </header>
       <!-- DASHBOARD -->
       <div class="section active" id="sec-dashboard">
+        <!-- 4 stat cards — período 30d -->
         <div class="stats-grid">
-          <div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">$12,847</div><div class="stat-change">vs semana pasada <span class="up">↑ +4.2%</span></div></div>
-          <div class="stat-card"><div class="stat-label">📈 P&L del mes</div><div class="stat-value green">+$1,204</div><div class="stat-change">Rendimiento <span class="up">↑ +9.37%</span></div></div>
-          <div class="stat-card"><div class="stat-label">⚡ Trades copiados</div><div class="stat-value purple">148</div><div class="stat-change">Este mes <span class="up">↑ 23 más</span></div></div>
-          <div class="stat-card"><div class="stat-label">✅ Win rate</div><div class="stat-value green">68.2%</div><div class="stat-change">Últimos 30 días <span class="up">↑ +2.1%</span></div></div>
+          <div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">$12,847</div><div class="stat-change">Últimos 30 días <span class="up">↑ +4.2%</span></div></div>
+          <div class="stat-card"><div class="stat-label">📈 P&L 30d</div><div class="stat-value green">+$1,204</div><div class="stat-change">Rendimiento <span class="up">↑ +9.37%</span></div></div>
+          <div class="stat-card"><div class="stat-label">⚡ Trades copiados 30d</div><div class="stat-value purple">148</div><div class="stat-change">Últimos 30 días <span class="up">↑ 23 más</span></div></div>
+          <div class="stat-card"><div class="stat-label">✅ Win rate 30d</div><div class="stat-value green">68.2%</div><div class="stat-change">Últimos 30 días <span class="up">↑ +2.1%</span></div></div>
         </div>
+
+        <!-- Tarjetas de cuentas del cliente -->
+        <div id="cuentas-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:28px;"></div>
+
+        <!-- Zelus Gold card -->
         <div class="section-title">Sistemas de Copy Trading</div>
         <div style="margin-bottom:28px;"><div class="card" style="padding:20px;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
-            <div><div style="font-size:15px;font-weight:700;">Zelus Gold</div><div style="font-size:12px;color:var(--text2);margin-top:3px;">Tendencia · XAUUSD</div></div>
-            <span style="font-size:11px;padding:3px 8px;border-radius:6px;font-weight:600;background:rgba(52,211,153,0.1);color:var(--green);border:1px solid rgba(52,211,153,0.2);">Bajo</span>
+            <div><div style="font-size:15px;font-weight:700;">Zelus Gold</div><div style="font-size:12px;color:var(--text2);margin-top:3px;">Ciclos · XAUUSD</div></div>
+            <span style="font-size:11px;padding:3px 8px;border-radius:6px;font-weight:600;background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);">Medio</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Rendimiento 7d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+34.7%</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Drawdown máx 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-8.2%</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Win rate</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;">71.4%</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Trades mes</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;">42</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Rendimiento 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+34.7%</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Drawdown máx. 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-8.2%</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Sharpe 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);">1.42</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Calmar 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);">2.10</div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:var(--text2);">👤 87 siguiendo</span></div>
         </div></div>
-        <div class="two-col">
-          <div class="card">
-            <div class="card-header"><div><div class="card-title">Trades recientes</div><div class="card-subtitle">Operaciones copiadas hoy</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;">Ver todo</button></div>
-            <div style="padding:0 24px 24px;"><table class="trades-table"><thead><tr><th>Par</th><th>Tipo</th><th>Lotes</th><th>Apertura</th><th>P&L</th></tr></thead><tbody>
-              <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2341.50</td><td class="pnl-pos">+$167.00</td></tr>
-              <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type sell">SELL</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2358.20</td><td class="pnl-neg">-$45.00</td></tr>
-              <tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">2330.10</td><td class="pnl-pos">+$210.00</td></tr>
-            </tbody></table></div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT5 Activas</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
-            <div id="cuentas-lista-dashboard"><div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div></div>
-          </div>
+
+        <!-- Mis cuentas — ancho completo -->
+        <div class="section-title">Mis cuentas</div>
+        <div class="card" style="margin-bottom:28px;">
+          <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT5 Activas</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
+          <div id="cuentas-lista-dashboard"><div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div></div>
         </div>
+
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
       <!-- MIS CUENTAS -->
@@ -644,6 +644,35 @@
             });
           } else { htmlDash = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = htmlDash;
+
+          // Populate cuentas-stats-grid with one card per account
+          const statsGrid = document.getElementById('cuentas-stats-grid');
+          if (statsGrid) {
+            if (!cuentas || cuentas.length === 0) {
+              statsGrid.innerHTML = '';
+            } else {
+              statsGrid.innerHTML = cuentas.map(cuenta => {
+                const ec = mapaEstados[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
+                let badgeHtml;
+                if (ec === 'activo') badgeHtml = '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);">Copy activo</span>';
+                else if (ec === 'pausado') badgeHtml = '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);">Pausado</span>';
+                else badgeHtml = '<span style="font-size:11px;font-weight:600;color:#fbbf24;">Pendiente</span>';
+                return '<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;">' +
+                  '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">' +
+                    '<div><div style="font-size:14px;font-weight:700;">' + cuenta.apodo + '</div>' +
+                    '<div style="font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:2px;">#' + cuenta.login + '</div></div>' +
+                    badgeHtml +
+                  '</div>' +
+                  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Balance</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;">$8,420</div></div>' +
+                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">P&L 30d</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$612</div></div>' +
+                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Trades 30d</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);">148</div></div>' +
+                    '<div><div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Win rate</div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">68.2%</div></div>' +
+                  '</div>' +
+                '</div>';
+              }).join('');
+            }
+          }
 
           // Mis Cuentas: estado + boton desconectar con modal
           let htmlSec = '';
