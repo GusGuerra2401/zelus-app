@@ -665,10 +665,10 @@
               statsGrid.innerHTML = '';
             } else {
               // Traer estadísticas reales usando inicio_de_sesion como clave de join
-              const loginIds = cuentas.map(c => c.login);
-              const { data: statsData } = await supabase.from('estadisticas').select('inicio_de_sesion, balance, pnl_30d, operaciones_30d, tasa_de_victoria_, actualizado_en').in('inicio_de_sesion', loginIds).eq('usuario_id', session.user.id);
+              const loginIds = cuentas.map(c => parseInt(c.login));
+              const { data: statsData, error: statsError } = await supabase.from('estadisticas').select('inicio_de_sesion, balance, pnl_30d, operaciones_30d, tasa_de_victoria_30d, actualizado_en').in('inicio_de_sesion', loginIds);
               const mapaStats = {};
-              if (statsData) statsData.forEach(s => { mapaStats[s.inicio_de_sesion] = s; });
+              if (statsData) statsData.forEach(s => { mapaStats[parseInt(s.inicio_de_sesion)] = s; });
 
               const mono = "font-family:'JetBrains Mono',monospace";
               let gridHtml = '';
@@ -679,12 +679,12 @@
                 else if (ecSt === 'pausado') { badgeSt = 'display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeTxt = '<span style="width:5px;height:5px;border-radius:50%;background:var(--yellow);display:inline-block;"></span>Pausado'; }
                 else { badgeSt = 'font-size:11px;font-weight:600;color:#fbbf24;'; badgeTxt = 'Pendiente de desconexión'; }
 
-                const st = mapaStats[cuenta.login];
+                const st = mapaStats[parseInt(cuenta.login)];
                 const balance  = st ? '$' + Number(st.balance).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
                 const pnl      = st ? (st.pnl_30d >= 0 ? '+' : '') + '$' + Number(st.pnl_30d).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
                 const pnlColor = st ? (st.pnl_30d >= 0 ? 'var(--green)' : 'var(--red)') : 'var(--text2)';
                 const trades   = st ? String(st.operaciones_30d) : '—';
-                const wr       = st ? Number(st.tasa_de_victoria_) : null;
+                const wr       = st ? Number(st.tasa_de_victoria_30d) : null;
                 const wrLabel  = wr !== null ? wr + '%' : '—';
                 const wrColor  = wr !== null ? (wr > 35 ? 'var(--green)' : wr >= 20 ? 'var(--yellow)' : 'var(--red)') : 'var(--text2)';
                 let updatedLabel = 'Sin datos aún';
