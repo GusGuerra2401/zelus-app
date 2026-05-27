@@ -713,75 +713,28 @@
           } else { htmlSec = mensajeVacio; }
           if (contenedorSec) contenedorSec.innerHTML = htmlSec;
 
-          // Sistemas Copy — tabs por cuenta
+          // Sistemas Copy
           const contenedorSistemas = document.getElementById('sistemas-cuentas-lista');
-          const tabsContainer = document.getElementById('sistemas-tabs');
           if (contenedorSistemas) {
-            if (!cuentas || cuentas.length === 0) {
-              contenedorSistemas.innerHTML = '<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>';
-              if (tabsContainer) tabsContainer.innerHTML = '';
-            } else {
-              // Build tab buttons
-              if (tabsContainer) {
-                tabsContainer.innerHTML = cuentas.map((cuenta, i) =>
-                  '<button class="sistemas-tab' + (i === 0 ? ' active' : '') + '" onclick="switchSistemaTab(' + i + ')" id="sistemas-tab-' + i + '">' + cuenta.apodo + '</button>'
-                ).join('');
-              }
-              // Store cuentas for tab switching
-              window._sistemasCuentas = cuentas;
-              window._sistemasMapaEstados = mapaEstados;
-              window.switchSistemaTab = function(idx) {
-                document.querySelectorAll('.sistemas-tab').forEach((t,i) => t.classList.toggle('active', i === idx));
-                renderSistemaTab(idx);
-              };
-              function renderSistemaTab(idx) {
-                const cuenta = window._sistemasCuentas[idx];
-                const mapaEst = window._sistemasMapaEstados;
-                const n = idx + 1;
-                const detalle = cuenta.apodo || 'Sin apodo';
-                const loginStr = cuenta.login ? '#' + cuenta.login : '';
-                const mono = "font-family:'JetBrains Mono',monospace";
-                const ec3 = mapaEst[cuenta.login] || (cuenta.estado === 'activa' ? 'activo' : 'inactivo');
-                const copyActivo = ec3 === 'activo';
-                const estaDesconectado = ec3 === 'desconectado';
+            if (!cuentas || cuentas.length === 0) { contenedorSistemas.innerHTML = '<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>'; }
+            else {
+              let htmlSistemas = '';
+              cuentas.forEach((cuenta, i) => {
+                const n = i + 1; const detalle = cuenta.apodo || 'Sin apodo'; const loginStr = cuenta.login ? '#' + cuenta.login : ''; const estaActiva = cuenta.estado === 'activa';
+                const ec3 = mapaEstados[cuenta.login] || (estaActiva ? 'activo' : 'inactivo');
+                const copyActivo = ec3 === 'activo'; const estaDesconectado = ec3 === 'desconectado';
                 let badgeColor, badgeLabel;
                 if (ec3 === 'activo') { badgeColor = 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);'; badgeLabel = 'Copy activo'; }
                 else if (ec3 === 'pausado') { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
                 else if (ec3 === 'desconectado') { badgeColor = null; badgeLabel = ''; }
                 else { badgeColor = 'background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:var(--yellow);'; badgeLabel = 'Pausado'; }
                 let btnCopy;
-                if (estaDesconectado) {
-                  btnCopy = '<div style="padding:12px 14px;border-radius:10px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);">' +
-                    '<p style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:4px;" class="pendiente-titulo">⏳ Pendiente de desconexión</p>' +
-                    '<p style="font-size:12px;color:rgba(251,191,36,0.75);" class="pendiente-sub">Tu solicitud fue recibida. La cuenta permanecerá visible hasta liquidar tu saldo pendiente.</p></div>';
-                } else {
-                  const btnTexto = copyActivo ? '⏸ Pausar copy' : '▶ Activar copy';
-                  const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar';
-                  const accionBtn = copyActivo ? 'pausar' : 'activar';
-                  btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" ' +
-                    'onclick="abrirModalCopy(' + JSON.stringify(accionBtn) + ',' + JSON.stringify(String(cuenta.login)) + ',' + JSON.stringify(detalle) + ',this)" ' +
-                    'style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>';
-                }
-                const badgeHtml = badgeColor
-                  ? '<span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '">' +
-                    '<span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span>'
-                  : '';
-                contenedorSistemas.innerHTML =
-                  '<div class="cuenta-config seleccionada">' +
-                    '<div class="cuenta-config-header">' +
-                      '<div style="flex:1;">' +
-                        '<div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div>' +
-                        '<div style="font-size:11px;color:var(--text2);' + mono + ';">' + loginStr + (loginStr && detalle ? ' · ' : '') + detalle + '</div>' +
-                      '</div>' + badgeHtml +
-                    '</div>' +
-                    '<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">' +
-                      '<div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">' +
-                        '⚡ Tu lotaje es calculado automáticamente según tu balance. No necesitas configurar nada, nosotros nos encargamos.' +
-                      '</div>' + btnCopy +
-                    '</div>' +
-                  '</div>';
-              }
-              renderSistemaTab(0);
+                if (estaDesconectado) { btnCopy = '<div style="padding:12px 14px;border-radius:10px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);"><p style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:4px;" class="pendiente-titulo">\u23f3 Pendiente de desconexi\u00f3n</p><p style="font-size:12px;color:rgba(251,191,36,0.75);" class="pendiente-sub">Tu solicitud fue recibida. La cuenta permanecer\u00e1 visible hasta liquidar tu saldo pendiente.</p></div>'; }
+                else { const btnTexto = copyActivo ? '\u23f8 Pausar copy' : '\u25b6 Activar copy'; const btnClase = copyActivo ? 'toggle-btn pausar' : 'toggle-btn activar'; const accionBtn = copyActivo ? 'pausar' : 'activar'; btnCopy = '<button class="' + btnClase + '" data-apodo="' + detalle + '" id="btn-copy-' + (cuenta.id || n) + '" onclick="abrirModalCopy(\'' + accionBtn + '\', \'' + cuenta.login + '\', \'' + detalle + '\', this)" style="width:100%;padding:10px;font-size:13px;">' + btnTexto + '</button>'; }
+                const mono = "font-family:'JetBrains Mono',monospace";
+                htmlSistemas += '<div class="cuenta-config" id="cfg-cuenta-dyn-' + n + '"><div class="cuenta-config-header"><input type="checkbox" id="chk-cuenta-dyn-' + n + '" onchange="toggleCuentaDyn(' + n + ')"><div style="flex:1;"><div style="font-size:14px;font-weight:600;">' + (cuenta.broker || 'IC Markets') + ' ' + (cuenta.plataforma || 'MT5') + '</div><div style="font-size:11px;color:var(--text2);' + mono + ';">' + loginStr + (loginStr && detalle ? ' \u00b7 ' : '') + detalle + '</div></div>' + (badgeColor ? '<span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;' + badgeColor + '"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>' + badgeLabel + '</span>' : '') + '</div><div class="cuenta-config-body" id="body-cuenta-dyn-' + n + '"><div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;">\u26a1 Tu lotaje es calculado autom\u00e1ticamente seg\u00fan tu balance. No necesitas configurar nada, nosotros nos encargamos.</div>' + btnCopy + '</div></div>';
+              });
+              contenedorSistemas.innerHTML = htmlSistemas;
             }
           }
                 // --- Historial: una sección por cuenta ---
