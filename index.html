@@ -235,10 +235,10 @@
             <span style="font-size:11px;padding:3px 8px;border-radius:6px;font-weight:600;background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);">Medio</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Rendimiento 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+34.7%</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Drawdown máx. 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-8.2%</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Sharpe 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);">1.42</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Calmar 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);">2.10</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Rendimiento 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);" id="dash-maestra-rendimiento">—</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Drawdown máx. 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);" id="dash-maestra-drawdown">—</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Sharpe 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-sharpe">—</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Calmar 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-calmar">—</div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text2);">Actualizado hace 4h</span></div>
         </div></div>
@@ -272,16 +272,16 @@
           <div style="padding:0 32px 28px;"><div style="max-width:720px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid var(--border);"><div style="position:relative;padding-bottom:56.25%;height:0;"><iframe src="https://player.vimeo.com/video/TU_VIDEO_ID" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen></iframe></div></div></div>
         </div>
         <div class="stats-grid">
-          <div class="stat-card"><div class="stat-label">📈 Rendimiento 30d</div><div class="stat-value green">+34.7%</div><div class="stat-change">Últimos 30 días</div></div>
-          <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red">-8.2%</div><div class="stat-change">Últimos 30 días</div></div>
-          <div class="stat-card"><div class="stat-label">✅ Win Rate 30d</div><div class="stat-value green">71.4%</div><div class="stat-change">Últimos 30 días</div></div>
+          <div class="stat-card"><div class="stat-label">📈 Rendimiento 30d</div><div class="stat-value green" id="maestra-rendimiento">—</div><div class="stat-change">Últimos 30 días</div></div>
+          <div class="stat-card"><div class="stat-label">📉 Drawdown máx 30d</div><div class="stat-value red" id="maestra-drawdown">—</div><div class="stat-change">Últimos 30 días</div></div>
+          <div class="stat-card"><div class="stat-label">✅ Win Rate 30d</div><div class="stat-value green" id="maestra-winrate">—</div><div class="stat-change">Últimos 30 días</div></div>
           <div class="stat-card">
             <div class="stat-label">📊&nbsp;
               <span class="tt-wrap"><span class="tt-trigger" onclick="toggleTT('tt-sharpe', event)">Sharpe</span><div class="tt-box" id="tt-sharpe"><div class="tt-title">Sharpe</div><div class="tt-desc">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div><div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</span></div><div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</span></div><div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 0.50</strong> — Nivel profesional</span></div></div></span>
               &nbsp;/&nbsp;
               <span class="tt-wrap"><span class="tt-trigger" onclick="toggleTT('tt-calmar', event)">Calmar</span><div class="tt-box" id="tt-calmar"><div class="tt-title">Calmar</div><div class="tt-desc">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div><div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</span></div><div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</span></div><div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 1.00</strong> — Nivel profesional alto</span></div></div></span>
             </div>
-            <div class="stat-value purple">1.42 / 2.1</div><div class="stat-change">Sharpe 60d / Calmar 60d</div>
+            <div class="stat-value purple" id="maestra-sharpe-calmar">— / —</div><div class="stat-change">Sharpe 60d / Calmar 60d</div>
           </div>
         </div>
         <div class="two-col">
@@ -497,6 +497,33 @@
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const MAKE_WEBHOOK = 'https://hook.us2.make.com/p4u2e93vnayetcauknscoju7xhfy9fu3'
+
+      // Carga las estadísticas de la cuenta maestra (Zelus Gold) desde Supabase
+      // y las inyecta en los spans del módulo Sistemas Copy y del Dashboard
+      async function cargarEstadisticasMaestra() {
+        try {
+          const { data, error } = await supabase.from('estadisticas_maestra').select('*').eq('sistema', 'zelus_gold').limit(1).single();
+          if (error || !data) return;
+          // Sistemas Copy — 4 tarjetas grandes
+          const r = document.getElementById('maestra-rendimiento');
+          const d = document.getElementById('maestra-drawdown');
+          const w = document.getElementById('maestra-winrate');
+          const sc = document.getElementById('maestra-sharpe-calmar');
+          if (r) r.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%';
+          if (d) d.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
+          if (w) w.textContent = data.win_rate_30d + '%';
+          if (sc) sc.textContent = data.sharpe_60d + ' / ' + data.calmar_60d;
+          // Dashboard — card resumen de Zelus Gold
+          const dr = document.getElementById('dash-maestra-rendimiento');
+          const dd = document.getElementById('dash-maestra-drawdown');
+          const ds = document.getElementById('dash-maestra-sharpe');
+          const dc = document.getElementById('dash-maestra-calmar');
+          if (dr) dr.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%';
+          if (dd) dd.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
+          if (ds) ds.textContent = data.sharpe_60d;
+          if (dc) dc.textContent = data.calmar_60d;
+        } catch(e) { console.error('Error cargando estadísticas maestra:', e); }
+      }
 
       async function cargarEscalonBanner(email) {
         const banner = document.getElementById('escalon-banner')
@@ -836,12 +863,17 @@
         }
       }).subscribe();
 
+      // Canal Realtime: cuando actualices un valor en Supabase se refleja al instante en pantalla
+      supabase.channel('cambios-estadisticas-maestra').on('postgres_changes', { event: '*', schema: 'public', table: 'estadisticas_maestra' }, () => {
+        cargarEstadisticasMaestra();
+      }).subscribe();
+
       supabase.auth.onAuthStateChange((event, session) => {
         if (!session) { window.location.href = '/login'; return }
         const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
         document.getElementById('nombre-usuario').textContent = nombre
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
-        verificarTerminos(session); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email);
+        verificarTerminos(session); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra();
       })
 
       const { data: { session: globalSession } } = await supabase.auth.getSession()
