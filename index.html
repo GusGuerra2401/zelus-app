@@ -175,11 +175,16 @@
       @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
       body.light-mode .pendiente-titulo { color: #6d4e00 !important; }
       body.light-mode .pendiente-sub { color: rgba(109,78,0,0.75) !important; }
-      /* Info hover */
+      /* Info tooltip flotante */
+      .info-maestra-wrap { position: relative; display: inline-flex; align-items: center; }
+      .info-maestra-trigger { display: inline-flex; align-items: center; gap: 5px; color: var(--text2); font-size: 12px; font-weight: 500; font-family: 'Sora', sans-serif; cursor: default; transition: color 0.2s; }
+      .info-maestra-wrap:hover .info-maestra-trigger,
+      .info-maestra-wrap.tapped .info-maestra-trigger { color: var(--purple2); }
+      .info-maestra-icon { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 1px solid currentColor; font-size: 10px; flex-shrink: 0; line-height: 1; font-style: normal; }
+      .info-maestra-panel { display: none; position: absolute; bottom: calc(100% + 10px); left: 0; width: 300px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; }
+      .info-maestra-panel::after { content: ''; position: absolute; bottom: -5px; left: 20px; transform: rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-right: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
       .info-maestra-wrap:hover .info-maestra-panel,
-      .info-maestra-wrap.tapped .info-maestra-panel { display: block !important; }
-      .info-maestra-trigger { color: var(--text2); transition: color 0.2s; }
-      .info-maestra-wrap:hover .info-maestra-trigger { color: var(--purple2); }
+      .info-maestra-wrap.tapped .info-maestra-panel { display: block; }
     </style>
   </head>
   <body>
@@ -242,15 +247,12 @@
           <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text2);">Actualizado hace 4h</span></div>
         </div></div>
 
-        <!-- Info hover: cómo se calculan las estadísticas (Dashboard) -->
-        <div class="info-maestra-wrap" style="margin-bottom:28px;padding:0 4px;position:relative;">
-          <div class="info-maestra-trigger" style="display:inline-flex;align-items:center;gap:6px;cursor:default;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;user-select:none;">
-            <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;font-size:10px;flex-shrink:0;line-height:1;">i</span>
-            ¿Cómo se calculan estas estadísticas?
-          </div>
-          <div class="info-maestra-panel" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
-            Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.
-          </div>
+        <!-- Info tooltip: cómo se calculan las estadísticas (Dashboard) -->
+        <div style="margin-bottom:28px;padding:0 4px;">
+          <span class="info-maestra-wrap">
+            <span class="info-maestra-trigger"><i class="info-maestra-icon">i</i> ¿Cómo se calculan estas estadísticas?</span>
+            <div class="info-maestra-panel">Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.</div>
+          </span>
         </div>
 
         <div class="section-title">Mis cuentas</div>
@@ -298,15 +300,12 @@
           </div>
         </div>
 
-        <!-- Info hover: cómo se calculan las estadísticas (Sistemas Copy) -->
-        <div class="info-maestra-wrap" style="margin-top:-12px;margin-bottom:28px;padding:0 4px;position:relative;">
-          <div class="info-maestra-trigger" style="display:inline-flex;align-items:center;gap:6px;cursor:default;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;user-select:none;">
-            <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;font-size:10px;flex-shrink:0;line-height:1;">i</span>
-            ¿Cómo se calculan estas estadísticas?
-          </div>
-          <div class="info-maestra-panel" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
-            Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.
-          </div>
+        <!-- Info tooltip: cómo se calculan las estadísticas (Sistemas Copy) -->
+        <div style="margin-top:-12px;margin-bottom:28px;padding:0 4px;">
+          <span class="info-maestra-wrap">
+            <span class="info-maestra-trigger"><i class="info-maestra-icon">i</i> ¿Cómo se calculan estas estadísticas?</span>
+            <div class="info-maestra-panel">Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.</div>
+          </span>
         </div>
 
         <div class="two-col">
