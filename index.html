@@ -164,7 +164,6 @@
       .escalon-banner.inactivo .escalon-banner-badge { background: #92400e; color: white; }
       body.light-mode .escalon-banner.activo .escalon-banner-badge { background: #166534; color: #86efac; }
       body.light-mode .escalon-banner.inactivo .escalon-banner-badge { background: #92400e; color: #fef3c7; }
-      
       .sistemas-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); font-family: 'Sora', sans-serif; transition: all 0.2s; }
       .sistemas-tab.active { background: rgba(139,92,246,0.15); color: var(--purple2); border-color: var(--border2); }
       .sistemas-tab:hover:not(.active) { background: rgba(139,92,246,0.06); color: var(--text); border-color: var(--border); }
@@ -174,11 +173,6 @@
       @media(max-width:768px){#escalones-grid{grid-template-columns:repeat(2,1fr)!important}}
       @media(max-width:480px){#escalones-grid{grid-template-columns:1fr!important}}
       @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
-      
-      .sistemas-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); font-family: 'Sora', sans-serif; transition: all 0.2s; }
-      .sistemas-tab.active { background: rgba(139,92,246,0.15); color: var(--purple2); border-color: var(--border2); }
-      .sistemas-tab:hover:not(.active) { background: rgba(139,92,246,0.06); color: var(--text); border-color: var(--border); }
-      @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}}
       body.light-mode .pendiente-titulo { color: #6d4e00 !important; }
       body.light-mode .pendiente-sub { color: rgba(109,78,0,0.75) !important; }
     </style>
@@ -224,12 +218,12 @@
           <button class="btn btn-primary" onclick="abrirModal()">+ Nueva cuenta</button>
         </div>
       </header>
+
       <!-- DASHBOARD -->
       <div class="section active" id="sec-dashboard">
-
         <div id="cuentas-stats-grid"></div>
         <div class="section-title">Sistemas de Copy Trading</div>
-        <div style="margin-bottom:28px;"><div class="card" style="padding:20px;">
+        <div style="margin-bottom:4px;"><div class="card" style="padding:20px;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
             <div><div style="font-size:15px;font-weight:700;">Zelus Gold</div><div style="font-size:12px;color:var(--text2);margin-top:3px;">Ciclos · XAUUSD</div></div>
             <span style="font-size:11px;padding:3px 8px;border-radius:6px;font-weight:600;background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);">Medio</span>
@@ -242,6 +236,19 @@
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text2);">Actualizado hace 4h</span></div>
         </div></div>
+
+        <!-- Info expandible: cómo se calculan las estadísticas (Dashboard) -->
+        <div style="margin-bottom:28px;padding:0 4px;">
+          <button onclick="toggleInfoMaestra('dash')" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;font-size:10px;flex-shrink:0;line-height:1;">i</span>
+            ¿Cómo se calculan estas estadísticas?
+            <span id="info-maestra-dash-chevron" style="font-size:10px;transition:transform 0.2s;display:inline-block;">▼</span>
+          </button>
+          <div id="info-maestra-dash" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
+            Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.
+          </div>
+        </div>
+
         <div class="section-title">Mis cuentas</div>
         <div class="card" style="margin-bottom:28px;">
           <div class="card-header"><div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">MT5 Activas</div></div><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="abrirModal()">+ Añadir</button></div>
@@ -249,6 +256,7 @@
         </div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
+
       <!-- MIS CUENTAS -->
       <div class="section" id="sec-mis-cuentas">
         <div class="section-title">Mis Cuentas MT5</div>
@@ -259,6 +267,7 @@
         <div style="background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:14px;padding:20px;font-size:13px;color:var(--text2);line-height:1.7;">⚠️ <strong style="color:var(--text);">Política de operación:</strong> Las cuentas conectadas son exclusivas para el sistema de copy trading. Operar manualmente puede resultar en la suspensión del servicio.</div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
+
       <!-- SISTEMAS COPY -->
       <div class="section" id="sec-sistemas">
         <div class="section-title">Zelus Gold · Sistema de Copy Trading</div>
@@ -284,6 +293,19 @@
             <div class="stat-value purple" id="maestra-sharpe-calmar">— / —</div><div class="stat-change">Sharpe 60d / Calmar 60d</div>
           </div>
         </div>
+
+        <!-- Info expandible: cómo se calculan las estadísticas (Sistemas Copy) -->
+        <div style="margin-top:-12px;margin-bottom:28px;padding:0 4px;">
+          <button onclick="toggleInfoMaestra('sistemas')" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;font-size:10px;flex-shrink:0;line-height:1;">i</span>
+            ¿Cómo se calculan estas estadísticas?
+            <span id="info-maestra-sistemas-chevron" style="font-size:10px;transition:transform 0.2s;display:inline-block;">▼</span>
+          </button>
+          <div id="info-maestra-sistemas" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
+            Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.
+          </div>
+        </div>
+
         <div class="two-col">
           <!-- Trades del sistema -->
           <div class="card">
@@ -309,15 +331,16 @@
         </div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
+
       <!-- HISTORIAL -->
       <div class="section" id="sec-historial">
         <div class="section-title">Historial de Trades</div>
         <div id="historial-cuentas-lista">
-          <!-- Se puebla dinámicamente por cargarTodasLasCuentas() -->
           <div style="padding:24px;text-align:center;color:var(--text2);font-size:13px;">Cargando historial...</div>
         </div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
+
       <!-- PAGOS -->
       <div class="section" id="sec-pagos">
         <div class="section-title">Sistema de Pagos</div>
@@ -374,6 +397,7 @@
         </div>
         <div class="section-footer"><p>⚠️ El copy trading implica un riesgo significativo de pérdida de capital. Los resultados históricos no garantizan rendimientos futuros. Cada usuario es responsable de sus decisiones de inversión. Zelus by Penguin FX no actúa como asesor financiero ni gestora de inversiones. Opera solo con capital que estés dispuesto a perder.</p></div>
       </div>
+
       <!-- MONITOREO ADMIN -->
       <div class="section" id="sec-monitoreo">
         <div class="section-title">Monitoreo · Zelus Gold</div>
@@ -417,6 +441,7 @@
         </div>
       </div>
     </main>
+
     <!-- MODAL DESCONECTAR: copy activo -->
     <div class="modal-bg" id="modal-desc-activo-bg" onclick="cerrarModalDescActivo()"></div>
     <div class="modal-box" id="modal-desc-activo-box" style="max-width:440px;">
@@ -493,18 +518,16 @@
       <button onclick="verificarCuenta()" id="btn-verificar" disabled style="width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;background:linear-gradient(135deg,#8b5cf6,#d946ef);color:white;box-shadow:0 4px 20px rgba(139,92,246,0.3);opacity:0.4;">Verificar y conectar cuenta</button>
       <p style="font-size:11px;color:#a09cbf;text-align:center;margin-top:12px;">🔒 Tus credenciales viajan encriptadas y nunca se almacenan en texto plano.</p>
     </div>
+
     <script type="module">
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const MAKE_WEBHOOK = 'https://hook.us2.make.com/p4u2e93vnayetcauknscoju7xhfy9fu3'
 
-      // Carga las estadísticas de la cuenta maestra (Zelus Gold) desde Supabase
-      // y las inyecta en los spans del módulo Sistemas Copy y del Dashboard
       async function cargarEstadisticasMaestra() {
         try {
           const { data, error } = await supabase.from('estadisticas_maestra').select('*').eq('sistema', 'zelus_gold').limit(1).single();
           if (error || !data) return;
-          // Sistemas Copy — 4 tarjetas grandes
           const r = document.getElementById('maestra-rendimiento');
           const d = document.getElementById('maestra-drawdown');
           const w = document.getElementById('maestra-winrate');
@@ -513,7 +536,6 @@
           if (d) d.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
           if (w) w.textContent = data.win_rate_30d + '%';
           if (sc) sc.textContent = data.sharpe_60d + ' / ' + data.calmar_60d;
-          // Dashboard — card resumen de Zelus Gold
           const dr = document.getElementById('dash-maestra-rendimiento');
           const dd = document.getElementById('dash-maestra-drawdown');
           const ds = document.getElementById('dash-maestra-sharpe');
@@ -670,7 +692,6 @@
           const contenedorSec = document.getElementById('cuentas-lista-seccion');
           const mensajeVacio = '<div style="padding:24px;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>';
 
-          // Dashboard: solo estado del copy, sin boton desconectar
           let htmlDash = '';
           if (cuentas && cuentas.length > 0) {
             cuentas.forEach(cuenta => {
@@ -685,15 +706,13 @@
           } else { htmlDash = mensajeVacio; }
           if (contenedorDash) contenedorDash.innerHTML = htmlDash;
 
-          // Populate cuentas-stats-grid — título + badge + 4 tarjetas por cuenta
           const statsGrid = document.getElementById('cuentas-stats-grid');
           if (statsGrid) {
             if (!cuentas || cuentas.length === 0) {
               statsGrid.innerHTML = '';
             } else {
-              // Traer estadísticas reales usando inicio_de_sesion como clave de join
               const loginIds = cuentas.map(c => parseInt(c.login));
-              const { data: statsData, error: statsError } = await supabase.from('estadisticas').select('inicio_de_sesion, balance, pnl_30d, operaciones_30d, tasa_de_victoria_30d, actualizado_en').in('inicio_de_sesion', loginIds);
+              const { data: statsData } = await supabase.from('estadisticas').select('inicio_de_sesion, balance, pnl_30d, operaciones_30d, tasa_de_victoria_30d, actualizado_en').in('inicio_de_sesion', loginIds);
               const mapaStats = {};
               if (statsData) statsData.forEach(s => { mapaStats[parseInt(s.inicio_de_sesion)] = s; });
 
@@ -718,15 +737,12 @@
                 if (st && st.actualizado_en) { const diffMin = Math.floor((Date.now() - new Date(st.actualizado_en).getTime()) / 60000); updatedLabel = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : 'Actualizado hace ' + Math.floor(diffMin/60) + 'h'; }
 
                 gridHtml += '<div style="margin-bottom:28px;">';
-                // Título
                 gridHtml += '<div style="font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">' +
                   '<span style="width:3px;height:18px;background:linear-gradient(to bottom,var(--purple),var(--pink));border-radius:999px;display:inline-block;flex-shrink:0;"></span>' +
                   cuenta.apodo + ' <span style="' + mono + ';font-size:12px;font-weight:400;color:var(--text2);">#' + cuenta.login + '</span>' +
                   '<span style="font-size:11px;font-weight:400;color:var(--text2);margin-left:4px;">· ' + updatedLabel + '</span>' +
                   '</div>';
-                // Badge estado copy
                 gridHtml += '<div style="margin-bottom:16px;"><span style="' + badgeSt + '">' + badgeTxt + '</span></div>';
-                // 4 tarjetas
                 gridHtml += '<div class="stats-grid">' +
                   '<div class="stat-card"><div class="stat-label">💰 Balance total</div><div class="stat-value">' + balance + '</div><div class="stat-change">Cuenta en vivo</div></div>' +
                   '<div class="stat-card"><div class="stat-label">📈 P&L 30d</div><div class="stat-value" style="color:' + pnlColor + ';">' + pnl + '</div><div class="stat-change">Rendimiento 30 días</div></div>' +
@@ -739,7 +755,6 @@
             }
           }
 
-          // Mis Cuentas: estado + boton desconectar con modal
           let htmlSec = '';
           if (cuentas && cuentas.length > 0) {
             cuentas.forEach(cuenta => {
@@ -755,7 +770,6 @@
           } else { htmlSec = mensajeVacio; }
           if (contenedorSec) contenedorSec.innerHTML = htmlSec;
 
-          // Sistemas Copy
           const contenedorSistemas = document.getElementById('sistemas-cuentas-lista');
           if (contenedorSistemas) {
             if (!cuentas || cuentas.length === 0) { contenedorSistemas.innerHTML = '<div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">No tienes cuentas conectadas.</div>'; }
@@ -779,7 +793,7 @@
               contenedorSistemas.innerHTML = htmlSistemas;
             }
           }
-                // --- Historial: una sección por cuenta ---
+
           const historialContainer = document.getElementById('historial-cuentas-lista');
           if (historialContainer) {
             if (!cuentas || cuentas.length === 0) {
@@ -863,7 +877,6 @@
         }
       }).subscribe();
 
-      // Canal Realtime: cuando actualices un valor en Supabase se refleja al instante en pantalla
       supabase.channel('cambios-estadisticas-maestra').on('postgres_changes', { event: '*', schema: 'public', table: 'estadisticas_maestra' }, () => {
         cargarEstadisticasMaestra();
       }).subscribe();
@@ -926,7 +939,6 @@
         const btn = document.getElementById('btn-verificar'); btn.disabled = true; btn.style.opacity = '0.4'; btn.textContent = 'Verificar y conectar cuenta';
       }
 
-      // Modal desconectar
       let _descData = {};
       let _descInterval = null;
       window.abrirModalDesconectar = function(id, apodo, login, estadoCopy) {
@@ -1007,6 +1019,29 @@
       }
       if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
       window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
+
+      // ── Info expandible: toggleInfoMaestra ──
+      window.toggleInfoMaestra = function(ctx) {
+        const div = document.getElementById('info-maestra-' + ctx);
+        const chevron = document.getElementById('info-maestra-' + ctx + '-chevron');
+        if (!div) return;
+        const isOpen = div.style.display !== 'none';
+        div.style.display = isOpen ? 'none' : 'block';
+        if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+      }
+      // Cerrar info al hacer clic fuera
+      document.addEventListener('click', function(e) {
+        ['dash','sistemas'].forEach(function(ctx) {
+          const div = document.getElementById('info-maestra-' + ctx);
+          if (!div || div.style.display === 'none') return;
+          const btn = div.previousElementSibling;
+          if (btn && !btn.contains(e.target) && !div.contains(e.target)) {
+            div.style.display = 'none';
+            const chev = document.getElementById('info-maestra-' + ctx + '-chevron');
+            if (chev) chev.style.transform = '';
+          }
+        });
+      });
 
       document.getElementById('copyright-year').textContent = new Date().getFullYear()
       const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
