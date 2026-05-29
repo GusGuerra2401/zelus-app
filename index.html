@@ -175,6 +175,11 @@
       @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
       body.light-mode .pendiente-titulo { color: #6d4e00 !important; }
       body.light-mode .pendiente-sub { color: rgba(109,78,0,0.75) !important; }
+      /* Info hover */
+      .info-maestra-wrap:hover .info-maestra-panel,
+      .info-maestra-wrap.tapped .info-maestra-panel { display: block !important; }
+      .info-maestra-trigger { color: var(--text2); transition: color 0.2s; }
+      .info-maestra-wrap:hover .info-maestra-trigger { color: var(--purple2); }
     </style>
   </head>
   <body>
@@ -237,14 +242,13 @@
           <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--text2);">Actualizado hace 4h</span></div>
         </div></div>
 
-        <!-- Info expandible: cómo se calculan las estadísticas (Dashboard) -->
-        <div style="margin-bottom:28px;padding:0 4px;">
-          <button onclick="toggleInfoMaestra('dash')" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;">
+        <!-- Info hover: cómo se calculan las estadísticas (Dashboard) -->
+        <div class="info-maestra-wrap" style="margin-bottom:28px;padding:0 4px;position:relative;">
+          <div class="info-maestra-trigger" style="display:inline-flex;align-items:center;gap:6px;cursor:default;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;user-select:none;">
             <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;font-size:10px;flex-shrink:0;line-height:1;">i</span>
             ¿Cómo se calculan estas estadísticas?
-            <span id="info-maestra-dash-chevron" style="font-size:10px;transition:transform 0.2s;display:inline-block;">▼</span>
-          </button>
-          <div id="info-maestra-dash" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
+          </div>
+          <div class="info-maestra-panel" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
             Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.
           </div>
         </div>
@@ -294,14 +298,13 @@
           </div>
         </div>
 
-        <!-- Info expandible: cómo se calculan las estadísticas (Sistemas Copy) -->
-        <div style="margin-top:-12px;margin-bottom:28px;padding:0 4px;">
-          <button onclick="toggleInfoMaestra('sistemas')" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;">
+        <!-- Info hover: cómo se calculan las estadísticas (Sistemas Copy) -->
+        <div class="info-maestra-wrap" style="margin-top:-12px;margin-bottom:28px;padding:0 4px;position:relative;">
+          <div class="info-maestra-trigger" style="display:inline-flex;align-items:center;gap:6px;cursor:default;padding:8px 0;font-family:'Sora',sans-serif;color:var(--text2);font-size:12px;font-weight:500;user-select:none;">
             <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;font-size:10px;flex-shrink:0;line-height:1;">i</span>
             ¿Cómo se calculan estas estadísticas?
-            <span id="info-maestra-sistemas-chevron" style="font-size:10px;transition:transform 0.2s;display:inline-block;">▼</span>
-          </button>
-          <div id="info-maestra-sistemas" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
+          </div>
+          <div class="info-maestra-panel" style="display:none;padding:14px 16px;background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text2);line-height:1.7;">
             Los resultados del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong> al inicio de cada día. Lo hacemos así para estandarizar los números y que puedas comparar el desempeño del sistema de forma clara, sin que el tamaño de tu cuenta distorsione la lectura. Lo que ves aquí refleja el comportamiento real del sistema — no el de tu cuenta personal.
           </div>
         </div>
@@ -1020,28 +1023,20 @@
       if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
       window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
 
-      // ── Info expandible: toggleInfoMaestra ──
-      window.toggleInfoMaestra = function(ctx) {
-        const div = document.getElementById('info-maestra-' + ctx);
-        const chevron = document.getElementById('info-maestra-' + ctx + '-chevron');
-        if (!div) return;
-        const isOpen = div.style.display !== 'none';
-        div.style.display = isOpen ? 'none' : 'block';
-        if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
-      }
-      // Cerrar info al hacer clic fuera
-      document.addEventListener('click', function(e) {
-        ['dash','sistemas'].forEach(function(ctx) {
-          const div = document.getElementById('info-maestra-' + ctx);
-          if (!div || div.style.display === 'none') return;
-          const btn = div.previousElementSibling;
-          if (btn && !btn.contains(e.target) && !div.contains(e.target)) {
-            div.style.display = 'none';
-            const chev = document.getElementById('info-maestra-' + ctx + '-chevron');
-            if (chev) chev.style.transform = '';
-          }
-        });
+      // ── Info hover (desktop) + tap (móvil) ──
+      document.querySelectorAll('.info-maestra-wrap').forEach(function(wrap) {
+        wrap.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          const isOpen = wrap.classList.contains('tapped');
+          document.querySelectorAll('.info-maestra-wrap').forEach(w => w.classList.remove('tapped'));
+          if (!isOpen) wrap.classList.add('tapped');
+        }, { passive: false });
       });
+      document.addEventListener('touchstart', function(e) {
+        document.querySelectorAll('.info-maestra-wrap').forEach(function(wrap) {
+          if (!wrap.contains(e.target)) wrap.classList.remove('tapped');
+        });
+      }, { passive: true });
 
       document.getElementById('copyright-year').textContent = new Date().getFullYear()
       const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
