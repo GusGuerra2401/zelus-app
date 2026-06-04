@@ -1085,15 +1085,6 @@
       if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
       window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
 
-      document.querySelectorAll('.tt-info-wrap').forEach(function(wrap) {
-        const box = wrap.querySelector('.tt-info-box');
-        wrap.addEventListener('mouseenter', function() {
-          const rect = wrap.getBoundingClientRect();
-          box.style.top = rect.top + 'px';
-          box.style.left = (rect.right + 10) + 'px';
-        });
-      });
-
       document.getElementById('copyright-year').textContent = new Date().getFullYear()
       const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
       function tiempoTranscurrido(fecha) { const diff=Math.floor((Date.now()-fecha)/60000); return diff<60?'Actualizado hace '+diff+' min':'Actualizado hace '+Math.floor(diff/60)+'h' }
