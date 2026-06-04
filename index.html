@@ -189,7 +189,7 @@
       /* FAQ */
       .faq-container { max-width: 720px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
       .faq-category { padding: 28px 36px 8px; }
-      .faq-category-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--purple2); margin-bottom: 16px; }
+      .faq-category-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
       .faq-item { border-top: 1px solid var(--border); }
       .faq-item:last-child { border-bottom: 1px solid var(--border); margin-bottom: 20px; }
       .faq-question { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; cursor: pointer; font-size: 14px; font-weight: 500; gap: 16px; color: var(--text); transition: color 0.2s; user-select: none; }
@@ -433,8 +433,111 @@
 
       <!-- FAQ -->
       <div class="section" id="sec-faq">
-        <div class="section-title">Preguntas Frecuentes</div>
         <div class="faq-container">
+
+          <div style="padding:32px 36px 24px;border-bottom:1px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--purple2);margin-bottom:8px;">Zelus · Centro de ayuda</div>
+            <div style="font-size:28px;font-weight:700;line-height:1.2;">FAQ</div>
+          </div>
+
+          <div class="faq-category">
+            <div class="faq-category-title">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              El sistema
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Cómo funciona el copy trading?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Zelus Gold opera en tu cuenta de forma automática. Cuando el sistema detecta una oportunidad en XAUUSD, ejecuta la operación en tu cuenta proporcionalmente a tu balance. Tú no necesitas hacer nada.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿En qué horario opera Zelus Gold?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">El sistema opera de domingo a viernes. Inicia operaciones a las <strong style="color:var(--text);">6:30 PM hora de Nueva York</strong> y las cierra a las <strong style="color:var(--text);">4:00 PM del día siguiente</strong>.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Puedo operar manualmente en mi cuenta mientras está conectada?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">No. Las cuentas conectadas son exclusivas para el copy trading. Operar manualmente puede interferir con el sistema y resultar en la suspensión del servicio.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Qué pasa si hay una pérdida?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Las pérdidas forman parte del trading. Los meses negativos no se cobran, así que las pérdidas acumuladas deben recuperarse antes de que el sistema vuelva a cobrarte.</div>
+            </div>
+          </div>
+
+          <div class="faq-category">
+            <div class="faq-category-title">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              Los números
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Cómo se calcula el rendimiento que veo en pantalla?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Las estadísticas del sistema se calculan sobre una cuenta estándar de <strong style="color:var(--text);">$10,000 USD</strong> con un lotaje fijo de <strong style="color:var(--text);">0.10 por operación</strong>. Esto permite comparar el desempeño del sistema de forma objetiva, independientemente del tamaño de tu cuenta.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿El win rate y el P&L son de mi cuenta o del sistema?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">En la sección <strong style="color:var(--text);">Sistemas Copy</strong> verás las estadísticas del sistema. En tu <strong style="color:var(--text);">Dashboard</strong> verás las estadísticas reales de tu cuenta personal.</div>
+            </div>
+          </div>
+
+          <div class="faq-category">
+            <div class="faq-category-title">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+              Conexión de cuentas
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Qué datos necesito para conectar mi cuenta?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Necesitas el nombre del servidor MT5 de tu broker, tu número de cuenta (login) y tu contraseña de trading. Todos los datos viajan encriptados y nunca se almacenan en texto plano.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Es seguro compartir mi contraseña?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Sí. Zelus utiliza encriptación de extremo a extremo. Tu dinero siempre está protegido — Zelus no tiene acceso a tus fondos ni puede realizar retiros.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Qué pasa si desconecto mi cuenta?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Tu solicitud se procesa de inmediato. La cuenta permanecerá visible hasta que liquides cualquier saldo pendiente en tu próxima fecha de pago.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Puedo usar mi segunda cuenta para un familiar o amigo?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Sí. Esa persona deberá registrarse con nuestro enlace de referidos de IC Markets y vincular su cuenta a través del proceso habitual por WhatsApp. Ten en cuenta que el acceso a Zelus es personal — lo ideal es destinar ese espacio a alguien de confianza.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Cuándo es mejor hacer depósitos o retiros?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Lo recomendable es hacerlo los <strong style="color:var(--text);">fines de semana</strong>, cuando el mercado está cerrado. Zelus utiliza gestión intradiaria basada en tu balance, por lo que modificar el saldo mientras el sistema está operando puede interferir severamente en su desempeño.</div>
+            </div>
+          </div>
+
+          <div class="faq-category">
+            <div class="faq-category-title">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+              Pagos
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Cuándo se cobra?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Los pagos se procesan del <strong style="color:var(--text);">1 al 5 de cada mes</strong>, con base en las ganancias generadas durante el mes anterior.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Qué pasa si el mes fue negativo?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">No se cobra nada. Las pérdidas se acumulan y deben recuperarse primero antes de que vuelvan a generarse ganancias cobrables.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Cómo funciona el sistema de escalones?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Tu escalón se determina por el balance más bajo que tuvo tu cuenta durante el mes. A mayor balance, menor porcentaje de comisión. Puedes ver los detalles completos en la sección <strong style="color:var(--text);">Pagos</strong>.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Qué métodos de pago aceptan?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">Aceptamos tarjeta de crédito/débito y criptomonedas.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-question">¿Me pueden descontar el pago directamente de mi cuenta de trading?<span class="faq-icon">+</span></div>
+              <div class="faq-answer">No es posible. Zelus no tiene acceso a tus fondos — tu dinero es tuyo en todo momento y no podemos realizar ningún movimiento en tu cuenta.</div>
+            </div>
+          </div>
+
+          <div style="padding:20px 36px;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--text2);">
+            ¿Tienes una pregunta que no está aquí? Escríbenos por <a href="https://wa.me/525528478886" target="_blank" style="color:var(--purple2);text-decoration:none;font-weight:500;">WhatsApp</a>.
+          </div>
+
+        </div>
+      </div>
 
           <div class="faq-category">
             <div class="faq-category-title">El sistema</div>
@@ -514,10 +617,7 @@
               <div class="faq-question">¿Me pueden descontar el pago directamente de mi cuenta de trading?<span class="faq-icon">+</span></div>
               <div class="faq-answer">No es posible. Zelus no tiene acceso a tus fondos — tu dinero es tuyo en todo momento y no podemos realizar ningún movimiento en tu cuenta.</div>
             </div>
-          </div>
-
         </div>
-        <div class="section-footer" style="margin-top:24px;"><p>¿Tienes una pregunta que no está aquí? Escríbenos por <a href="https://wa.me/525528478886" target="_blank" style="color:var(--purple2);text-decoration:none;">WhatsApp</a> y con gusto te ayudamos.</p></div>
       </div>
 
       <!-- MONITOREO ADMIN -->
