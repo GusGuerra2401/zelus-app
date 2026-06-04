@@ -122,8 +122,8 @@
       .tt-info-trigger { display: inline-flex; align-items: center; gap: 5px; color: var(--text2); font-size: 12px; font-weight: 500; font-family: 'Sora', sans-serif; cursor: default; transition: color 0.2s; }
       .tt-info-trigger:hover { color: var(--purple2); }
       .tt-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 1px solid currentColor; font-size: 10px; font-style: normal; flex-shrink: 0; line-height: 1; }
-      .tt-info-box { display: none; position: absolute; top: calc(100% + 10px); left: 0; width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; }
-      .tt-info-box::after { content: ''; position: absolute; top: -5px; left: 18px; transform: rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-left: 1px solid var(--border2); border-top: 1px solid var(--border2); }
+      .tt-info-box { display: none; position: absolute; top: 0; left: calc(100% + 10px); width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; }
+      .tt-info-box::after { content: ''; position: absolute; top: 8px; left: -5px; transform: rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-left: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
       .tt-info-wrap:hover .tt-info-box { display: block; }
       body.light-mode .tt-info-box { background: var(--bg2); }
       .cuenta-config { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; }
@@ -234,7 +234,7 @@
       <div class="section active" id="sec-dashboard">
         <div id="cuentas-stats-grid"></div>
         <div class="section-title">Sistemas de Copy Trading</div>
-        <div style="margin-bottom:28px;"><div class="card" style="padding:20px;">
+        <div style="margin-bottom:28px;"><div class="card" style="padding:20px;overflow:visible;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
             <div><div style="font-size:15px;font-weight:700;">Zelus Gold</div><div style="font-size:12px;color:var(--text2);margin-top:3px;">Ciclos · XAUUSD</div></div>
             <span style="font-size:11px;padding:3px 8px;border-radius:6px;font-weight:600;background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);">Medio</span>
