@@ -122,8 +122,10 @@
       .tt-info-trigger { display: inline-flex; align-items: center; gap: 5px; color: var(--text2); font-size: 12px; font-weight: 500; font-family: 'Sora', sans-serif; cursor: default; transition: color 0.2s; }
       .tt-info-trigger:hover { color: var(--purple2); }
       .tt-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 1px solid currentColor; font-size: 10px; font-style: normal; flex-shrink: 0; line-height: 1; }
-      .tt-info-box { display: none; position: absolute; bottom: calc(100% + 10px); left: 0; width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; }
-      .tt-info-box::after { content: ''; position: absolute; bottom: -5px; left: 18px; transform: rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-right: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+      .tt-info-box { display: none; position: absolute; top: 50%; left: calc(100% + 10px); transform: translateY(-50%); width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; }
+      .tt-info-box::after { content: ''; position: absolute; top: 50%; left: -5px; transform: translateY(-50%) rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-left: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+      .tt-info-box.align-right { left: auto; right: 0; }
+      .tt-info-box.align-right::after { left: auto; right: 18px; }
       .tt-info-wrap:hover .tt-info-box { display: block; }
       body.light-mode .tt-info-box { background: var(--bg2); }
       .cuenta-config { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; }
@@ -245,7 +247,7 @@
             <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Sharpe 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-sharpe">—</div></div>
             <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Calmar 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-calmar">—</div></div>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="display:flex;flex-direction:column;gap:8px;">
             <span style="font-size:11px;color:var(--text2);">Actualizado hace 4h</span>
             <span class="tt-info-wrap">
               <span class="tt-info-trigger"><i class="tt-info-icon">i</i> ¿Cómo se calculan?</span>
