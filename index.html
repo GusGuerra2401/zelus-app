@@ -122,8 +122,8 @@
       .tt-info-trigger { display: inline-flex; align-items: center; gap: 5px; color: var(--text2); font-size: 12px; font-weight: 500; font-family: 'Sora', sans-serif; cursor: default; transition: color 0.2s; }
       .tt-info-trigger:hover { color: var(--purple2); }
       .tt-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 1px solid currentColor; font-size: 10px; font-style: normal; flex-shrink: 0; line-height: 1; }
-      .tt-info-box { display: none; position: absolute; top: 0; left: calc(100% + 10px); width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 400; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; }
-      .tt-info-box::after { content: ''; position: absolute; top: 8px; left: -5px; transform: rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-left: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+      .tt-info-box { display: none; position: fixed; width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 14px 16px; z-index: 9999; box-shadow: 0 12px 40px rgba(0,0,0,0.5); font-size: 12px; color: var(--text2); line-height: 1.7; font-family: 'Sora', sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; }
+      .tt-info-box::after { content: ''; position: absolute; top: 10px; left: -5px; transform: rotate(45deg); width: 9px; height: 9px; background: var(--bg2); border-left: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
       .tt-info-wrap:hover .tt-info-box { display: block; }
       body.light-mode .tt-info-box { background: var(--bg2); }
       .cuenta-config { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; }
@@ -1082,6 +1082,15 @@
       }
       if (localStorage.getItem('zelus_theme')==='light') { document.body.classList.add('light-mode'); setTimeout(()=>{ document.getElementById('theme-knob').style.transform='translateX(18px)'; document.getElementById('theme-toggle').style.background='#8b5cf6' },0) }
       window.closeSidebar = function() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open') }
+
+      document.querySelectorAll('.tt-info-wrap').forEach(function(wrap) {
+        const box = wrap.querySelector('.tt-info-box');
+        wrap.addEventListener('mouseenter', function() {
+          const rect = wrap.getBoundingClientRect();
+          box.style.top = rect.top + 'px';
+          box.style.left = (rect.right + 10) + 'px';
+        });
+      });
 
       document.getElementById('copyright-year').textContent = new Date().getFullYear()
       const ultimaActualizacion = new Date(Date.now()-2*60*60*1000)
