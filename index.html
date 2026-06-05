@@ -243,7 +243,7 @@
       </div>
       <div class="user-area">
         <div class="user-avatar" id="user-avatar">?</div>
-        <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Estudiante PFX</div></div>
+        <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Plan Pro</div></div>
       </div>
       <div style="text-align:center;padding:12px 12px 0;font-size:10px;color:var(--text2);opacity:0.6;">
         © <span id="copyright-year"></span> Zelus by Penguin FX
@@ -660,6 +660,9 @@
       import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const MAKE_WEBHOOK = 'https://hook.us2.make.com/p4u2e93vnayetcauknscoju7xhfy9fu3'
+      const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/FnGLAWtvRPTxr8Duhr3q/webhook-trigger/b53040cb-295a-4e40-b627-c8463dd3c164'
+
+      const notificarGHL = (evento, nombre, correo, id_mt5) => fetch(GHL_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ evento, nombre, correo, id_mt5: String(id_mt5) }) }).catch(() => {})
 
       // Carga las estadísticas de la cuenta maestra (Zelus Gold) desde Supabase
       // y las inyecta en los spans del módulo Sistemas Copy y del Dashboard
@@ -761,6 +764,8 @@
           const { data: { session } } = await supabase.auth.getSession()
           const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
           await fetch(MAKE_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: copyModalData.accion, nombre, email: session.user.email, cuenta_id: copyModalData.cuenta_id }) })
+          const eventoGHL = copyModalData.accion === 'activar' ? 'activar_copy' : 'pausar_copy'
+          notificarGHL(eventoGHL, nombre, session.user.email, copyModalData.cuenta_id)
           const nuevoEstado = copyModalData.accion === 'activar' ? 'activo' : 'pausado';
           await supabase.from('estado_copy').upsert({ cuenta_login: parseInt(copyModalData.cuenta_id), usuario_id: session.user.id, estado: nuevoEstado, actualizado_en: new Date().toISOString() }, { onConflict: 'cuenta_login,usuario_id' });
           cargarCuentasDashboard(); cargarCuentasSistemas();
@@ -1177,6 +1182,7 @@
           const { data: { session } } = await supabase.auth.getSession();
           const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0];
           await fetch(MAKE_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: 'desconectar', nombre, email: session.user.email, cuenta_id: login }) });
+          notificarGHL('desconectar', nombre, session.user.email, login)
           await supabase.from('estado_copy').upsert({ cuenta_login: parseInt(login), usuario_id: session.user.id, estado: 'desconectado', actualizado_en: new Date().toISOString() }, { onConflict: 'cuenta_login,usuario_id' });
           await supabase.from('cuentas').update({ estado: 'inactiva' }).eq('id', id).eq('usuario_id', session.user.id);
           cerrarModalDescConfirmar();
