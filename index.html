@@ -232,8 +232,8 @@
         <a href="#" class="nav-item" onclick="mostrarSeccion('historial',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Historial</a>
         <a href="#" class="nav-item" onclick="mostrarSeccion('pagos',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>Pagos</a>
         <a href="#" class="nav-item" onclick="mostrarSeccion('faq',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>FAQ</a>
-        <div class="nav-label" style="margin-top:8px;">Admin</div>
-        <a href="#" class="nav-item" onclick="mostrarSeccion('monitoreo',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>Monitoreo</a>
+        <div class="nav-label" style="margin-top:8px;display:none;" id="nav-admin-label">Admin</div>
+        <a href="#" class="nav-item" id="nav-monitoreo" onclick="mostrarSeccionAdmin('monitoreo',this);return false;" style="display:none;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>Monitoreo</a>
         <div class="nav-label" style="margin-top:8px;">Cuenta</div>
         <a href="#" class="nav-item" id="cerrar-sesion"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>Cerrar sesión</a>
       </nav>
@@ -1091,7 +1091,7 @@
         const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
         document.getElementById('nombre-usuario').textContent = nombre
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
-        verificarTerminos(session); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra();
+        verificarTerminos(session); verificarAdmin(session.user.id); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra();
       })
 
       const { data: { session: globalSession } } = await supabase.auth.getSession()
@@ -1099,7 +1099,27 @@
 
       document.getElementById('cerrar-sesion').addEventListener('click', async (e) => { e.preventDefault(); await supabase.auth.signOut(); localStorage.removeItem('zelus_nombre'); window.location.href = '/login' })
 
+      // ── Control de acceso: Monitoreo solo para admins ──
+      let _esAdmin = false;
+
+      async function verificarAdmin(userId) {
+        try {
+          const { data, error } = await supabase.from('admins').select('id').eq('id', userId).maybeSingle();
+          _esAdmin = !error && !!data;
+        } catch(e) { _esAdmin = false; }
+        if (_esAdmin) {
+          document.getElementById('nav-admin-label').style.display = '';
+          document.getElementById('nav-monitoreo').style.display = '';
+        }
+      }
+
+      window.mostrarSeccionAdmin = function(id, el) {
+        if (!_esAdmin) return;
+        mostrarSeccion(id, el);
+      }
+
       window.mostrarSeccion = function(id, el) {
+        if (id === 'monitoreo' && !_esAdmin) return;
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
         document.getElementById('sec-' + id).classList.add('active'); el.classList.add('active')
