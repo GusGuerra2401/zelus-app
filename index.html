@@ -668,26 +668,54 @@
       // y las inyecta en los spans del módulo Sistemas Copy y del Dashboard
       async function cargarEstadisticasMaestra() {
         try {
-          const { data, error } = await supabase.from('estadisticas_maestra').select('*').eq('sistema', 'zelus_gold').limit(1).single();
-          if (error || !data) return;
-          // Sistemas Copy — 4 tarjetas grandes
-          const r = document.getElementById('maestra-rendimiento');
-          const d = document.getElementById('maestra-drawdown');
-          const w = document.getElementById('maestra-winrate');
+          // Leer ambas tablas en paralelo:
+          // - estadisticas_mt4: pnl_30d, win_rate_30d (datos reales del EA en vivo)
+          // - estadisticas_maestra: drawdown_30d, sharpe_60d, calmar_60d (editados manualmente)
+          const [resMt4, resMaestra] = await Promise.all([
+            supabase.from('estadisticas_mt4').select('pnl_30d, win_rate_30d, balance').order('id', { ascending: false }).limit(1).single(),
+            supabase.from('estadisticas_maestra').select('drawdown_30d, sharpe_60d, calmar_60d').eq('sistema', 'zelus_gold').limit(1).single()
+          ]);
+
+          const mt4     = resMt4.data;
+          const maestra = resMaestra.data;
+
+          // ── Calcular rendimiento como % sobre el balance ──
+          // pnl_30d / (balance - pnl_30d) * 100 da el % real de retorno
+          let rendLabel = '—';
+          if (mt4 && mt4.pnl_30d !== null && mt4.balance !== null) {
+            const baseBalance = mt4.balance - mt4.pnl_30d;
+            const pct = baseBalance !== 0 ? (mt4.pnl_30d / Math.abs(baseBalance)) * 100 : 0;
+            rendLabel = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+          }
+
+          // ── Win rate desde MT4 ──
+          const wrLabel = (mt4 && mt4.win_rate_30d !== null) ? mt4.win_rate_30d.toFixed(1) + '%' : '—';
+
+          // ── Drawdown, Sharpe y Calmar desde estadisticas_maestra (manual) ──
+          const ddLabel = maestra ? (maestra.drawdown_30d > 0 ? '-' : '') + Math.abs(maestra.drawdown_30d) + '%' : '—';
+          const scLabel = maestra ? maestra.sharpe_60d + ' / ' + maestra.calmar_60d : '— / —';
+          const shLabel = maestra ? String(maestra.sharpe_60d) : '—';
+          const caLabel = maestra ? String(maestra.calmar_60d) : '—';
+
+          // ── Sistemas Copy — 4 tarjetas grandes ──
+          const r  = document.getElementById('maestra-rendimiento');
+          const d  = document.getElementById('maestra-drawdown');
+          const w  = document.getElementById('maestra-winrate');
           const sc = document.getElementById('maestra-sharpe-calmar');
-          if (r) r.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%';
-          if (d) d.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
-          if (w) w.textContent = data.win_rate_30d + '%';
-          if (sc) sc.textContent = data.sharpe_60d + ' / ' + data.calmar_60d;
-          // Dashboard — card resumen de Zelus Gold
+          if (r)  r.textContent  = rendLabel;
+          if (d)  d.textContent  = ddLabel;
+          if (w)  w.textContent  = wrLabel;
+          if (sc) sc.textContent = scLabel;
+
+          // ── Dashboard — card resumen de Zelus Gold ──
           const dr = document.getElementById('dash-maestra-rendimiento');
           const dd = document.getElementById('dash-maestra-drawdown');
           const ds = document.getElementById('dash-maestra-sharpe');
           const dc = document.getElementById('dash-maestra-calmar');
-          if (dr) dr.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%';
-          if (dd) dd.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
-          if (ds) ds.textContent = data.sharpe_60d;
-          if (dc) dc.textContent = data.calmar_60d;
+          if (dr) dr.textContent = rendLabel;
+          if (dd) dd.textContent = ddLabel;
+          if (ds) ds.textContent = shLabel;
+          if (dc) dc.textContent = caLabel;
         } catch(e) { console.error('Error cargando estadísticas maestra:', e); }
       }
 
@@ -1083,6 +1111,10 @@
 
       // Canal Realtime: cuando actualices un valor en Supabase se refleja al instante en pantalla
       supabase.channel('cambios-estadisticas-maestra').on('postgres_changes', { event: '*', schema: 'public', table: 'estadisticas_maestra' }, () => {
+        cargarEstadisticasMaestra();
+      }).subscribe();
+
+      supabase.channel('cambios-estadisticas-mt4').on('postgres_changes', { event: '*', schema: 'public', table: 'estadisticas_mt4' }, () => {
         cargarEstadisticasMaestra();
       }).subscribe();
 
