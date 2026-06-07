@@ -695,15 +695,14 @@
         try {
           const { data, error } = await supabase
             .from('estadisticas_mt4')
-            .select('últimas_operaciones, actualizado_en')
+            .select('ultimas_operaciones, actualizado_en')
             .order('id', { ascending: false })
             .limit(1)
             .single();
 
           if (error || !data) { console.error('cargarTradesSistema error:', error); return; }
 
-          // Soportar ambos nombres de columna por si acaso
-          const ops = data['últimas_operaciones'] || data['ultimas_operaciones'] || [];
+          const ops = data['ultimas_operaciones'] || [];
           if (!Array.isArray(ops) || ops.length === 0) {
             const tbVis = document.getElementById('tbody-sistemas-visible');
             if (tbVis) tbVis.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text2);font-size:13px;padding:20px 0;">Sin operaciones registradas aún.</td></tr>';
