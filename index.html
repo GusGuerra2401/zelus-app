@@ -695,14 +695,21 @@
         try {
           const { data, error } = await supabase
             .from('estadisticas_mt4')
-            .select('ultimas_operaciones, actualizado_en')
+            .select('últimas_operaciones, actualizado_en')
             .order('id', { ascending: false })
             .limit(1)
             .single();
 
-          if (error || !data || !Array.isArray(data.ultimas_operaciones)) return;
+          if (error || !data) { console.error('cargarTradesSistema error:', error); return; }
 
-          const ops = data.ultimas_operaciones;
+          // Soportar ambos nombres de columna por si acaso
+          const ops = data['últimas_operaciones'] || data['ultimas_operaciones'] || [];
+          if (!Array.isArray(ops) || ops.length === 0) {
+            const tbVis = document.getElementById('tbody-sistemas-visible');
+            if (tbVis) tbVis.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text2);font-size:13px;padding:20px 0;">Sin operaciones registradas aún.</td></tr>';
+            return;
+          }
+
           const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
 
           const renderFila = op => {
@@ -729,11 +736,10 @@
           const btnVer = document.getElementById('btn-ver-mas-sistemas');
           const upd    = document.getElementById('update-sistemas');
 
-          if (tbVis) tbVis.innerHTML  = visibles.map(renderFila).join('');
-          if (tbHid) tbHid.innerHTML  = ocultas.map(renderFila).join('');
+          if (tbVis) tbVis.innerHTML = visibles.map(renderFila).join('');
+          if (tbHid) tbHid.innerHTML = ocultas.map(renderFila).join('');
           if (btnVer) btnVer.style.display = ocultas.length > 0 ? 'inline-block' : 'none';
 
-          // Actualizar tiempo de última actualización
           if (upd && data.actualizado_en) {
             const diffMin = Math.floor((Date.now() - new Date(data.actualizado_en).getTime()) / 60000);
             upd.textContent = diffMin < 60 ? `Actualizado hace ${diffMin}m` : `Actualizado hace ${Math.floor(diffMin/60)}h`;
