@@ -243,7 +243,7 @@
       </div>
       <div class="user-area">
         <div class="user-avatar" id="user-avatar">?</div>
-        <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Estudiante PFX</div></div>
+        <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Plan Pro</div></div>
       </div>
       <div style="text-align:center;padding:12px 12px 0;font-size:10px;color:var(--text2);opacity:0.6;">
         © <span id="copyright-year"></span> Zelus by Penguin FX
@@ -272,8 +272,8 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
             <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Rendimiento 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);" id="dash-maestra-rendimiento">—</div></div>
             <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Drawdown máx. 30d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);" id="dash-maestra-drawdown">—</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Sharpe 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-sharpe">—</div></div>
-            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Calmar 60d</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-calmar">—</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Sharpe</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-sharpe">—</div></div>
+            <div><div style="font-size:11px;color:var(--text2);margin-bottom:3px;">Calmar</div><div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--purple2);" id="dash-maestra-calmar">—</div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:11px;color:var(--text2);">Actualizado hace 4h</span>
@@ -316,11 +316,11 @@
           <div class="stat-card"><div class="stat-label">✅ Win Rate 30d</div><div class="stat-value green" id="maestra-winrate">—</div><div class="stat-change">Últimos 30 días</div></div>
           <div class="stat-card">
             <div class="stat-label">📊&nbsp;
-              <span class="tt-wrap"><span class="tt-trigger" onclick="toggleTT('tt-sharpe', event)">Sharpe</span><div class="tt-box" id="tt-sharpe"><div class="tt-title">Sharpe</div><div class="tt-desc">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div><div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</span></div><div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</span></div><div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 0.50</strong> — Nivel profesional</span></div></div></span>
+              <span class="tt-wrap"><span class="tt-trigger" onclick="toggleTT('tt-sharpe', event)">Sharpe</span><div class="tt-box" id="tt-sharpe"><div class="tt-title">Sharpe</div><div class="tt-desc">Mide cuánta ganancia obtienes por cada unidad de riesgo. Mientras más alto, mejor.</div><div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.25</strong> — Por debajo del promedio del mercado</span></div><div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.25 – 0.50</strong> — Nivel competitivo, por encima de la mayoría de fondos</span></div><div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 0.50</strong> — Nivel profesional</span></div><div class="tt-desc" style="margin-top:10px;margin-bottom:0;">Estos ratios tienden a ajustarse con el tiempo, a medida que el sistema opera en más escenarios de mercado. Es un comportamiento normal y esperado.</div></div></span>
               &nbsp;/&nbsp;
-              <span class="tt-wrap"><span class="tt-trigger" onclick="toggleTT('tt-calmar', event)">Calmar</span><div class="tt-box" id="tt-calmar"><div class="tt-title">Calmar</div><div class="tt-desc">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div><div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</span></div><div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</span></div><div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 1.00</strong> — Nivel profesional alto</span></div></div></span>
+              <span class="tt-wrap"><span class="tt-trigger" onclick="toggleTT('tt-calmar', event)">Calmar</span><div class="tt-box" id="tt-calmar"><div class="tt-title">Calmar</div><div class="tt-desc">Compara la ganancia anual contra la peor caída histórica. Indica qué tan bien el sistema maneja los momentos difíciles.</div><div class="tt-row"><span class="tt-dot">🔴</span><span><strong>Menos de 0.50</strong> — El riesgo no justifica la ganancia</span></div><div class="tt-row"><span class="tt-dot">🟡</span><span><strong>0.50 – 1.00</strong> — Nivel de fondos competitivos</span></div><div class="tt-row"><span class="tt-dot">🟢</span><span><strong>Más de 1.00</strong> — Nivel profesional alto</span></div><div class="tt-desc" style="margin-top:10px;margin-bottom:0;">Estos ratios tienden a ajustarse con el tiempo, a medida que el sistema opera en más escenarios de mercado. Es un comportamiento normal y esperado.</div></div></span>
             </div>
-            <div class="stat-value purple" id="maestra-sharpe-calmar">— / —</div><div class="stat-change">Sharpe 60d / Calmar 60d</div>
+            <div class="stat-value purple" id="maestra-sharpe-calmar">— / —</div><div class="stat-change">Sharpe / Calmar</div>
           </div>
         </div>
         <!-- Tooltip info estadísticas Sistemas Copy -->
@@ -541,15 +541,15 @@
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
           <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2);">
             <span style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;"></span>Datos en tiempo real</span>
-            <span>Sesión: <strong style="color:var(--text);" id="mon-fecha">21 mayo 2026</strong> · Actualizado: <strong style="color:var(--text);" id="mon-updated">hace 2 min</strong></span>
+            <span>Sesión: <strong style="color:var(--text);">21 mayo 2026</strong> · Actualizado: <strong style="color:var(--text);">hace 2 min</strong></span>
           </div>
           <div style="display:flex;gap:10px;">
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Cuentas activas: <strong style="color:var(--green);" id="mon-total">12</strong></div>
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Desfase total: <strong id="mon-desfase-total" style="color:var(--green);">—</strong></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Cuentas activas: <strong style="color:var(--green);">12</strong></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Beneficio total del día: <strong style="color:var(--green);">+$3,241.80</strong></div>
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Cuentas conectadas al copy</div><div class="card-subtitle">Desfase de balance · XAUUSD · Zelus Gold</div></div></div>
+          <div class="card-header"><div><div class="card-title">Cuentas conectadas al copy</div><div class="card-subtitle">Beneficio intradía · XAUUSD · Zelus Gold</div></div></div>
           <div style="overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;min-width:700px;">
               <thead><tr style="border-bottom:1px solid var(--border);">
@@ -557,12 +557,21 @@
                 <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 20px;text-align:left;">Correo</th>
                 <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:left;">ID MT5</th>
                 <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:right;">Lotaje inicial</th>
-                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:right;">Balance esperado</th>
-                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:right;">Desfase</th>
-                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 20px;text-align:center;">Estado</th>
+                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 20px;text-align:right;">Beneficio del día</th>
               </tr></thead>
               <tbody id="monitoreo-tbody">
-                <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Cargando datos...</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Jorge Gustavo</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">jgustavo@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#4821947</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.10</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$312.40</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">María Fernández</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">mfernandez@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#5193204</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.05</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$156.20</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Carlos Medina</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">cmedina@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#6047831</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.20</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$624.80</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Ana Lucía Torres</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">altorres@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#7294015</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.08</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-$42.10</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Roberto Salinas</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">rsalinas@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#8831240</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.15</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$468.60</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Sofía Ramírez</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">sramirez@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#9102837</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.05</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$156.20</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Miguel Ángel Vega</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">mavega@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#3748291</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.30</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$937.20</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Claudia Herrera</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">cherrera@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#2193847</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.07</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-$18.30</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Diego Morales</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">dmorales@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#5039281</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.12</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$374.88</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Valeria Cruz</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">vcruz@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#6183920</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.06</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$187.44</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Luis Enrique Parra</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">leparra@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#7401928</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.10</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$312.40</td></tr>
+                <tr><td style="padding:14px 20px;font-size:13px;font-weight:600;">Patricia Lozano</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">plozano@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#8820193</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.09</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$281.16</td></tr>
               </tbody>
             </table>
           </div>
@@ -1093,56 +1102,6 @@
       // ── Control de acceso: Monitoreo solo para admins ──
       let _esAdmin = false;
 
-      async function cargarMonitoreo() {
-        const tbody = document.getElementById('monitoreo-tbody');
-        if (!tbody) return;
-        try {
-          const { data, error } = await supabase
-            .from('monitoreo_cuentas')
-            .select(`login, b_n2, l_n2, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuentas ( login, apodo, usuario_id, perfiles ( nombre, email ) )`)
-            .order('ultima_actualizacion', { ascending: false });
-          if (error) { console.error('cargarMonitoreo:', error); return; }
-          if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Sin datos de monitoreo.</td></tr>'; return; }
-          const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
-          let html = ''; let desfaseTotal = 0;
-          data.forEach((row, idx) => {
-            const cuenta  = row.cuentas || {};
-            const perfil  = cuenta.perfiles || {};
-            const nombre  = perfil.nombre || cuenta.apodo || '—';
-            const email   = perfil.email  || '—';
-            const login   = row.login || cuenta.login || '—';
-            const lote    = parseFloat(row.l_n2 || 0).toFixed(2);
-            const bEsp    = parseFloat(row.b_esperado || 0);
-            const desfase = parseFloat(row.desfase || 0);
-            desfaseTotal += desfase;
-            const color   = row.estado_color || 'morado';
-            const cMap    = { verde:'var(--green)', rojo:'var(--red)', amarillo:'var(--yellow)', morado:'var(--purple2)', naranja:'#f97316' };
-            const lMap    = { verde:'OK', rojo:'Alerta', amarillo:'Advertencia', morado:'Normal', naranja:'Revisar' };
-            const bMap    = { verde:'rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3)', rojo:'rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)', amarillo:'rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3)', morado:'rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3)', naranja:'rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3)' };
-            const eColor  = cMap[color] || 'var(--purple2)';
-            const eLabel  = lMap[color] || color;
-            const eBg     = bMap[color] || bMap.morado;
-            const border  = idx < data.length - 1 ? 'border-bottom:1px solid var(--border);' : '';
-            html += `<tr style="${border}">
-              <td style="padding:14px 20px;font-size:13px;font-weight:600;">${nombre}</td>
-              <td style="padding:14px 20px;font-size:12px;color:var(--text2);">${email}</td>
-              <td style="padding:14px 12px;${mono}">#${login}</td>
-              <td style="padding:14px 12px;${mono};text-align:right;">${lote}</td>
-              <td style="padding:14px 12px;${mono};text-align:right;">$${bEsp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-              <td style="padding:14px 12px;${mono};text-align:right;color:${eColor};font-weight:700;">${(desfase>=0?'+':'')+desfase.toFixed(2)}</td>
-              <td style="padding:14px 20px;text-align:center;"><span style="display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:${eBg};color:${eColor};">${eLabel}</span></td>
-            </tr>`;
-          });
-          tbody.innerHTML = html;
-          const elT = document.getElementById('mon-total');
-          const elD = document.getElementById('mon-desfase-total');
-          const elU = document.getElementById('mon-updated');
-          if (elT) elT.textContent = data.length;
-          if (elD) { elD.textContent = (desfaseTotal>=0?'+':'')+desfaseTotal.toFixed(2); elD.style.color = desfaseTotal>=0?'var(--green)':'var(--red)'; }
-          if (elU && data[0]?.ultima_actualizacion) { const d=Math.floor((Date.now()-new Date(data[0].ultima_actualizacion).getTime())/60000); elU.textContent=d<60?`hace ${d}m`:`hace ${Math.floor(d/60)}h`; }
-        } catch(e) { console.error('Error cargarMonitoreo:', e); }
-      }
-
       async function verificarAdmin(userId) {
         try {
           const { data, error } = await supabase.from('admins').select('id').eq('id', userId).maybeSingle();
@@ -1151,7 +1110,6 @@
         if (_esAdmin) {
           document.getElementById('nav-admin-label').style.display = '';
           document.getElementById('nav-monitoreo').style.display = '';
-          cargarMonitoreo();
         }
       }
 
@@ -1169,7 +1127,6 @@
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open') }
         if (id === 'pagos') { supabase.auth.getSession().then(({data:{session}}) => { if(session) cargarEscalonBanner(session.user.email) }) }
-        if (id === 'monitoreo') { cargarMonitoreo(); }
         closeSidebar()
       }
 
