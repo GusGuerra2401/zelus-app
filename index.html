@@ -336,8 +336,8 @@
             <div class="card-header"><div><div class="card-title">Trades del sistema</div><div class="card-subtitle">Historial de Zelus Gold · <span id="update-sistemas" style="color:var(--purple3);"></span></div></div></div>
             <div style="padding:0 24px 24px;">
               <table class="trades-table" id="tabla-sistemas"><thead><tr><th>Par</th><th>Tipo</th><th>Lotes</th><th>P&L</th><th>Fecha</th></tr></thead>
-              <tbody id="tbody-sistemas-visible"></tbody>
-              <tbody id="tbody-sistemas-hidden" style="display:none;"></tbody>
+              <tbody id="tbody-sistemas-visible"><tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td class="pnl-pos">+$167.00</td><td style="font-size:12px;color:var(--text2);">14 abr</td></tr><tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type sell">SELL</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td class="pnl-neg">-$45.00</td><td style="font-size:12px;color:var(--text2);">13 abr</td></tr><tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.10</td><td class="pnl-pos">+$210.00</td><td style="font-size:12px;color:var(--text2);">12 abr</td></tr></tbody>
+              <tbody id="tbody-sistemas-hidden" style="display:none;"><tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type sell">SELL</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.08</td><td class="pnl-neg">-$32.00</td><td style="font-size:12px;color:var(--text2);">11 abr</td></tr><tr><td><span class="pair">XAUUSD</span></td><td><span class="trade-type buy">BUY</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:13px;">0.12</td><td class="pnl-pos">+$195.00</td><td style="font-size:12px;color:var(--text2);">10 abr</td></tr></tbody>
               </table>
               <div style="text-align:center;margin-top:16px;">
                 <button id="btn-ver-mas-sistemas" onclick="toggleTrades('sistemas')" style="font-size:12px;font-weight:600;padding:6px 18px;border-radius:8px;cursor:pointer;border:1px solid var(--border2);background:rgba(139,92,246,0.08);color:var(--purple2);font-family:'Sora',sans-serif;">Ver más</button>
@@ -541,15 +541,15 @@
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
           <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2);">
             <span style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;"></span>Datos en tiempo real</span>
-            <span>Sesión: <strong style="color:var(--text);">21 mayo 2026</strong> · Actualizado: <strong style="color:var(--text);">hace 2 min</strong></span>
+            <span>Sesión: <strong style="color:var(--text);" id="mon-fecha">—</strong> · Actualizado: <strong style="color:var(--text);" id="mon-updated">—</strong></span>
           </div>
           <div style="display:flex;gap:10px;">
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Cuentas activas: <strong style="color:var(--green);">12</strong></div>
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Beneficio total del día: <strong style="color:var(--green);">+$3,241.80</strong></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Cuentas activas: <strong style="color:var(--green);" id="mon-total">—</strong></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Desfase total: <strong id="mon-desfase-total">—</strong></div>
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Cuentas conectadas al copy</div><div class="card-subtitle">Beneficio intradía · XAUUSD · Zelus Gold</div></div></div>
+          <div class="card-header"><div><div class="card-title">Cuentas conectadas al copy</div><div class="card-subtitle">Desfase de balance · XAUUSD · Zelus Gold</div></div></div>
           <div style="overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;min-width:700px;">
               <thead><tr style="border-bottom:1px solid var(--border);">
@@ -557,21 +557,12 @@
                 <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 20px;text-align:left;">Correo</th>
                 <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:left;">ID MT5</th>
                 <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:right;">Lotaje inicial</th>
-                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 20px;text-align:right;">Beneficio del día</th>
+                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:right;">Balance esperado</th>
+                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 12px;text-align:right;">Desfase</th>
+                <th style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);padding:16px 20px;text-align:center;">Estado</th>
               </tr></thead>
               <tbody id="monitoreo-tbody">
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Jorge Gustavo</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">jgustavo@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#4821947</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.10</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$312.40</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">María Fernández</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">mfernandez@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#5193204</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.05</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$156.20</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Carlos Medina</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">cmedina@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#6047831</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.20</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$624.80</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Ana Lucía Torres</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">altorres@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#7294015</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.08</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-$42.10</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Roberto Salinas</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">rsalinas@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#8831240</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.15</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$468.60</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Sofía Ramírez</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">sramirez@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#9102837</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.05</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$156.20</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Miguel Ángel Vega</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">mavega@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#3748291</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.30</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$937.20</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Claudia Herrera</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">cherrera@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#2193847</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.07</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);">-$18.30</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Diego Morales</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">dmorales@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#5039281</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.12</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$374.88</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Valeria Cruz</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">vcruz@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#6183920</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.06</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$187.44</td></tr>
-                <tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 20px;font-size:13px;font-weight:600;">Luis Enrique Parra</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">leparra@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#7401928</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.10</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$312.40</td></tr>
-                <tr><td style="padding:14px 20px;font-size:13px;font-weight:600;">Patricia Lozano</td><td style="padding:14px 20px;font-size:12px;color:var(--text2);">plozano@email.com</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;">#8820193</td><td style="padding:14px 12px;font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;">0.09</td><td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--green);">+$281.16</td></tr>
+                <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Cargando datos...</td></tr>
               </tbody>
             </table>
           </div>
@@ -691,59 +682,87 @@
         } catch(e) { console.error('Error cargando estadísticas maestra:', e); }
       }
 
-      async function cargarTradesSistema() {
+      async function cargarMonitoreo() {
+        const tbody = document.getElementById('monitoreo-tbody');
+        if (!tbody) return;
         try {
+          // Join: monitoreo_cuentas → cuentas → perfiles
           const { data, error } = await supabase
-            .from('estadisticas_mt4')
-            .select('ultimas_operaciones, actualizado_en')
-            .order('id', { ascending: false })
-            .limit(1)
-            .single();
+            .from('monitoreo_cuentas')
+            .select(`
+              login, b_n2, l_n2, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion,
+              cuentas ( login, apodo, usuario_id,
+                perfiles ( nombre, email )
+              )
+            `)
+            .order('ultima_actualizacion', { ascending: false });
 
-          if (error || !data) { console.error('cargarTradesSistema error:', error); return; }
-
-          const ops = data['ultimas_operaciones'] || [];
-          if (!Array.isArray(ops) || ops.length === 0) {
-            const tbVis = document.getElementById('tbody-sistemas-visible');
-            if (tbVis) tbVis.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text2);font-size:13px;padding:20px 0;">Sin operaciones registradas aún.</td></tr>';
+          if (error) { console.error('cargarMonitoreo error:', error); return; }
+          if (!data || data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Sin datos de monitoreo.</td></tr>';
             return;
           }
 
           const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
+          let html = '';
+          let desfaseTotal = 0;
 
-          const renderFila = op => {
-            const tipo     = (op.tipo || '').toUpperCase();
-            const esBuy    = tipo === 'BUY' || tipo === 'COMPRAR';
-            const tipoHTML = `<span class="trade-type ${esBuy ? 'buy' : 'sell'}">${esBuy ? 'BUY' : 'SELL'}</span>`;
-            const pnl      = parseFloat(op.pnl) || 0;
-            const pnlLabel = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-            const pnlClass = pnl >= 0 ? 'pnl-pos' : 'pnl-neg';
-            return `<tr>
-              <td><span class="pair">${op.par || '—'}</span></td>
-              <td>${tipoHTML}</td>
-              <td style="${mono}">${parseFloat(op.lotes || 0).toFixed(2)}</td>
-              <td class="${pnlClass}">${pnlLabel}</td>
-              <td style="font-size:12px;color:var(--text2);">${op.fecha || '—'}</td>
+          data.forEach((row, idx) => {
+            const cuenta   = row.cuentas || {};
+            const perfil   = cuenta.perfiles || {};
+            const nombre   = perfil.nombre || cuenta.apodo || '—';
+            const email    = perfil.email  || '—';
+            const login    = row.login     || cuenta.login || '—';
+            const lote     = parseFloat(row.l_n2    || 0).toFixed(2);
+            const bEsp     = parseFloat(row.b_esperado || 0);
+            const desfase  = parseFloat(row.desfase || 0);
+            desfaseTotal  += desfase;
+
+            // Color del estado desde la BD
+            const color    = row.estado_color || 'morado';
+            const colorMap = { verde: 'var(--green)', rojo: 'var(--red)', amarillo: 'var(--yellow)', morado: 'var(--purple2)', naranja: '#f97316' };
+            const estadoColor = colorMap[color] || 'var(--purple2)';
+
+            // Badge estado
+            const badgeMap = { verde: 'OK', rojo: 'Alerta', amarillo: 'Advertencia', morado: 'Normal', naranja: 'Revisar' };
+            const badgeLabel = badgeMap[color] || color;
+            const badgeBg    = color === 'verde' ? 'rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3)' :
+                               color === 'rojo'  ? 'rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)' :
+                               color === 'amarillo' ? 'rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3)' :
+                               'rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3)';
+
+            const desfaseLabel = (desfase >= 0 ? '+' : '') + desfase.toFixed(2);
+            const bEspLabel    = '$' + bEsp.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+            const border       = idx < data.length - 1 ? 'border-bottom:1px solid var(--border);' : '';
+
+            html += `<tr style="${border}">
+              <td style="padding:14px 20px;font-size:13px;font-weight:600;">${nombre}</td>
+              <td style="padding:14px 20px;font-size:12px;color:var(--text2);">${email}</td>
+              <td style="padding:14px 12px;${mono}">#${login}</td>
+              <td style="padding:14px 12px;${mono};text-align:right;">${lote}</td>
+              <td style="padding:14px 12px;${mono};text-align:right;">${bEspLabel}</td>
+              <td style="padding:14px 12px;${mono};text-align:right;color:${estadoColor};font-weight:700;">${desfaseLabel}</td>
+              <td style="padding:14px 20px;text-align:center;">
+                <span style="display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:${badgeBg};color:${estadoColor};">${badgeLabel}</span>
+              </td>
             </tr>`;
-          };
+          });
 
-          const visibles = ops.slice(0, 3);
-          const ocultas  = ops.slice(3);
+          tbody.innerHTML = html;
 
-          const tbVis  = document.getElementById('tbody-sistemas-visible');
-          const tbHid  = document.getElementById('tbody-sistemas-hidden');
-          const btnVer = document.getElementById('btn-ver-mas-sistemas');
-          const upd    = document.getElementById('update-sistemas');
-
-          if (tbVis) tbVis.innerHTML = visibles.map(renderFila).join('');
-          if (tbHid) tbHid.innerHTML = ocultas.map(renderFila).join('');
-          if (btnVer) btnVer.style.display = ocultas.length > 0 ? 'inline-block' : 'none';
-
-          if (upd && data.actualizado_en) {
-            const diffMin = Math.floor((Date.now() - new Date(data.actualizado_en).getTime()) / 60000);
-            upd.textContent = diffMin < 60 ? `Actualizado hace ${diffMin}m` : `Actualizado hace ${Math.floor(diffMin/60)}h`;
+          // Actualizar contadores del header
+          const elTotal   = document.getElementById('mon-total');
+          const elDesfase = document.getElementById('mon-desfase-total');
+          const elFecha   = document.getElementById('mon-fecha');
+          const elUpd     = document.getElementById('mon-updated');
+          if (elTotal)   elTotal.textContent   = data.length;
+          if (elDesfase) { elDesfase.textContent = (desfaseTotal >= 0 ? '+' : '') + desfaseTotal.toFixed(2); elDesfase.style.color = desfaseTotal >= 0 ? 'var(--green)' : 'var(--red)'; }
+          if (elFecha)   elFecha.textContent    = new Date().toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'});
+          if (elUpd && data[0]?.ultima_actualizacion) {
+            const diffMin = Math.floor((Date.now() - new Date(data[0].ultima_actualizacion).getTime()) / 60000);
+            elUpd.textContent = diffMin < 60 ? `hace ${diffMin}m` : `hace ${Math.floor(diffMin/60)}h`;
           }
-        } catch(e) { console.error('Error cargando trades del sistema:', e); }
+        } catch(e) { console.error('Error en cargarMonitoreo:', e); }
       }
 
       async function cargarEscalonBanner(email) {
@@ -1141,17 +1160,14 @@
         cargarEstadisticasMaestra();
       }).subscribe();
 
-      supabase.channel('cambios-estadisticas-mt4').on('postgres_changes', { event: '*', schema: 'public', table: 'estadisticas_mt4' }, () => {
-        cargarEstadisticasMaestra();
-        cargarTradesSistema();
-      }).subscribe();
+      supabase.channel('cambios-monitoreo-cuentas').on('postgres_changes', { event: '*', schema: 'public', table: 'monitoreo_cuentas' }, () => { cargarMonitoreo(); }).subscribe();
 
       supabase.auth.onAuthStateChange((event, session) => {
         if (!session) { window.location.href = '/login'; return }
         const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
         document.getElementById('nombre-usuario').textContent = nombre
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
-        verificarTerminos(session); verificarAdmin(session.user.id); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra(); cargarTradesSistema();
+        verificarTerminos(session); verificarAdmin(session.user.id); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra(); cargarTradesSistema(); cargarMonitoreo();
       })
 
       const { data: { session: globalSession } } = await supabase.auth.getSession()
@@ -1187,6 +1203,7 @@
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open') }
         if (id === 'pagos') { supabase.auth.getSession().then(({data:{session}}) => { if(session) cargarEscalonBanner(session.user.email) }) }
+        if (id === 'monitoreo') { cargarMonitoreo(); }
         closeSidebar()
       }
 
