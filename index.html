@@ -541,11 +541,11 @@
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
           <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2);">
             <span style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--green);"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block;"></span>Datos en tiempo real</span>
-            <span>Sesión: <strong style="color:var(--text);" id="mon-fecha">—</strong> · Actualizado: <strong style="color:var(--text);" id="mon-updated">—</strong></span>
+            <span>Sesión: <strong style="color:var(--text);" id="mon-fecha">21 mayo 2026</strong> · Actualizado: <strong style="color:var(--text);" id="mon-updated">hace 2 min</strong></span>
           </div>
           <div style="display:flex;gap:10px;">
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Cuentas activas: <strong style="color:var(--green);" id="mon-total">—</strong></div>
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Desfase total: <strong id="mon-desfase-total">—</strong></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Cuentas activas: <strong style="color:var(--green);" id="mon-total">12</strong></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:12px;color:var(--text2);">Desfase total: <strong id="mon-desfase-total" style="color:var(--green);">—</strong></div>
           </div>
         </div>
         <div class="card">
@@ -680,89 +680,6 @@
           if (ds) ds.textContent = data.sharpe_60d;
           if (dc) dc.textContent = data.calmar_60d;
         } catch(e) { console.error('Error cargando estadísticas maestra:', e); }
-      }
-
-      async function cargarMonitoreo() {
-        const tbody = document.getElementById('monitoreo-tbody');
-        if (!tbody) return;
-        try {
-          // Join: monitoreo_cuentas → cuentas → perfiles
-          const { data, error } = await supabase
-            .from('monitoreo_cuentas')
-            .select(`
-              login, b_n2, l_n2, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion,
-              cuentas ( login, apodo, usuario_id,
-                perfiles ( nombre, email )
-              )
-            `)
-            .order('ultima_actualizacion', { ascending: false });
-
-          if (error) { console.error('cargarMonitoreo error:', error); return; }
-          if (!data || data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Sin datos de monitoreo.</td></tr>';
-            return;
-          }
-
-          const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
-          let html = '';
-          let desfaseTotal = 0;
-
-          data.forEach((row, idx) => {
-            const cuenta   = row.cuentas || {};
-            const perfil   = cuenta.perfiles || {};
-            const nombre   = perfil.nombre || cuenta.apodo || '—';
-            const email    = perfil.email  || '—';
-            const login    = row.login     || cuenta.login || '—';
-            const lote     = parseFloat(row.l_n2    || 0).toFixed(2);
-            const bEsp     = parseFloat(row.b_esperado || 0);
-            const desfase  = parseFloat(row.desfase || 0);
-            desfaseTotal  += desfase;
-
-            // Color del estado desde la BD
-            const color    = row.estado_color || 'morado';
-            const colorMap = { verde: 'var(--green)', rojo: 'var(--red)', amarillo: 'var(--yellow)', morado: 'var(--purple2)', naranja: '#f97316' };
-            const estadoColor = colorMap[color] || 'var(--purple2)';
-
-            // Badge estado
-            const badgeMap = { verde: 'OK', rojo: 'Alerta', amarillo: 'Advertencia', morado: 'Normal', naranja: 'Revisar' };
-            const badgeLabel = badgeMap[color] || color;
-            const badgeBg    = color === 'verde' ? 'rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3)' :
-                               color === 'rojo'  ? 'rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)' :
-                               color === 'amarillo' ? 'rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3)' :
-                               'rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3)';
-
-            const desfaseLabel = (desfase >= 0 ? '+' : '') + desfase.toFixed(2);
-            const bEspLabel    = '$' + bEsp.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-            const border       = idx < data.length - 1 ? 'border-bottom:1px solid var(--border);' : '';
-
-            html += `<tr style="${border}">
-              <td style="padding:14px 20px;font-size:13px;font-weight:600;">${nombre}</td>
-              <td style="padding:14px 20px;font-size:12px;color:var(--text2);">${email}</td>
-              <td style="padding:14px 12px;${mono}">#${login}</td>
-              <td style="padding:14px 12px;${mono};text-align:right;">${lote}</td>
-              <td style="padding:14px 12px;${mono};text-align:right;">${bEspLabel}</td>
-              <td style="padding:14px 12px;${mono};text-align:right;color:${estadoColor};font-weight:700;">${desfaseLabel}</td>
-              <td style="padding:14px 20px;text-align:center;">
-                <span style="display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:${badgeBg};color:${estadoColor};">${badgeLabel}</span>
-              </td>
-            </tr>`;
-          });
-
-          tbody.innerHTML = html;
-
-          // Actualizar contadores del header
-          const elTotal   = document.getElementById('mon-total');
-          const elDesfase = document.getElementById('mon-desfase-total');
-          const elFecha   = document.getElementById('mon-fecha');
-          const elUpd     = document.getElementById('mon-updated');
-          if (elTotal)   elTotal.textContent   = data.length;
-          if (elDesfase) { elDesfase.textContent = (desfaseTotal >= 0 ? '+' : '') + desfaseTotal.toFixed(2); elDesfase.style.color = desfaseTotal >= 0 ? 'var(--green)' : 'var(--red)'; }
-          if (elFecha)   elFecha.textContent    = new Date().toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'});
-          if (elUpd && data[0]?.ultima_actualizacion) {
-            const diffMin = Math.floor((Date.now() - new Date(data[0].ultima_actualizacion).getTime()) / 60000);
-            elUpd.textContent = diffMin < 60 ? `hace ${diffMin}m` : `hace ${Math.floor(diffMin/60)}h`;
-          }
-        } catch(e) { console.error('Error en cargarMonitoreo:', e); }
       }
 
       async function cargarEscalonBanner(email) {
@@ -1160,14 +1077,12 @@
         cargarEstadisticasMaestra();
       }).subscribe();
 
-      supabase.channel('cambios-monitoreo-cuentas').on('postgres_changes', { event: '*', schema: 'public', table: 'monitoreo_cuentas' }, () => { cargarMonitoreo(); }).subscribe();
-
       supabase.auth.onAuthStateChange((event, session) => {
         if (!session) { window.location.href = '/login'; return }
         const nombre = localStorage.getItem('zelus_nombre') || session.user.email.split('@')[0]
         document.getElementById('nombre-usuario').textContent = nombre
         document.getElementById('user-avatar').textContent = nombre.charAt(0).toUpperCase()
-        verificarTerminos(session); verificarAdmin(session.user.id); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra(); cargarTradesSistema(); cargarMonitoreo();
+        verificarTerminos(session); verificarAdmin(session.user.id); cargarCuentasDashboard(); cargarCuentasSistemas(); cargarEscalonBanner(session.user.email); cargarEstadisticasMaestra();
       })
 
       const { data: { session: globalSession } } = await supabase.auth.getSession()
@@ -1178,6 +1093,56 @@
       // ── Control de acceso: Monitoreo solo para admins ──
       let _esAdmin = false;
 
+      async function cargarMonitoreo() {
+        const tbody = document.getElementById('monitoreo-tbody');
+        if (!tbody) return;
+        try {
+          const { data, error } = await supabase
+            .from('monitoreo_cuentas')
+            .select(`login, b_n2, l_n2, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuentas ( login, apodo, usuario_id, perfiles ( nombre, email ) )`)
+            .order('ultima_actualizacion', { ascending: false });
+          if (error) { console.error('cargarMonitoreo:', error); return; }
+          if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Sin datos de monitoreo.</td></tr>'; return; }
+          const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
+          let html = ''; let desfaseTotal = 0;
+          data.forEach((row, idx) => {
+            const cuenta  = row.cuentas || {};
+            const perfil  = cuenta.perfiles || {};
+            const nombre  = perfil.nombre || cuenta.apodo || '—';
+            const email   = perfil.email  || '—';
+            const login   = row.login || cuenta.login || '—';
+            const lote    = parseFloat(row.l_n2 || 0).toFixed(2);
+            const bEsp    = parseFloat(row.b_esperado || 0);
+            const desfase = parseFloat(row.desfase || 0);
+            desfaseTotal += desfase;
+            const color   = row.estado_color || 'morado';
+            const cMap    = { verde:'var(--green)', rojo:'var(--red)', amarillo:'var(--yellow)', morado:'var(--purple2)', naranja:'#f97316' };
+            const lMap    = { verde:'OK', rojo:'Alerta', amarillo:'Advertencia', morado:'Normal', naranja:'Revisar' };
+            const bMap    = { verde:'rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3)', rojo:'rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)', amarillo:'rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3)', morado:'rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3)', naranja:'rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3)' };
+            const eColor  = cMap[color] || 'var(--purple2)';
+            const eLabel  = lMap[color] || color;
+            const eBg     = bMap[color] || bMap.morado;
+            const border  = idx < data.length - 1 ? 'border-bottom:1px solid var(--border);' : '';
+            html += `<tr style="${border}">
+              <td style="padding:14px 20px;font-size:13px;font-weight:600;">${nombre}</td>
+              <td style="padding:14px 20px;font-size:12px;color:var(--text2);">${email}</td>
+              <td style="padding:14px 12px;${mono}">#${login}</td>
+              <td style="padding:14px 12px;${mono};text-align:right;">${lote}</td>
+              <td style="padding:14px 12px;${mono};text-align:right;">$${bEsp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+              <td style="padding:14px 12px;${mono};text-align:right;color:${eColor};font-weight:700;">${(desfase>=0?'+':'')+desfase.toFixed(2)}</td>
+              <td style="padding:14px 20px;text-align:center;"><span style="display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:${eBg};color:${eColor};">${eLabel}</span></td>
+            </tr>`;
+          });
+          tbody.innerHTML = html;
+          const elT = document.getElementById('mon-total');
+          const elD = document.getElementById('mon-desfase-total');
+          const elU = document.getElementById('mon-updated');
+          if (elT) elT.textContent = data.length;
+          if (elD) { elD.textContent = (desfaseTotal>=0?'+':'')+desfaseTotal.toFixed(2); elD.style.color = desfaseTotal>=0?'var(--green)':'var(--red)'; }
+          if (elU && data[0]?.ultima_actualizacion) { const d=Math.floor((Date.now()-new Date(data[0].ultima_actualizacion).getTime())/60000); elU.textContent=d<60?`hace ${d}m`:`hace ${Math.floor(d/60)}h`; }
+        } catch(e) { console.error('Error cargarMonitoreo:', e); }
+      }
+
       async function verificarAdmin(userId) {
         try {
           const { data, error } = await supabase.from('admins').select('id').eq('id', userId).maybeSingle();
@@ -1186,6 +1151,7 @@
         if (_esAdmin) {
           document.getElementById('nav-admin-label').style.display = '';
           document.getElementById('nav-monitoreo').style.display = '';
+          cargarMonitoreo();
         }
       }
 
