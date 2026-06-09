@@ -703,7 +703,6 @@
       const supabase = createClient('https://cofrhfbkmmisxmsyqccq.supabase.co','sb_publishable_8CpGxsZuz38OL5gk35CIWg_mlhpmorm')
       const MAKE_WEBHOOK = 'https://hook.us2.make.com/p4u2e93vnayetcauknscoju7xhfy9fu3'
       const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/FnGLAWtvRPTxr8Duhr3q/webhook-trigger/b53040cb-295a-4e40-b627-c8463dd3c164'
-      const TELEGRAM_WEBHOOK = 'https://hook.us2.make.com/ow6g6mgwp5tv2h2y8r8fyp4qwfv4r0r1'
 
       const notificarGHL = (evento, nombre, correo, id_mt5) => fetch(GHL_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ evento, nombre, correo, id_mt5: String(id_mt5) }) }).catch(() => {})
 
@@ -1144,9 +1143,8 @@
 
       // ── Control de acceso: Monitoreo solo para admins ──
       let _esAdmin = false;
-      let _ultimosRojos = new Set();
 
-      async function cargarMonitoreo(silencioso = false) {
+      async function cargarMonitoreo() {
         const tbody = document.getElementById('monitoreo-tbody');
         if (!tbody) return;
         try {
@@ -1161,7 +1159,7 @@
             return;
           }
 
-          // Segundo query: traer nombre y correo desde cuentas + perfiles
+          // Segundo query: traer nombre y correo desde cuentas
           const cuentaIds = data.map(r => r.cuenta_id).filter(Boolean);
           const { data: cuentasData } = await supabase
             .from('cuentas')
@@ -1188,8 +1186,7 @@
             morado: 'background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3)'
           };
 
-          const rojosNuevos = [];
-          const rojosActuales = new Set();
+          let rojosCount = 0;
           _monitoreoData = [];
 
           data.forEach((row) => {
@@ -1207,12 +1204,7 @@
             const eLabel  = labelMap[color] || color;
             const eBg     = bgMap[color] || bgMap.morado;
 
-            if (color === 'rojo') {
-              rojosActuales.add(String(login));
-              if (!_ultimosRojos.has(String(login))) {
-                rojosNuevos.push({ nombre, correo, id_mt5: String(login) });
-              }
-            }
+            if (color === 'rojo') rojosCount++;
 
             const html = `<tr>
               <td style="padding:14px 20px;font-size:13px;font-weight:600;">${nombre}</td>
@@ -1228,27 +1220,16 @@
             _monitoreoData.push({ nombre, correo, login: String(login), color, html });
           });
 
-          _ultimosRojos = rojosActuales;
           filtrarMonitoreo();
 
-          // Actualizar contadores
           const elTotal = document.getElementById('mon-total');
           const elAlertas = document.getElementById('mon-alertas');
           const elUpd = document.getElementById('mon-updated');
           if (elTotal) elTotal.textContent = data.length;
-          if (elAlertas) elAlertas.textContent = rojosActuales.size;
+          if (elAlertas) elAlertas.textContent = rojosCount;
           if (elUpd && data[0]?.ultima_actualizacion) {
             const d = Math.floor((Date.now() - new Date(data[0].ultima_actualizacion).getTime()) / 60000);
             elUpd.textContent = d < 60 ? `hace ${d}m` : `hace ${Math.floor(d/60)}h`;
-          }
-
-          // Disparar webhook solo si hay nuevos rojos Y no es carga inicial
-          if (!silencioso && rojosNuevos.length > 0) {
-            fetch(TELEGRAM_WEBHOOK, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(rojosNuevos)
-            }).catch(() => {});
           }
 
         } catch(e) { console.error('Error cargarMonitoreo:', e); }
@@ -1268,7 +1249,7 @@
         if (_esAdmin) {
           document.getElementById('nav-admin-label').style.display = '';
           document.getElementById('nav-monitoreo').style.display = '';
-          cargarMonitoreo(true); // carga inicial silenciosa — no dispara webhook
+          cargarMonitoreo();
         }
       }
 
@@ -1286,7 +1267,7 @@
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open') }
         if (id === 'pagos') { supabase.auth.getSession().then(({data:{session}}) => { if(session) cargarEscalonBanner(session.user.email) }) }
-        if (id === 'monitoreo') cargarMonitoreo(true);
+        if (id === 'monitoreo') cargarMonitoreo();
         closeSidebar()
       }
 
