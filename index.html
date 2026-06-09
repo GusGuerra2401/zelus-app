@@ -1102,7 +1102,7 @@
         try {
           const { data, error } = await supabase
             .from('monitoreo_cuentas')
-            .select('login, b_n2, l_n2, b_n3, l_n3, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuentas ( apodo, usuario_id, perfiles ( nombre, email ) )')
+            .select('login, b_n2, l_n2, b_n3, l_n3, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuentas!cuenta_id ( apodo, usuario_id, perfiles ( nombre, email ) )')
             .order('ultima_actualizacion', { ascending: false });
 
           if (error) { console.error('cargarMonitoreo:', error); return; }
