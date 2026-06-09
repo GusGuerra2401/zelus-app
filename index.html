@@ -22,27 +22,34 @@
       body.light-mode .search-dropdown-item:hover { background: rgba(139,92,246,0.2); }
       body.light-mode .search-dropdown-item div { color: #f1f0f7 !important; }
       body.light-mode .tt-box { background: var(--bg2); }
-      body.light-mode #logo-dark { display: none; }
+      body.light-mode #logo-dark { display: none !important; }
       body.light-mode #logo-light { display: block !important; }
       body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 40% at 20% 20%, rgba(139,92,246,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 80% 80%, rgba(217,70,239,0.06) 0%, transparent 60%); pointer-events: none; z-index: 0; }
-      .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; padding: 0 0 24px; transition: width 0.25s ease; }
+      .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; padding: 0 0 24px; transition: width 0.25s ease; overflow: visible; }
       .sidebar.collapsed { width: 64px; }
-      .sidebar.collapsed .logo-area { padding: 20px 0; display: flex; justify-content: center; }
-      .sidebar.collapsed .logo-area img { display: none; }
-      .sidebar.collapsed .nav-label { display: none; }
-      .sidebar.collapsed .nav-item { justify-content: center; padding: 10px; gap: 0; position: relative; }
-      .sidebar.collapsed .nav-item span:not(.icon) { display: none; }
+      .sidebar.collapsed .logo-area .logo-full { display: none; }
+      .sidebar.collapsed .logo-area .logo-mini { display: flex !important; }
+      .sidebar.collapsed .nav-label { opacity: 0; pointer-events: none; font-size: 0; padding: 6px 0; }
+      .sidebar.collapsed .nav-item { justify-content: center; padding: 10px; }
       .sidebar.collapsed .nav-item-text { display: none; }
       .sidebar.collapsed .user-area { flex-direction: column; align-items: center; padding: 10px 6px; margin: 0 6px; }
       .sidebar.collapsed .user-info { display: none; }
-      .sidebar.collapsed .theme-row { display: none; }
+      .sidebar.collapsed .theme-label { display: none; }
       .sidebar.collapsed .copyright-row { display: none; }
-      .sidebar.collapsed .nav-item:hover::after { content: attr(data-label); position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%); background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 8px; white-space: nowrap; z-index: 500; pointer-events: none; }
+      /* Pestaña externa */
+      .sidebar-tab { position: absolute; top: 72px; right: -28px; width: 28px; height: 56px; background: var(--bg2); border: 1px solid var(--border); border-left: none; border-radius: 0 12px 12px 0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); transition: color 0.2s, background 0.2s; z-index: 101; }
+      .sidebar-tab:hover { color: var(--text); background: var(--bg3); }
+      /* Tooltips sidebar colapsado — fixed para salir por encima de todo */
+      .nav-item { position: relative; }
+      .nav-tooltip { display: none; position: fixed; left: 72px; background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 8px; white-space: nowrap; z-index: 9999; pointer-events: none; transform: translateY(-50%); }
+      .sidebar.collapsed .nav-item:hover .nav-tooltip { display: block; }
       .main { margin-left: 240px; min-height: 100vh; position: relative; z-index: 1; transition: margin-left 0.25s ease; }
       .main.sidebar-collapsed { margin-left: 64px; }
-      .sidebar-toggle { width: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; color: var(--text2); transition: color 0.2s; }
-      .sidebar-toggle:hover { color: var(--text); }
-      .sidebar.collapsed .sidebar-toggle { justify-content: center; padding: 10px; }
+      @media(max-width:768px) {
+        .sidebar-tab { display: none; }
+        .sidebar.collapsed { width: 240px; }
+        .main.sidebar-collapsed { margin-left: 0; }
+      }
       .logo-area { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
       .logo-area img { width: 140px; }
       .nav { flex: 1; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
@@ -237,29 +244,31 @@
   <body>
     <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
     <aside class="sidebar">
-      <div class="logo-area">
-        <img id="logo-dark" src="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f32c135a8c83e4363b.webp" alt="Zelus">
-        <img id="logo-light" src="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f3c87cb8c801744b3d.webp" alt="Zelus" style="display:none;">
+      <div class="logo-area" style="padding:20px 24px;border-bottom:1px solid var(--border);position:relative;">
+        <img class="logo-full" id="logo-dark" src="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f32c135a8c83e4363b.webp" alt="Zelus" style="width:140px;">
+        <img class="logo-full" id="logo-light" src="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f3c87cb8c801744b3d.webp" alt="Zelus" style="width:140px;display:none;">
+        <img class="logo-mini" src="https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f338381eafa81ef5b8.webp" alt="Z" style="display:none;width:32px;height:32px;object-fit:contain;">
       </div>
-      <button class="sidebar-toggle" id="sidebar-toggle-btn" onclick="toggleSidebarCollapse()" title="Contraer menú">
-        <svg id="sidebar-toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
-      </button>
+      <!-- Pestaña externa colapsable -->
+      <div class="sidebar-tab" id="sidebar-tab-btn" onclick="toggleSidebarCollapse()">
+        <svg id="sidebar-tab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </div>
       <nav class="nav">
         <div class="nav-label">Principal</div>
-        <a href="#" class="nav-item active" data-label="Dashboard" onclick="mostrarSeccion('dashboard',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 0 001 1m-6 0h6"/></svg><span class="nav-item-text">Dashboard</span></a>
-        <a href="#" class="nav-item" data-label="Mis Cuentas" onclick="mostrarSeccion('mis-cuentas',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg><span class="nav-item-text">Mis Cuentas</span></a>
-        <a href="#" class="nav-item" data-label="Sistemas Copy" onclick="mostrarSeccion('sistemas',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><span class="nav-item-text">Sistemas Copy</span></a>
-        <a href="#" class="nav-item" data-label="Historial" onclick="mostrarSeccion('historial',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg><span class="nav-item-text">Historial</span></a>
-        <a href="#" class="nav-item" data-label="Pagos" onclick="mostrarSeccion('pagos',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg><span class="nav-item-text">Pagos</span></a>
-        <a href="#" class="nav-item" data-label="FAQ" onclick="mostrarSeccion('faq',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="nav-item-text">FAQ</span></a>
+        <a href="#" class="nav-item active" data-label="Dashboard" onclick="mostrarSeccion('dashboard',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 0 001 1m-6 0h6"/></svg><span class="nav-item-text">Dashboard</span><span class="nav-tooltip">Dashboard</span></a>
+        <a href="#" class="nav-item" data-label="Mis Cuentas" onclick="mostrarSeccion('mis-cuentas',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg><span class="nav-item-text">Mis Cuentas</span><span class="nav-tooltip">Mis Cuentas</span></a>
+        <a href="#" class="nav-item" data-label="Sistemas Copy" onclick="mostrarSeccion('sistemas',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><span class="nav-item-text">Sistemas Copy</span><span class="nav-tooltip">Sistemas Copy</span></a>
+        <a href="#" class="nav-item" data-label="Historial" onclick="mostrarSeccion('historial',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg><span class="nav-item-text">Historial</span><span class="nav-tooltip">Historial</span></a>
+        <a href="#" class="nav-item" data-label="Pagos" onclick="mostrarSeccion('pagos',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg><span class="nav-item-text">Pagos</span><span class="nav-tooltip">Pagos</span></a>
+        <a href="#" class="nav-item" data-label="FAQ" onclick="mostrarSeccion('faq',this);return false;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="nav-item-text">FAQ</span><span class="nav-tooltip">FAQ</span></a>
         <div class="nav-label" style="margin-top:8px;display:none;" id="nav-admin-label">Admin</div>
-        <a href="#" class="nav-item" id="nav-monitoreo" data-label="Monitoreo" onclick="mostrarSeccionAdmin('monitoreo',this);return false;" style="display:none;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg><span class="nav-item-text">Monitoreo</span></a>
+        <a href="#" class="nav-item" id="nav-monitoreo" data-label="Monitoreo" onclick="mostrarSeccionAdmin('monitoreo',this);return false;" style="display:none;"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg><span class="nav-item-text">Monitoreo</span><span class="nav-tooltip">Monitoreo</span></a>
         <div class="nav-label" style="margin-top:8px;">Cuenta</div>
-        <a href="#" class="nav-item" id="cerrar-sesion" data-label="Cerrar sesión"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg><span class="nav-item-text">Cerrar sesión</span></a>
+        <a href="#" class="nav-item" id="cerrar-sesion" data-label="Cerrar sesión"><svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg><span class="nav-item-text">Cerrar sesión</span><span class="nav-tooltip">Cerrar sesión</span></a>
       </nav>
       <div class="theme-row" style="display:flex;align-items:center;justify-content:space-between;margin:0 12px 12px;padding:10px 12px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);">
-        <span style="font-size:12px;color:var(--text2);">☀️ Modo claro</span>
-        <div id="theme-toggle" onclick="toggleTheme()" style="width:40px;height:22px;border-radius:999px;background:var(--border2);cursor:pointer;position:relative;transition:background 0.3s;"><div id="theme-knob" style="position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:transform 0.3s;"></div></div>
+        <span class="theme-label" style="font-size:12px;color:var(--text2);">☀️ Modo claro</span>
+        <div id="theme-toggle" onclick="toggleTheme()" style="width:40px;height:22px;border-radius:999px;background:var(--border2);cursor:pointer;position:relative;transition:background 0.3s;flex-shrink:0;"><div id="theme-knob" style="position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:transform 0.3s;"></div></div>
       </div>
       <div class="user-area">
         <div class="user-avatar" id="user-avatar">?</div>
@@ -1396,28 +1405,42 @@
         if (!isOpen) item.classList.add('open');
       }
 
-      // ── Sidebar colapsable ──
+      // ── Sidebar colapsable (solo desktop) ──
       let _sidebarCollapsed = localStorage.getItem('zelus_sidebar') === 'collapsed';
       function aplicarSidebarEstado() {
+        if (window.innerWidth <= 768) return;
         const sidebar = document.querySelector('.sidebar');
         const main = document.querySelector('.main');
-        const icon = document.getElementById('sidebar-toggle-icon');
+        const icon = document.getElementById('sidebar-tab-icon');
         if (_sidebarCollapsed) {
           sidebar.classList.add('collapsed');
           main.classList.add('sidebar-collapsed');
-          if (icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+          if (icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>';
         } else {
           sidebar.classList.remove('collapsed');
           main.classList.remove('sidebar-collapsed');
-          if (icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>';
+          if (icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>';
         }
       }
       window.toggleSidebarCollapse = function() {
+        if (window.innerWidth <= 768) return;
         _sidebarCollapsed = !_sidebarCollapsed;
         localStorage.setItem('zelus_sidebar', _sidebarCollapsed ? 'collapsed' : 'expanded');
         aplicarSidebarEstado();
       }
       aplicarSidebarEstado();
+
+      // Tooltips con posición fixed al hacer hover en sidebar colapsado
+      document.querySelectorAll('.nav-item').forEach(item => {
+        const tooltip = item.querySelector('.nav-tooltip');
+        if (!tooltip) return;
+        item.addEventListener('mouseenter', () => {
+          if (!document.querySelector('.sidebar').classList.contains('collapsed')) return;
+          const rect = item.getBoundingClientRect();
+          tooltip.style.top = (rect.top + rect.height / 2) + 'px';
+          tooltip.style.left = '72px';
+        });
+      });
 
       // ── Filtros de monitoreo ──
       let _monitoreoData = [];
