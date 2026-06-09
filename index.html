@@ -243,7 +243,7 @@
       </div>
       <div class="user-area">
         <div class="user-avatar" id="user-avatar">?</div>
-        <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Plan Pro</div></div>
+        <div class="user-info"><div class="user-name"><span id="nombre-usuario">...</span></div><div class="user-plan">⚡ Estudiante PFX</div></div>
       </div>
       <div style="text-align:center;padding:12px 12px 0;font-size:10px;color:var(--text2);opacity:0.6;">
         © <span id="copyright-year"></span> Zelus by Penguin FX
@@ -1101,7 +1101,7 @@
         try {
           const { data, error } = await supabase
             .from('monitoreo_cuentas')
-            .select('login, b_n2, l_n2, b_n3, l_n3, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuenta_id, cuentas ( apodo, perfiles ( nombre, email ) )')
+            .select('login, b_n2, l_n2, b_n3, l_n3, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion')
             .order('ultima_actualizacion', { ascending: false });
 
           if (error) { console.error('cargarMonitoreo:', error); return; }
@@ -1124,10 +1124,7 @@
           const rojosActuales = new Set();
 
           data.forEach((row, idx) => {
-            const cuenta  = row.cuentas || {};
-            const perfil  = cuenta.perfiles || {};
-            const nombre  = perfil.nombre || cuenta.apodo || '—';
-            const email   = perfil.email || '—';
+            const nombre  = String(row.login || '—');
             const login   = row.login || '—';
             const lote    = parseFloat(row.l_n3 || 0).toFixed(2);
             const bEsp    = parseFloat(row.b_esperado || 0);
@@ -1142,7 +1139,7 @@
             if (color === 'rojo') {
               rojosActuales.add(String(login));
               if (!_ultimosRojos.has(String(login))) {
-                rojosNuevos.push({ nombre, correo: email, id_mt5: String(login) });
+                rojosNuevos.push({ nombre: String(login), correo: '—', id_mt5: String(login) });
               }
             }
 
