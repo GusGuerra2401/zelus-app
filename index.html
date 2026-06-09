@@ -1102,7 +1102,7 @@
         try {
           const { data, error } = await supabase
             .from('monitoreo_cuentas')
-            .select('login, b_n2, l_n2, b_n3, l_n3, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuentas!cuenta_id ( apodo, usuario_id, perfiles ( nombre, email ) )')
+            .select('login, b_n2, l_n2, b_n3, l_n3, b_esperado, desfase, umbral_tolerancia, estado_color, ultima_actualizacion, cuenta_id')
             .order('ultima_actualizacion', { ascending: false });
 
           if (error) { console.error('cargarMonitoreo:', error); return; }
@@ -1110,6 +1110,15 @@
             tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--text2);font-size:13px;">Sin datos de monitoreo.</td></tr>';
             return;
           }
+
+          // Segundo query: traer nombre y correo desde cuentas + perfiles
+          const cuentaIds = data.map(r => r.cuenta_id).filter(Boolean);
+          const { data: cuentasData } = await supabase
+            .from('cuentas')
+            .select('id, apodo, usuario_id, perfiles ( nombre, email )')
+            .in('id', cuentaIds);
+          const mapaCuentas = {};
+          if (cuentasData) cuentasData.forEach(c => { mapaCuentas[c.id] = c; });
 
           const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
           const colorMap = { rojo: '#f87171', verde: '#34d399', morado: '#a78bfa' };
@@ -1125,7 +1134,7 @@
           const rojosActuales = new Set();
 
           data.forEach((row, idx) => {
-            const cuenta  = row.cuentas || {};
+            const cuenta  = mapaCuentas[row.cuenta_id] || {};
             const perfil  = cuenta.perfiles || {};
             const nombre  = perfil.nombre || cuenta.apodo || String(row.login || '—');
             const correo  = perfil.email || '—';
