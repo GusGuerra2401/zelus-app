@@ -46,9 +46,17 @@
       .main { margin-left: 240px; min-height: 100vh; position: relative; z-index: 1; transition: margin-left 0.25s ease; }
       .main.sidebar-collapsed { margin-left: 64px; }
       @media(max-width:768px) {
-        .sidebar-tab { display: none; }
-        .sidebar.collapsed { width: 240px; }
-        .main.sidebar-collapsed { margin-left: 0; }
+        .sidebar-tab { display: none !important; }
+        .sidebar.collapsed { width: 240px !important; }
+        .sidebar.collapsed .logo-area .logo-full { display: block !important; }
+        .sidebar.collapsed .logo-area .logo-mini { display: none !important; }
+        .sidebar.collapsed .nav-label { opacity: 1 !important; font-size: 10px !important; padding: 12px 12px 6px !important; pointer-events: auto !important; }
+        .sidebar.collapsed .nav-item { justify-content: flex-start !important; padding: 10px 12px !important; }
+        .sidebar.collapsed .nav-item-text { display: inline !important; }
+        .sidebar.collapsed .user-info { display: block !important; }
+        .sidebar.collapsed .theme-label { display: inline !important; }
+        .sidebar.collapsed .copyright-row { display: block !important; }
+        .main.sidebar-collapsed { margin-left: 0 !important; }
       }
       .logo-area { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
       .logo-area img { width: 140px; }
@@ -1138,7 +1146,7 @@
       let _esAdmin = false;
       let _ultimosRojos = new Set();
 
-      async function cargarMonitoreo() {
+      async function cargarMonitoreo(silencioso = false) {
         const tbody = document.getElementById('monitoreo-tbody');
         if (!tbody) return;
         try {
@@ -1234,8 +1242,8 @@
             elUpd.textContent = d < 60 ? `hace ${d}m` : `hace ${Math.floor(d/60)}h`;
           }
 
-          // Disparar webhook si hay nuevos rojos
-          if (rojosNuevos.length > 0) {
+          // Disparar webhook solo si hay nuevos rojos Y no es carga inicial
+          if (!silencioso && rojosNuevos.length > 0) {
             fetch(TELEGRAM_WEBHOOK, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -1260,7 +1268,7 @@
         if (_esAdmin) {
           document.getElementById('nav-admin-label').style.display = '';
           document.getElementById('nav-monitoreo').style.display = '';
-          cargarMonitoreo();
+          cargarMonitoreo(true); // carga inicial silenciosa — no dispara webhook
         }
       }
 
@@ -1278,7 +1286,7 @@
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
         if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open') }
         if (id === 'pagos') { supabase.auth.getSession().then(({data:{session}}) => { if(session) cargarEscalonBanner(session.user.email) }) }
-        if (id === 'monitoreo') cargarMonitoreo();
+        if (id === 'monitoreo') cargarMonitoreo(true);
         closeSidebar()
       }
 
