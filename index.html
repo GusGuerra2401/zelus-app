@@ -32,7 +32,7 @@
       .sidebar.collapsed .logo-area { display: flex; align-items: center; justify-content: center; padding: 20px 0; }
       .sidebar.collapsed .logo-area .logo-full { display: none !important; }
       .sidebar.collapsed .logo-area .logo-mini { display: flex !important; }
-      .sidebar.collapsed .theme-row { justify-content: center; padding: 8px 6px; margin: 0 6px 12px; background: transparent; border: none; }
+      .sidebar.collapsed .theme-row { justify-content: center; padding: 4px 6px; margin: 0 6px 12px; background: transparent; border: none; transform: scale(0.8); transform-origin: center; }
       .sidebar.collapsed .theme-label { display: none; }
       .sidebar.collapsed .nav-label { opacity: 0; pointer-events: none; font-size: 0; padding: 6px 0; }
       .sidebar.collapsed .nav-item { justify-content: center; padding: 10px; }
@@ -1496,7 +1496,7 @@
       function tiempoTranscurrido(fecha) { const diff=Math.floor((Date.now()-fecha)/60000); return diff<60?'Actualizado hace '+diff+' min':'Actualizado hace '+Math.floor(diff/60)+'h' }
       const texto = tiempoTranscurrido(ultimaActualizacion)
       document.getElementById('update-sistemas').textContent = texto
-      document.getElementById('update-historial').textContent = texto
+      // update-historial eliminado — el historial ahora se arma dinámicamente por cuenta
     </script>
   </body>
 </html>
