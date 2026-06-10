@@ -599,7 +599,7 @@
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <button id="filtro-verde" onclick="toggleFiltroColor('verde')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;border:1px solid rgba(52,211,153,0.3);background:transparent;color:var(--green);transition:all 0.2s;"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>Positivo</button>
             <button id="filtro-rojo" onclick="toggleFiltroColor('rojo')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;border:1px solid rgba(248,113,113,0.3);background:transparent;color:var(--red);transition:all 0.2s;"><span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>Alerta</button>
-            <button id="filtro-morado" onclick="toggleFiltroColor('morado')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;border:1px solid rgba(167,139,250,0.3);background:transparent;color:var(--purple2);transition:all 0.2s;"><span style="width:8px;height:8px;border-radius:50%;background:var(--purple2);display:inline-block;"></span>Normal</button>
+            <button id="filtro-morado" onclick="toggleFiltroColor('morado')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;border:1px solid rgba(167,139,250,0.3);background:transparent;color:var(--purple2);transition:all 0.2s;"><span style="width:8px;height:8px;border-radius:50%;background:var(--purple2);display:inline-block;"></span>En rango</button>
             <button onclick="limpiarFiltrosMonitoreo()" style="padding:7px 12px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;border:1px solid var(--border);background:transparent;color:var(--text2);transition:all 0.2s;">✕ Limpiar</button>
           </div>
         </div>
@@ -1184,7 +1184,7 @@
 
           const mono = "font-family:'JetBrains Mono',monospace;font-size:13px;";
           const colorMap = { rojo: '#f87171', verde: '#34d399', morado: '#a78bfa' };
-          const labelMap = { rojo: 'Alerta', verde: 'Normal', morado: 'En rango' };
+          const labelMap = { rojo: 'Alerta', verde: 'Positivo', morado: 'En rango' };
           const bgMap = {
             rojo: 'background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3)',
             verde: 'background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3)',
