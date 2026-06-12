@@ -1081,6 +1081,16 @@
         const sesionWebActiva = await obtenerSesion();
         recargarCuentasDebounced();
         if (sesionWebActiva && payload.new.usuario_id === sesionWebActiva.user.id) {
+          // Al conectar una cuenta nueva, registrar estado_copy como inactivo
+          // para que el cliente elija activar el copy manualmente
+          if (payload.new.login) {
+            await supabase.from('estado_copy').upsert({
+              cuenta_login: parseInt(payload.new.login),
+              usuario_id: sesionWebActiva.user.id,
+              estado: 'inactivo',
+              actualizado_en: new Date().toISOString()
+            }, { onConflict: 'cuenta_login,usuario_id', ignoreDuplicates: true });
+          }
           const msg = document.getElementById('modal-msg'); const btn = document.getElementById('btn-verificar');
           if (msg && btn) {
             msg.style.display = 'block'; msg.style.background = 'rgba(52,211,153,0.1)'; msg.style.border = '1px solid rgba(52,211,153,0.3)'; msg.style.color = '#34d399'; msg.textContent = '\u2713 \u00a1Cuenta validada y conectada con \u00e9xito!';
