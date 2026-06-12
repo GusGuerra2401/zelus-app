@@ -247,6 +247,11 @@
         .topbar { padding: 14px 16px !important; }
         .faq-container { border-radius: 12px; }
         .faq-category { padding: 20px 20px 8px; }
+        .mis-cuentas-header { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+        .mis-cuentas-header .btn { width: 100% !important; }
+        .broker-item-mis-cuentas { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
+        .broker-item-mis-cuentas .broker-item-actions { width: 100% !important; }
+        .card-config-mobile { order: -1; }
       }
       @media(max-width:480px) {
         .stats-grid { grid-template-columns: 1fr !important; }
@@ -334,9 +339,9 @@
       <div class="section" id="sec-mis-cuentas">
         <div class="section-title">Mis Cuentas MT5</div>
         <div class="card" style="margin-bottom:20px;">
-          <div class="card-header" style="flex-direction:column;align-items:flex-start;gap:12px;">
+          <div class="card-header mis-cuentas-header">
             <div><div class="card-title">Cuentas conectadas</div><div class="card-subtitle">Máximo 2 cuentas simultáneas</div></div>
-            <button class="btn btn-primary" onclick="abrirModal()" style="width:100%;">+ Conectar cuenta</button>
+            <button class="btn btn-primary" onclick="abrirModal()">+ Conectar cuenta</button>
           </div>
           <div id="cuentas-lista-seccion"><div style="padding: 24px; text-align: center; color: var(--text2); font-size: 13px;">Cargando cuentas...</div></div>
         </div>
@@ -377,14 +382,6 @@
           </span>
         </div>
         <div class="two-col">
-          <!-- Mi configuración -->
-          <div class="card">
-            <div class="card-header"><div class="card-title">Mi configuración</div></div>
-            <div class="card-body">
-              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
-              <div id="sistemas-cuentas-lista"><div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">Cargando cuentas...</div></div>
-            </div>
-          </div>
           <!-- Trades del sistema -->
           <div class="card">
             <div class="card-header"><div><div class="card-title">Trades del sistema</div><div class="card-subtitle">Historial de Zelus Gold · <span id="update-sistemas" style="color:var(--purple3);"></span></div></div></div>
@@ -405,6 +402,14 @@
                   <button id="btn-ver-mas-sistemas" style="font-size:12px;font-weight:600;padding:6px 18px;border-radius:8px;border:1px solid var(--border2);background:rgba(139,92,246,0.08);color:var(--purple2);font-family:'Sora',sans-serif;">Ver más</button>
                 </div>
               </div>
+            </div>
+          </div>
+          <!-- Mi configuración -->
+          <div class="card card-config-mobile">
+            <div class="card-header"><div class="card-title">Mi configuración</div></div>
+            <div class="card-body">
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:12px;">Cuentas y configuración</div>
+              <div id="sistemas-cuentas-lista"><div style="padding:16px 0;text-align:center;color:var(--text2);font-size:13px;">Cargando cuentas...</div></div>
             </div>
           </div>
         </div>
@@ -791,7 +796,7 @@
           const du = document.getElementById('dash-maestra-updated');
           if (du && data.actualizado_en) {
             const diffMin = Math.floor((Date.now() - new Date(data.actualizado_en).getTime()) / 60000);
-            du.textContent = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : 'Actualizado hace ' + Math.floor(diffMin / 60) + 'h';
+            du.textContent = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : diffMin < 1440 ? 'Actualizado hace ' + Math.floor(diffMin / 60) + 'h' : 'Actualizado hace ' + Math.floor(diffMin / 1440) + 'd';
           }
         } catch(e) { console.error('Error cargando estadísticas maestra:', e); }
       }
@@ -990,7 +995,7 @@
                 const wrLabel  = wr !== null ? wr + '%' : '—';
                 const wrColor  = wr !== null ? (wr > 35 ? 'var(--green)' : wr >= 20 ? 'var(--yellow)' : 'var(--red)') : 'var(--text2)';
                 let updatedLabel = 'Sin datos aún';
-                if (st && st.actualizado_en) { const diffMin = Math.floor((Date.now() - new Date(st.actualizado_en).getTime()) / 60000); updatedLabel = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : 'Actualizado hace ' + Math.floor(diffMin/60) + 'h'; }
+                if (st && st.actualizado_en) { const diffMin = Math.floor((Date.now() - new Date(st.actualizado_en).getTime()) / 60000); updatedLabel = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : diffMin < 1440 ? 'Actualizado hace ' + Math.floor(diffMin/60) + 'h' : 'Actualizado hace ' + Math.floor(diffMin/1440) + 'd'; }
 
                 gridHtml += '<div style="margin-bottom:28px;">';
                 // Título
@@ -1026,7 +1031,7 @@
               const btnD2 = ec2 === 'desconectado'
                 ? '<span style="font-size:12px;font-weight:600;color:#fbbf24;">Pendiente de desconexión</span>'
                 : '<button style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;cursor:pointer;border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;font-family:\'Sora\',sans-serif;" onclick="abrirModalDesconectar(\'' + cuenta.id + '\',\'' + cuenta.apodo + '\',\'' + cuenta.login + '\',\'' + ec2 + '\')">Desconectar</button>';
-              htmlSec += '<div class="broker-item" style="flex-direction:column;align-items:flex-start;gap:10px;"><div style="display:flex;align-items:center;gap:14px;width:100%;"><div class="broker-icon">&#127974;</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' · ' + cuenta.apodo + '</div></div></div><div style="display:flex;align-items:center;gap:10px;width:100%;">' + badgeHtml2 + btnD2 + '</div></div>';
+              htmlSec += '<div class="broker-item broker-item-mis-cuentas"><div style="display:flex;align-items:center;gap:14px;flex:1;min-width:0;"><div class="broker-icon">&#127974;</div><div class="broker-info"><div class="broker-name">' + (cuenta.broker || 'IC Markets') + ' ' + cuenta.plataforma + '</div><div class="broker-detail">#' + cuenta.login + ' · ' + cuenta.apodo + '</div></div></div><div class="broker-item-actions" style="display:flex;align-items:center;gap:10px;">' + badgeHtml2 + btnD2 + '</div></div>';
             });
           } else { htmlSec = mensajeVacio; }
           if (contenedorSec) contenedorSec.innerHTML = htmlSec;
@@ -1079,7 +1084,7 @@
                 let updLabel = 'Sin datos aún';
                 if (stat && stat.actualizado_en) {
                   const diffMin = Math.floor((Date.now() - new Date(stat.actualizado_en).getTime()) / 60000);
-                  updLabel = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : 'Actualizado hace ' + Math.floor(diffMin / 60) + 'h';
+                  updLabel = diffMin < 60 ? 'Actualizado hace ' + diffMin + 'm' : diffMin < 1440 ? 'Actualizado hace ' + Math.floor(diffMin / 60) + 'h' : 'Actualizado hace ' + Math.floor(diffMin / 1440) + 'd';
                 }
 
                 htmlHist += '<div style="margin-bottom:28px;">';
