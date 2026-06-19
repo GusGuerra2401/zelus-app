@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido' })
 
-  const { usuario_id, email, nombre } = req.body
+  const { usuario_id, email, nombre, terminos_version } = req.body
 
   if (!usuario_id) return res.status(400).json({ error: 'Usuario requerido' })
 
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       nombre: nombre || '',
       terminos_aceptados: true,
       terminos_fecha: new Date().toISOString(),
-      terminos_version: '1.0',
+      terminos_version: terminos_version || '1.1',
       terminos_ip: ip,
       terminos_user_agent: userAgent
     }, { onConflict: 'id' })
