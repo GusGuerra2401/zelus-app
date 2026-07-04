@@ -808,7 +808,7 @@
         if (!banner || !email) return
         const mesActual = new Date().toISOString().slice(0, 7)
         try {
-          const { data, error } = await supabase.from('escalon_activo').select('correo_penguin').eq('correo_penguin', email).eq('mes', mesActual).maybeSingle()
+          const { data, error } = await supabase.from('escalon_activo').select('correo_penguin').eq('correo_penguin', email).maybeSingle()
           if (error) throw error
           if (data) {
             banner.className = 'escalon-banner activo'
@@ -1171,14 +1171,11 @@
 
               // Fetch mes_negativo para todas las cuentas del usuario en el periodo anterior
               const _cuentaIds = cuentas.map(c => c.id);
-              const { data: _mesNegData, error: _mesNegErr } = await supabase
+              const { data: _mesNegData } = await supabase
                 .from('mes_negativo')
                 .select('cuenta_id, beneficio_obtenido')
                 .in('cuenta_id', _cuentaIds)
                 .eq('periodo', _periodoAnterior);
-              console.log('[Pagos] periodo buscado:', _periodoAnterior);
-              console.log('[Pagos] cuentaIds:', _cuentaIds);
-              console.log('[Pagos] mesNegData:', _mesNegData, '| error:', _mesNegErr);
               const _mesNegMap = {};
               (_mesNegData || []).forEach(r => { _mesNegMap[r.cuenta_id] = r; });
 
