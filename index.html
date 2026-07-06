@@ -1170,19 +1170,19 @@
               const faviconUrl = 'https://assets.cdn.filesafe.space/FnGLAWtvRPTxr8Duhr3q/media/69e273f338381eafa81ef5b8.webp';
 
               // Fetch mes_negativo para todas las cuentas del usuario en el periodo anterior
-              const _cuentaIds = cuentas.map(c => c.id);
+              const _loginIds = cuentas.map(c => c.login);
               const { data: _mesNegData } = await supabase
                 .from('mes_negativo')
-                .select('cuenta_id, beneficio_obtenido')
-                .in('cuenta_id', _cuentaIds)
+                .select('login, beneficio_obtenido')
+                .in('login', _loginIds)
                 .eq('periodo', _periodoAnterior);
               const _mesNegMap = {};
-              (_mesNegData || []).forEach(r => { _mesNegMap[r.cuenta_id] = r; });
+              (_mesNegData || []).forEach(r => { _mesNegMap[r.login] = r; });
 
               const cols = cuentas.length === 1 ? '1fr' : 'repeat(2,1fr)';
               pagoGrid.style.gridTemplateColumns = cols;
               pagoGrid.innerHTML = cuentas.map(cuenta => {
-                const _mn = _mesNegMap[cuenta.id];
+                const _mn = _mesNegMap[cuenta.login];
                 const _esNeg = !!_mn;
                 const _beneficio = _esNeg ? parseFloat(_mn.beneficio_obtenido) : null;
                 const _gananciaLabel = _esNeg
