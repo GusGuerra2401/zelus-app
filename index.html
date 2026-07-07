@@ -1743,17 +1743,17 @@
           const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)';
 
           const xAxis = { type: 'linear', min: 0, max: 12, title: { display: false }, grid: { color: gridColor }, ticks: { stepSize: 2, color: textColor, font: { family: 'Sora', size: 10 } } };
-          const legendCfg = { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, family: 'Sora' }, color: textColor, filter: i => !i.text.startsWith('_') } };
+          const legendCfg = { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, family: 'Sora' }, color: textColor, filter: i => i.text !== 'Optimista inferior' && i.text !== 'Conservador inferior' } };
 
           // Gráfica crecimiento
           new Chart(document.getElementById('zelus-growth-chart'), {
             type: 'line',
             data: { datasets: [
-              { label: '_lo1', data: toPts(opt.gp10), borderColor: 'transparent', pointRadius: 0, fill: false },
-              { label: 'Optimista (P10–P90)', data: toPts(opt.gp90), borderColor: 'transparent', backgroundColor: 'rgba(139,92,246,0.15)', pointRadius: 0, fill: 0, tension: .3 },
+              { label: 'Optimista superior', data: toPts(opt.gp90), borderColor: 'transparent', backgroundColor: 'rgba(139,92,246,0.15)', pointRadius: 0, fill: 1, tension: .3 },
+              { label: 'Optimista inferior', data: toPts(opt.gp10), borderColor: 'transparent', pointRadius: 0, fill: false },
               { label: 'Optimista — mediana', data: toPts(opt.gp50), borderColor: OPT, borderWidth: 2, pointRadius: 0, fill: false, tension: .3 },
-              { label: '_lo2', data: toPts(cons.gp10), borderColor: 'transparent', pointRadius: 0, fill: false },
-              { label: 'Conservador (P10–P90)', data: toPts(cons.gp90), borderColor: 'transparent', backgroundColor: 'rgba(217,70,239,0.10)', pointRadius: 0, fill: 3, tension: .3 },
+              { label: 'Conservador superior', data: toPts(cons.gp90), borderColor: 'transparent', backgroundColor: 'rgba(217,70,239,0.10)', pointRadius: 0, fill: 4, tension: .3 },
+              { label: 'Conservador inferior', data: toPts(cons.gp10), borderColor: 'transparent', pointRadius: 0, fill: false },
               { label: 'Conservador — mediana', data: toPts(cons.gp50), borderColor: CONS, borderWidth: 2, pointRadius: 0, fill: false, tension: .3 }
             ]},
             options: { responsive: true, maintainAspectRatio: false, interaction: { intersect: false, mode: 'index' },
