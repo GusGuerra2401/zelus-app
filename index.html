@@ -1434,7 +1434,7 @@
         document.getElementById('sec-' + id).classList.add('active'); el.classList.add('active')
         const titulos = { dashboard:'Dashboard','mis-cuentas':'Mis Cuentas',sistemas:'Sistemas Copy',historial:'Historial',pagos:'Pagos',faq:'Preguntas Frecuentes',monitoreo:'Monitoreo' }
         document.getElementById('page-title').textContent = titulos[id] || 'Dashboard'
-        if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open') }
+        if (id === 'sistemas') { document.getElementById('modal-aviso-bg').classList.add('open'); document.getElementById('modal-aviso-box').classList.add('open'); if (!window._proyeccionCargada) { window._proyeccionCargada = true; initProyeccion(); } }
         if (id === 'pagos') { supabase.auth.getSession().then(({data:{session}}) => { if(session) cargarEscalonBanner(session.user.email) }) }
         if (id === 'monitoreo') cargarMonitoreo();
         closeSidebar()
@@ -1663,7 +1663,7 @@
       // update-historial eliminado — el historial ahora se arma dinámicamente por cuenta
 
       // ===== PROYECCIÓN ANUAL — Monte Carlo =====
-      (async function initProyeccion(){
+      async function initProyeccion(){
         try {
           const { data: rows, error } = await supabase
             .from('proyeccion_anual')
@@ -1759,7 +1759,7 @@
           });
 
         } catch(e) { console.error('[Proyeccion]', e); }
-      })();
+      }
     </script>
   </body>
 </html>
