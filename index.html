@@ -223,6 +223,7 @@
       @media(max-width:768px){#pago-cuentas-grid{grid-template-columns:1fr!important}}
       @media(max-width:600px){.escalon-banner{flex-direction:column;align-items:flex-start;gap:12px}}
       @media(max-width:768px){.stat-card{position:relative}.tt-wrap{position:static}.tt-box{left:16px;right:16px;width:auto;max-width:none;transform:none}.tt-box::before{left:24px;transform:rotate(45deg)}}
+      @media(max-width:600px){.proyeccion-chips-desktop{display:none!important}.proyeccion-chips-mobile{display:flex!important}}
       body.light-mode .pendiente-titulo { color: #6d4e00 !important; }
       body.light-mode .pendiente-sub { color: rgba(109,78,0,0.75) !important; }
       /* FAQ */
@@ -388,18 +389,25 @@
           <!-- Proyección Anual -->
           <div class="card">
             <div class="card-header">
-              <div>
+              <div style="flex:1;min-width:0;">
                 <div class="card-title">Proyección Anual</div>
                 <div class="card-subtitle">Bootstrap Monte Carlo · lote fijo 0.10 – 0.20 · <span id="proyeccion-actualizado" style="color:var(--purple3);"></span></div>
+                <!-- Chips en móvil: debajo del subtítulo -->
+                <div class="proyeccion-chips-mobile" style="display:none;flex-wrap:wrap;gap:6px;margin-top:10px;">
+                  <span style="font-size:11px;padding:4px 9px;border-radius:8px;background:rgba(139,92,246,0.08);border:1px solid var(--border);color:var(--text2);">Mediana opt. <b id="chip-opt-m" style="color:var(--text);">–</b></span>
+                  <span style="font-size:11px;padding:4px 9px;border-radius:8px;background:rgba(217,70,239,0.08);border:1px solid var(--border);color:var(--text2);">Mediana cons. <b id="chip-cons-m" style="color:var(--text);">–</b></span>
+                  <span style="font-size:11px;padding:4px 9px;border-radius:8px;background:rgba(248,113,113,0.08);border:1px solid var(--border);color:var(--text2);">DD peor-10% <b id="chip-dd-m" style="color:var(--red,#f87171);">–</b></span>
+                </div>
               </div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <!-- Chips en desktop: a la derecha -->
+              <div class="proyeccion-chips-desktop" style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
                 <span style="font-size:11px;padding:4px 9px;border-radius:8px;background:rgba(139,92,246,0.08);border:1px solid var(--border);color:var(--text2);">Mediana opt. <b id="chip-opt" style="color:var(--text);">–</b></span>
                 <span style="font-size:11px;padding:4px 9px;border-radius:8px;background:rgba(217,70,239,0.08);border:1px solid var(--border);color:var(--text2);">Mediana cons. <b id="chip-cons" style="color:var(--text);">–</b></span>
                 <span style="font-size:11px;padding:4px 9px;border-radius:8px;background:rgba(248,113,113,0.08);border:1px solid var(--border);color:var(--text2);">DD peor-10% <b id="chip-dd" style="color:var(--red,#f87171);">–</b></span>
               </div>
             </div>
             <div style="padding:0 24px 8px;">
-              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:8px;">Crecimiento — retorno proyectado (%)</div>
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-top:16px;margin-bottom:8px;">Crecimiento — retorno proyectado (%)</div>
               <div style="position:relative;height:200px;"><canvas id="zelus-growth-chart"></canvas></div>
               <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin:16px 0 8px;">Drawdown — peor caída acumulada</div>
               <div style="position:relative;height:160px;"><canvas id="zelus-dd-chart"></canvas></div>
@@ -1715,9 +1723,18 @@
           const elOpt = document.getElementById('chip-opt');
           const elCons = document.getElementById('chip-cons');
           const elDD = document.getElementById('chip-dd');
-          if (elOpt) elOpt.textContent = '+' + Math.round(opt.gp50[opt.gp50.length - 1]) + '%';
-          if (elCons) elCons.textContent = '+' + Math.round(cons.gp50[cons.gp50.length - 1]) + '%';
-          if (elDD) elDD.textContent = Math.round(opt.dp90[opt.dp90.length - 1]) + '% / ' + Math.round(cons.dp90[cons.dp90.length - 1]) + '%';
+          const elOptM = document.getElementById('chip-opt-m');
+          const elConsM = document.getElementById('chip-cons-m');
+          const elDDM = document.getElementById('chip-dd-m');
+          const optVal = '+' + Math.round(opt.gp50[opt.gp50.length - 1]) + '%';
+          const consVal = '+' + Math.round(cons.gp50[cons.gp50.length - 1]) + '%';
+          const ddVal = Math.round(opt.dp90[opt.dp90.length - 1]) + '% / ' + Math.round(cons.dp90[cons.dp90.length - 1]) + '%';
+          if (elOpt) elOpt.textContent = optVal;
+          if (elCons) elCons.textContent = consVal;
+          if (elDD) elDD.textContent = ddVal;
+          if (elOptM) elOptM.textContent = optVal;
+          if (elConsM) elConsM.textContent = consVal;
+          if (elDDM) elDDM.textContent = ddVal;
 
           // Colores Zelus
           const OPT = '#8b5cf6', CONS = '#d946ef';
