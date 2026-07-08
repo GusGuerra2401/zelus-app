@@ -1755,17 +1755,25 @@
           if (elConsM) elConsM.textContent = consVal;
           if (elDDM) elDDM.textContent = ddVal;
 
+          const getThemeColors = () => {
+            const isDark = !document.body.classList.contains('light-mode');
+            return {
+              gridColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+              textColor: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)'
+            };
+          };
+
+          const buildAxisAndLegend = () => {
+            const { gridColor, textColor } = getThemeColors();
+            const xAxis = { type: 'linear', min: 0, max: 12, title: { display: false }, grid: { color: gridColor }, ticks: { stepSize: 2, color: textColor, font: { family: 'Sora', size: 10 } } };
+            const legendCfg = { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, family: 'Sora' }, color: textColor, filter: i => i.text !== 'Optimista inferior' && i.text !== 'Conservador inferior' } };
+            return { xAxis, legendCfg, gridColor, textColor };
+          };
+
           // Colores Zelus
           const OPT = '#8b5cf6', CONS = '#d946ef';
-          const isDark = !document.body.classList.contains('light-mode');
-          const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-          const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)';
-
-          const xAxis = { type: 'linear', min: 0, max: 12, title: { display: false }, grid: { color: gridColor }, ticks: { stepSize: 2, color: textColor, font: { family: 'Sora', size: 10 } } };
-          const legendCfg = { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, family: 'Sora' }, color: textColor, filter: i => i.text !== 'Optimista inferior' && i.text !== 'Conservador inferior' } };
-
-          // Gráfica crecimiento
-          new Chart(document.getElementById('zelus-growth-chart'), {
+          let { xAxis, legendCfg, gridColor, textColor } = buildAxisAndLegend();
+          const gChart = new Chart(document.getElementById('zelus-growth-chart'), {
             type: 'line',
             data: { datasets: [
               { label: 'Optimista superior', data: toPts(opt.gp90), borderColor: 'transparent', backgroundColor: 'rgba(139,92,246,0.15)', pointRadius: 0, fill: 1, tension: .3 },
@@ -1781,7 +1789,7 @@
           });
 
           // Gráfica drawdown
-          new Chart(document.getElementById('zelus-dd-chart'), {
+          const dChart = new Chart(document.getElementById('zelus-dd-chart'), {
             type: 'line',
             data: { datasets: [
               { label: 'Optimista — peor 10%', data: toPts(opt.dp90), borderColor: OPT, borderWidth: 1.4, borderDash: [4, 3], backgroundColor: 'rgba(139,92,246,0.08)', pointRadius: 0, fill: 'origin', tension: .3 },
@@ -1793,6 +1801,21 @@
               scales: { x: xAxis, y: { max: 0, ticks: { callback: v => Math.round(v) + '%', color: textColor, font: { family: 'Sora', size: 10 } }, grid: { color: gridColor } } },
               plugins: { legend: legendCfg, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toFixed(1) + '%' } } } }
           });
+
+          // Actualizar colores al cambiar de tema
+          const updateChartTheme = () => {
+            const { gridColor: gc, textColor: tc } = getThemeColors();
+            [gChart, dChart].forEach(chart => {
+              chart.options.scales.x.grid.color = gc;
+              chart.options.scales.x.ticks.color = tc;
+              chart.options.scales.y.grid.color = gc;
+              chart.options.scales.y.ticks.color = tc;
+              chart.options.plugins.legend.labels.color = tc;
+              chart.update();
+            });
+          };
+          const themeObserver = new MutationObserver(updateChartTheme);
+          themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
         } catch(e) { console.error('[Proyeccion]', e); }
       }
