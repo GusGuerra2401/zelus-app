@@ -799,7 +799,7 @@
           const d = document.getElementById('maestra-drawdown');
           const w = document.getElementById('maestra-winrate');
           const sc = document.getElementById('maestra-sharpe-calmar');
-          if (r) r.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%';
+          if (r) { r.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%'; r.style.color = data.rendimiento_30d >= 0 ? 'var(--green)' : 'var(--red)'; }
           if (d) d.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
           if (w) w.textContent = data.win_rate_30d + '%';
           if (sc) sc.textContent = data.sharpe_60d + ' / ' + data.calmar_60d;
@@ -808,7 +808,7 @@
           const dd = document.getElementById('dash-maestra-drawdown');
           const ds = document.getElementById('dash-maestra-sharpe');
           const dc = document.getElementById('dash-maestra-calmar');
-          if (dr) dr.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%';
+          if (dr) { dr.textContent = (data.rendimiento_30d >= 0 ? '+' : '') + data.rendimiento_30d + '%'; dr.style.color = data.rendimiento_30d >= 0 ? 'var(--green)' : 'var(--red)'; }
           if (dd) dd.textContent = (data.drawdown_30d > 0 ? '-' : '') + Math.abs(data.drawdown_30d) + '%';
           if (ds) ds.textContent = data.sharpe_60d;
           if (dc) dc.textContent = data.calmar_60d;
